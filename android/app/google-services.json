@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "796473561774",
+    "project_id": "food-app-chihab",
+    "storage_bucket": "food-app-chihab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796473561774:android:9c6a01c83546b182fed33f",
+        "android_client_info": {
+          "package_name": "com.chihabdev.food_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796473561774-l2fe2gcen7s3rukn3om8p0ib1k7lvd1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCx9jqsWG_FMLPFIpTgmJRRNVdikJu6mk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796473561774-l2fe2gcen7s3rukn3om8p0ib1k7lvd1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
