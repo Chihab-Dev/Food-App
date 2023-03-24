@@ -1,5 +1,7 @@
+import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/onBoarding/onboarding_cubit/on_boarding_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/presentation/resources/assets_manager.dart';
 
 class OnBoardingCubit extends Cubit<OnBoardingStates> {
   OnBoardingCubit() : super(OnBoardingInitialState());
@@ -8,10 +10,22 @@ class OnBoardingCubit extends Cubit<OnBoardingStates> {
 
   int currentIndex = 0;
 
-  List sliderObject = [
-    "hello chihab",
-    "hello ahmed",
-    "hello ali",
+  List<SliderObject> sliderObject = [
+    SliderObject(
+      ImageAsset.pizzaImage,
+      "Pizza",
+      "Fresh pizza from our restaurent yahooooooooo yammy",
+    ),
+    SliderObject(
+      ImageAsset.burgerImage,
+      "burger",
+      "Fresh burger from our restaurent yahooooooooo yammy",
+    ),
+    SliderObject(
+      ImageAsset.hotdogImage,
+      "hotdog",
+      "Fresh hotdog from our restaurent yahooooooooo yammy",
+    ),
   ];
 
   void goNext() {
