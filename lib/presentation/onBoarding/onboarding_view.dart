@@ -21,7 +21,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   Widget build(BuildContext context) {
     return IntroductionScreen(
       bodyPadding: const EdgeInsets.symmetric(vertical: AppPadding.p100, horizontal: AppPadding.p2),
-      globalBackgroundColor: Colors.white,
+      globalBackgroundColor: ColorManager.white,
       pages: pagesList,
       done: const Text(
         AppStrings.done,
@@ -51,7 +51,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   DotsDecorator dotsDecoration() {
     return DotsDecorator(
-      color: ColorManager.white,
+      color: ColorManager.ligthGrey,
       size: const Size.square(AppSize.s10),
       activeColor: ColorManager.orange,
       activeSize: const Size(20, 10),
@@ -78,12 +78,13 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       image: Lottie.asset(LottieAsset.pizza),
       title: AppStrings.pizza.toUpperCase(),
       body: AppStrings.pizzaDescription,
-      decoration: const PageDecoration(
-        titleTextStyle: TextStyle(
+      decoration: PageDecoration(
+        titleTextStyle: const TextStyle(
           fontSize: FontSize.s30,
           fontWeight: FontWeightManager.bold,
         ),
         bodyTextStyle: TextStyle(
+          color: ColorManager.grey,
           fontSize: FontSize.s16,
           // fontWeight: FontWeightManager.light,
         ),
@@ -93,13 +94,14 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       image: Lottie.asset(LottieAsset.burger),
       title: AppStrings.burger.toUpperCase(),
       body: AppStrings.burgerDescription,
-      decoration: const PageDecoration(
-        titleTextStyle: TextStyle(
+      decoration: PageDecoration(
+        titleTextStyle: const TextStyle(
           fontSize: FontSize.s30,
           fontWeight: FontWeightManager.bold,
         ),
         bodyTextStyle: TextStyle(
           fontSize: FontSize.s16,
+          color: ColorManager.grey,
           // fontWeight: FontWeightManager.light,
         ),
       ),
@@ -108,12 +110,13 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       image: Lottie.asset(LottieAsset.delivery),
       title: AppStrings.delivery.toUpperCase(),
       body: AppStrings.deliveryDescription,
-      decoration: const PageDecoration(
-        titleTextStyle: TextStyle(
+      decoration: PageDecoration(
+        titleTextStyle: const TextStyle(
           fontSize: FontSize.s30,
           fontWeight: FontWeightManager.bold,
         ),
         bodyTextStyle: TextStyle(
+          color: ColorManager.grey,
           fontSize: FontSize.s16,
           // fontWeight: FontWeightManager.light,
         ),
