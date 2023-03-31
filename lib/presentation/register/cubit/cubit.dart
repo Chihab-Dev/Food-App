@@ -1,0 +1,89 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_app/presentation/register/cubit/states.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/presentation/resources/strings_manager.dart';
+
+import '../../../domain/model/models.dart';
+
+class RegisterCubit extends Cubit<RegisterStates> {
+  RegisterCubit() : super(RegisterInitialState());
+
+  static RegisterCubit get(context) => BlocProvider.of(context);
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  void userRegister({
+    required String phoneNumber,
+    required String uid,
+    required String fullName,
+  }) {
+    emit(RegisterUpdateCurrentUserNameLoadingState());
+    auth.currentUser!.updateDisplayName(fullName).then(
+      (value) {
+        emit(RegisterUpdateCurrentUserNameSuccessState());
+      },
+    ).catchError(
+      (error) {
+        emit(RegisterUpdateCurrentUserNameErrorState(error.toString()));
+      },
+    );
+    userCreate(
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      uid: uid,
+    );
+  }
+
+  void userCreate({
+    required String fullName,
+    required String phoneNumber,
+    required String uid,
+  }) {
+    emit(RegisterUserCreateLoadingState());
+    UserObject model = UserObject(
+      fullName,
+      phoneNumber,
+      uid,
+    );
+
+    FirebaseFirestore.instance
+        .collection(AppStrings.users)
+        .doc(uid)
+        .set(
+          model.toMap(),
+        )
+        .then((value) {
+      emit(RegisterUserCreateSuccessState());
+    }).catchError((error) {
+      emit(RegisterUserCreateErrorState(error.toString()));
+    });
+  }
+
+  bool isNameValid(String name) {
+    if (name.length >= 8 &&
+        name.length <= 15 &&
+        name.startsWith(" ") == false &&
+        name.endsWith(" ") == false &&
+        name.contains("  ") == false) {
+      emit(RegisterNameValidState());
+      return true;
+    } else {
+      emit(RegisterNameNotValidState());
+      return false;
+    }
+  }
+
+  String? nameErrorMessage(String name) {
+    if (name.length < 7) return AppStrings.nameErrorTooShort;
+    if (name.length > 15) return AppStrings.nameErrorTooLong;
+    if (name.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return AppStrings.nameErrorContainCaracters;
+    }
+    if (name.startsWith(" ") || name.endsWith(" ") || name.contains("  ")) {
+      return AppStrings.nameErrorContainSpaces;
+    } else {
+      return null;
+    }
+  }
+}

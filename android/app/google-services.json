@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "796473561774-dj61dacjh1c2tsvl2565kgvfm5bgb17m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chihabdev.food_app",
+            "certificate_hash": "afabb352b296f249b6dd7f4d63dccfd2388099c6"
+          }
+        },
+        {
           "client_id": "796473561774-l2fe2gcen7s3rukn3om8p0ib1k7lvd1o.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "796473561774-l2fe2gcen7s3rukn3om8p0ib1k7lvd1o.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "796473561774-1skhn2conuu7vgdhbvuvhd9f8kkmn9ig.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chihabdev.foodApp"
+              }
             }
           ]
         }

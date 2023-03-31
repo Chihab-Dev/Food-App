@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
+import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../app/di.dart';
 import '../resources/appsize.dart';
 import '../resources/assets_manager.dart';
 import '../resources/color_manager.dart';
-import '../resources/font_manager.dart';
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({super.key});
@@ -17,6 +19,7 @@ class OnBoardingView extends StatefulWidget {
 }
 
 class _OnBoardingViewState extends State<OnBoardingView> {
+  final AppPrefrences _appPrefrences = AppPrefrences(instance());
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
@@ -26,7 +29,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       done: const Text(
         AppStrings.done,
       ),
-      onDone: () {
+      onDone: () async {
+        _appPrefrences.setOnBoardingScreenViewed();
         Navigator.pushReplacementNamed(context, Routes.login);
       },
       doneStyle: TextButton.styleFrom(foregroundColor: ColorManager.orange),
@@ -45,11 +49,11 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       skipOrBackFlex: 0,
       nextStyle: TextButton.styleFrom(foregroundColor: ColorManager.orange),
       isTopSafeArea: true,
-      dotsDecorator: dotsDecoration(),
+      dotsDecorator: getDotsDecoration(),
     );
   }
 
-  DotsDecorator dotsDecoration() {
+  DotsDecorator getDotsDecoration() {
     return DotsDecorator(
       color: ColorManager.ligthGrey,
       size: const Size.square(AppSize.s10),
@@ -61,66 +65,31 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   }
 
   PageDecoration getPageDecoration() {
-    return const PageDecoration(
-      titleTextStyle: TextStyle(
-        fontSize: FontSize.s30,
-        fontWeight: FontWeightManager.bold,
-      ),
-      bodyTextStyle: TextStyle(
-        fontSize: FontSize.s16,
-        // fontWeight: FontWeightManager.light,
-      ),
+    return PageDecoration(
+      titleTextStyle: getlargeStyle(color: ColorManager.black),
+      bodyTextStyle: getMeduimStyle(color: ColorManager.grey),
     );
   }
 
-  List<PageViewModel> pagesList = [
+  late List<PageViewModel> pagesList = [
     PageViewModel(
       image: Lottie.asset(LottieAsset.pizza),
       title: AppStrings.pizza.toUpperCase(),
       body: AppStrings.pizzaDescription,
-      decoration: PageDecoration(
-        titleTextStyle: const TextStyle(
-          fontSize: FontSize.s30,
-          fontWeight: FontWeightManager.bold,
-        ),
-        bodyTextStyle: TextStyle(
-          color: ColorManager.grey,
-          fontSize: FontSize.s16,
-          // fontWeight: FontWeightManager.light,
-        ),
-      ),
+      decoration: getPageDecoration(),
     ),
     PageViewModel(
       image: Lottie.asset(LottieAsset.burger),
       title: AppStrings.burger.toUpperCase(),
       body: AppStrings.burgerDescription,
-      decoration: PageDecoration(
-        titleTextStyle: const TextStyle(
-          fontSize: FontSize.s30,
-          fontWeight: FontWeightManager.bold,
-        ),
-        bodyTextStyle: TextStyle(
-          fontSize: FontSize.s16,
-          color: ColorManager.grey,
-          // fontWeight: FontWeightManager.light,
-        ),
-      ),
+      decoration: getPageDecoration(),
     ),
     PageViewModel(
       image: Lottie.asset(LottieAsset.delivery),
       title: AppStrings.delivery.toUpperCase(),
       body: AppStrings.deliveryDescription,
-      decoration: PageDecoration(
-        titleTextStyle: const TextStyle(
-          fontSize: FontSize.s30,
-          fontWeight: FontWeightManager.bold,
-        ),
-        bodyTextStyle: TextStyle(
-          color: ColorManager.grey,
-          fontSize: FontSize.s16,
-          // fontWeight: FontWeightManager.light,
-        ),
-      ),
+      decoration: getPageDecoration(),
+
       // footer: ElevatedButton(
       //   onPressed: () {
       //     // On button pressed

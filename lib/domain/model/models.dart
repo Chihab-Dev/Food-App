@@ -1,7 +1,21 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class SliderObject {
-  String image;
-  String title;
-  String subTitle;
-  SliderObject(this.image, this.title, this.subTitle);
+class UserObject {
+  String? fullName;
+  String? phoneNumber;
+  String? uid;
+
+  UserObject(this.fullName, this.phoneNumber, this.uid);
+
+  UserObject.fromJson(Map<String, dynamic> json) {
+    fullName = json["fullName"];
+    phoneNumber = json["phoneNumber"];
+    uid = json["uid"];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'fullName': fullName,
+      'phoneNumber': phoneNumber,
+      'uid': uid,
+    };
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
+import 'package:food_app/presentation/resources/theme_manager.dart';
 
 class MyApp extends StatefulWidget {
   // const MyApp({super.key});
@@ -22,8 +23,9 @@ class _MyAppState extends State<MyApp> {
       // localizationsDelegates: context.localizationDelegates,
       // supportedLocales: context.supportedLocales,
       // locale: context.local,
-      onGenerateRoute: (settings) => RoutesGenerator.getRoute(settings),
-      initialRoute: Routes.onBoardingRoute,
+      onGenerateRoute: RoutesGenerator.getRoute,
+      initialRoute: Routes.splashRoute,
+      theme: getApplicationTheme(),
     );
   }
 }
