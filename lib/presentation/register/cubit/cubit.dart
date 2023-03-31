@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/presentation/register/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 
+import '../../../app/di.dart';
 import '../../../domain/model/models.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
@@ -12,6 +14,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
   static RegisterCubit get(context) => BlocProvider.of(context);
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  final AppPrefrences _appPrefrences = AppPrefrences(instance());
 
   void userRegister({
     required String phoneNumber,
@@ -54,6 +57,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
           model.toMap(),
         )
         .then((value) {
+      _appPrefrences.setUserLoggedIn();
       emit(RegisterUserCreateSuccessState());
     }).catchError((error) {
       emit(RegisterUserCreateErrorState(error.toString()));

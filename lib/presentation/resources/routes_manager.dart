@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
-import 'package:food_app/presentation/main/view/main_view.dart';
+import 'package:food_app/presentation/main/view/view/main_view.dart';
 import 'package:food_app/presentation/onBoarding/onboarding_view.dart';
 import 'package:food_app/presentation/otp/view/otp_view.dart';
 import 'package:food_app/presentation/register/view/register_view.dart';

@@ -15,4 +15,5 @@ class LottieAsset {
   static const String password = "$lottiePath/password.json";
   static const String phoneNumber = "$lottiePath/phoneNumber.json";
   static const String otpAnimation = "$lottiePath/otpAnimation.json";
+  static const String loading = "$lottiePath/foodLoading.json";
 }

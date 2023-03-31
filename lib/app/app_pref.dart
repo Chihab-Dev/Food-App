@@ -2,10 +2,21 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String PREFS_KEY_ONBOARDING_SCREEN_VIEWED = "PREFS_KEY_ONBOARDING_SCREEN_VIEWED";
+const String PREFS_KEY_USER_LOGGED_IN = "PREFS_KEY_USER_LOGGED_IN";
 
 class AppPrefrences {
   final SharedPreferences _sharedPreferences;
   AppPrefrences(this._sharedPreferences);
+
+  // User logged in
+
+  Future<void> setUserLoggedIn() async {
+    _sharedPreferences.setBool(PREFS_KEY_USER_LOGGED_IN, true);
+  }
+
+  Future<bool> isUserLoggedIn() async {
+    return _sharedPreferences.getBool(PREFS_KEY_USER_LOGGED_IN) ?? false;
+  }
 
   // OnBoarding Viewd
   Future<void> setOnBoardingScreenViewed() async {

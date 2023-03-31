@@ -34,12 +34,20 @@ class _SplashViewState extends State<SplashView> {
   }
 
   _goNext() async {
-    _appPrefrences.isOnBoardingScreenViewed().then(
-      (isUserViewedOnBoardingScreen) {
-        if (isUserViewedOnBoardingScreen) {
-          Navigator.pushReplacementNamed(context, Routes.login);
+    _appPrefrences.isUserLoggedIn().then(
+      (isUserLoggedIn) {
+        if (isUserLoggedIn) {
+          Navigator.pushReplacementNamed(context, Routes.main);
         } else {
-          Navigator.pushReplacementNamed(context, Routes.onBoardingRoute);
+          _appPrefrences.isOnBoardingScreenViewed().then(
+            (isUserViewedOnBoardingScreen) {
+              if (isUserViewedOnBoardingScreen) {
+                Navigator.pushReplacementNamed(context, Routes.login);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.onBoardingRoute);
+              }
+            },
+          );
         }
       },
     );

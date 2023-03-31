@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/presentation/otp/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
 
+import '../../../app/di.dart';
 import '../../resources/routes_manager.dart';
 
 class OtpCubit extends Cubit<OtpStates> {
@@ -13,6 +15,7 @@ class OtpCubit extends Cubit<OtpStates> {
 
   static OtpCubit get(context) => BlocProvider.of(context);
   FirebaseAuth auth = FirebaseAuth.instance;
+  final AppPrefrences _appPrefrences = AppPrefrences(instance());
 
   void otpCheck({
     required BuildContext context,
@@ -46,6 +49,7 @@ class OtpCubit extends Cubit<OtpStates> {
       } else {
         print("🛑🛑🛑 old User");
         emit(OtpOldUserState());
+        _appPrefrences.setUserLoggedIn();
         Navigator.pushReplacementNamed(context, Routes.main);
       }
     } on FirebaseAuthException catch (e) {

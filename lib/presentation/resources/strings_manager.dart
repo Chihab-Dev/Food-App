@@ -34,4 +34,10 @@ class AppStrings {
   static const String nameErrorContainSpaces = "Name mustn't contains spaces";
   static const String nameErrorTooShort = "Name is too short";
   static const String nameErrorTooLong = "Name is too long";
+
+  // main screen
+  static const String home = "Home";
+  static const String search = "Search";
+  static const String shop = "Shop";
+  static const String profile = "Profile";
 }
