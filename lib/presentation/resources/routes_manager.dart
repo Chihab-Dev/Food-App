@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/app/di.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
-import 'package:food_app/presentation/main/view/view/main_view.dart';
+import 'package:food_app/presentation/main/main_view.dart';
 import 'package:food_app/presentation/onBoarding/onboarding_view.dart';
 import 'package:food_app/presentation/otp/view/otp_view.dart';
 import 'package:food_app/presentation/register/view/register_view.dart';
@@ -29,6 +30,7 @@ class RoutesGenerator {
         String parameters = settings.arguments as String;
         return MaterialPageRoute(builder: (context) => OtpView(verificationId: parameters));
       case Routes.main:
+        initHomeData();
         return MaterialPageRoute(builder: (context) => const MainView());
       case Routes.register:
         RegisterViewParamters parameters = settings.arguments as RegisterViewParamters;

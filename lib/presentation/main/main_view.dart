@@ -4,10 +4,10 @@ import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import '../pages/home_screen.dart';
-import '../pages/profile_screen.dart';
-import '../pages/search_screen.dart';
-import '../pages/shop_screen.dart';
+import 'view/pages/home/view/home_screen.dart';
+import 'view/pages/profile/view/profile_screen.dart';
+import 'view/pages/search/view/search_screen.dart';
+import 'view/pages/shop/view/shop_screen.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});

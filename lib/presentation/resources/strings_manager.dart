@@ -6,7 +6,7 @@ class AppStrings {
   static const String users = "users";
 
   // OnBoarding screen ::
-  static const String done = "done";
+  static const String onBoardingDone = "done";
   static const String skip = "skip";
   static const String pizza = "pizza";
   static const String burger = "burger";
@@ -26,7 +26,7 @@ class AppStrings {
   static const String smsCodeError =
       "The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code SMS and be sure to use the verification code provided by the user.";
   static const String smsCodeNotValidMessage = "SMS CODE NOT VALID";
-  static const String verify = "Verify";
+  static const String otpVerify = "Verify";
 
   // register screen ::
   static const String register = "Register";
@@ -40,4 +40,11 @@ class AppStrings {
   static const String search = "Search";
   static const String shop = "Shop";
   static const String profile = "Profile";
+
+  //errors
+
+  static const String firebaseError = "Firebase error";
+  static const String noInternetConnection = "No Internet Connection";
+  static const String sucess = "Sucess";
+  static const String defaultMsg = "Default Error";
 }

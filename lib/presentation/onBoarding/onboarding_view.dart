@@ -27,7 +27,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       globalBackgroundColor: ColorManager.white,
       pages: pagesList,
       done: const Text(
-        AppStrings.done,
+        AppStrings.onBoardingDone,
       ),
       onDone: () async {
         _appPrefrences.setOnBoardingScreenViewed();

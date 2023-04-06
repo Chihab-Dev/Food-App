@@ -47,9 +47,10 @@ class OtpCubit extends Cubit<OtpStates> {
           ),
         );
       } else {
-        print("🛑🛑🛑 old User");
+        print("🛑🛑🛑 old User ${credentials.user!.uid}");
         emit(OtpOldUserState());
         _appPrefrences.setUserLoggedIn();
+        _appPrefrences.setUserId(credentials.user!.uid);
         Navigator.pushReplacementNamed(context, Routes.main);
       }
     } on FirebaseAuthException catch (e) {

@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/app/app_pref.dart';
+import 'package:food_app/data/response/responses.dart';
 import 'package:food_app/presentation/register/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 
 import '../../../app/di.dart';
-import '../../../domain/model/models.dart';
 
 class RegisterCubit extends Cubit<RegisterStates> {
   RegisterCubit() : super(RegisterInitialState());
@@ -44,7 +44,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
     required String uid,
   }) {
     emit(RegisterUserCreateLoadingState());
-    UserObject model = UserObject(
+    CustomerResponse model = CustomerResponse(
       fullName,
       phoneNumber,
       uid,
@@ -54,10 +54,12 @@ class RegisterCubit extends Cubit<RegisterStates> {
         .collection(AppStrings.users)
         .doc(uid)
         .set(
-          model.toMap(),
+          model.toJson(),
         )
         .then((value) {
       _appPrefrences.setUserLoggedIn();
+      print("  User ID $uid");
+      _appPrefrences.setUserId(uid);
       emit(RegisterUserCreateSuccessState());
     }).catchError((error) {
       emit(RegisterUserCreateErrorState(error.toString()));

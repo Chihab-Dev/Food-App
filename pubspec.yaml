@@ -22,14 +22,17 @@ dependencies:
 
   # Otp screen :
   pin_code_fields: ^7.4.0
+
+  # Main bottomNavigationBar
+  google_nav_bar: ^5.0.6
+  json_serializable: ^6.6.1
   
   lottie: ^2.3.0
   cherry_toast: ^1.1.0
   shared_preferences: ^2.0.20  
   get_it: ^7.2.0
-
-  # Main bottomNavigationBar
-  google_nav_bar: ^5.0.6
+  dartz: ^0.10.1
+  internet_connection_checker: ^1.0.0+1
 
   
 
@@ -37,6 +40,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  build_runner: ^2.3.2
+
 
 flutter:
   uses-material-design: true

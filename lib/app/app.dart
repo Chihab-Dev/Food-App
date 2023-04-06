@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/theme_manager.dart';
 
@@ -18,14 +20,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // localizationsDelegates: context.localizationDelegates,
-      // supportedLocales: context.supportedLocales,
-      // locale: context.local,
-      onGenerateRoute: RoutesGenerator.getRoute,
-      initialRoute: Routes.splashRoute,
-      theme: getApplicationTheme(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => BaseCubit()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        // localizationsDelegates: context.localizationDelegates,
+        // supportedLocales: context.supportedLocales,
+        // locale: context.local,
+        onGenerateRoute: RoutesGenerator.getRoute,
+        initialRoute: Routes.splashRoute,
+        theme: getApplicationTheme(),
+      ),
     );
   }
 }
