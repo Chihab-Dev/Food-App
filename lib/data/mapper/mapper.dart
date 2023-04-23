@@ -12,3 +12,15 @@ extension CustomerResponseMapper on CustomerResponse? {
     );
   }
 }
+
+extension ItemResponseMapper on ItemResponse? {
+  ItemObject toDomain() {
+    return ItemObject(
+      this?.image.orEmpty() ?? Constants.empty,
+      this?.title.orEmpty() ?? Constants.empty,
+      this?.description.orEmpty() ?? Constants.empty,
+      this?.price.orZero() ?? Constants.zero,
+      this?.stars.orZero() ?? Constants.zero,
+    );
+  }
+}

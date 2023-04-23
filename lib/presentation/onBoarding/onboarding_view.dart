@@ -24,7 +24,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   Widget build(BuildContext context) {
     return IntroductionScreen(
       bodyPadding: const EdgeInsets.symmetric(vertical: AppPadding.p100, horizontal: AppPadding.p2),
-      globalBackgroundColor: ColorManager.white,
+      globalBackgroundColor: ColorManager.whiteGrey,
       pages: pagesList,
       done: const Text(
         AppStrings.onBoardingDone,

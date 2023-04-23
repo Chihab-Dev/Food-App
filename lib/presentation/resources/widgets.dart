@@ -35,7 +35,7 @@ Widget customFormField(BuildContext context, Function(String)? onChanged, IconDa
 CherryToast errorToast(String msg) {
   return CherryToast.error(
     title: Text(msg, style: TextStyle(color: ColorManager.red)),
-    backgroundColor: ColorManager.white,
+    backgroundColor: ColorManager.whiteGrey,
     toastPosition: Position.bottom,
     toastDuration: const Duration(seconds: 5),
   );

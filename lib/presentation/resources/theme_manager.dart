@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
@@ -7,30 +8,43 @@ import 'font_manager.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
-    primaryColor: ColorManager.white,
+    primaryColor: ColorManager.whiteGrey,
     splashColor: ColorManager.orange,
+
+    iconTheme: IconThemeData(
+      color: ColorManager.orange,
+      size: AppSize.s25,
+    ),
 
     // app bar theme
     appBarTheme: AppBarTheme(
       centerTitle: true,
       elevation: AppSize.s4,
       color: ColorManager.orange,
-      iconTheme: IconThemeData(color: ColorManager.white),
-      titleTextStyle: getMeduimStyle(color: ColorManager.white),
+      iconTheme: IconThemeData(color: ColorManager.whiteGrey),
+      titleTextStyle: getMeduimStyle(color: ColorManager.whiteGrey),
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        // Status bar color
+        statusBarColor: Colors.red,
+
+        // Status bar brightness (optional)
+        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+        statusBarBrightness: Brightness.light, // For iOS (dark icons)
+      ),
     ),
 
     // bottom theme
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
       disabledColor: ColorManager.ligthGrey,
-      buttonColor: ColorManager.white,
+      buttonColor: ColorManager.whiteGrey,
       splashColor: ColorManager.orange,
     ),
 
     // elevated button theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: getMeduimStyle(color: ColorManager.white, fontSize: FontSize.s17),
+        textStyle: getMeduimStyle(color: ColorManager.whiteGrey, fontSize: FontSize.s17),
         backgroundColor: ColorManager.orange,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s10),
@@ -43,10 +57,10 @@ ThemeData getApplicationTheme() {
       // displayLarge: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
       // headlineLarge: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
       // headlineMedium: getRegulerStyle(color: ColorManager.darkGrey, fontSize: FontSize.s14),
-      titleMedium: getMeduimStyle(color: ColorManager.white, fontSize: FontSize.s16),
+      titleMedium: getMeduimStyle(color: ColorManager.whiteGrey, fontSize: FontSize.s16),
       titleSmall: getSmallStyle(color: ColorManager.grey, fontSize: FontSize.s16),
       labelSmall: getSmallStyle(color: ColorManager.grey, fontSize: FontSize.s14),
-      bodyLarge: getlargeStyle(color: ColorManager.white),
+      bodyLarge: getlargeStyle(color: ColorManager.whiteGrey),
       bodySmall: getSmallStyle(color: ColorManager.grey),
       bodyMedium: getMeduimStyle(color: ColorManager.grey, fontSize: FontSize.s12),
     ),

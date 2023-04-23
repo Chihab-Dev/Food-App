@@ -32,7 +32,7 @@ class _SigninViewState extends State<SigninView> {
           var cubit = SigninCubit.get(context);
           return Scaffold(
               body: Container(
-            color: ColorManager.white,
+            color: ColorManager.whiteGrey,
             height: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.p14),

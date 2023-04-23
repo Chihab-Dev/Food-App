@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/presentation/main/base_cubit/cubit.dart';
+import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
-import 'view/pages/home/view/home_screen.dart';
-import 'view/pages/profile/view/profile_screen.dart';
-import 'view/pages/search/view/search_screen.dart';
-import 'view/pages/shop/view/shop_screen.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -17,37 +15,35 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  int _currentIndex = 0;
-
-  List<Widget> pages = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const ShopScreen(),
-    const ProfileScreen(),
-  ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: pages[_currentIndex],
-      ),
-      bottomNavigationBar: bottomNavigationBar(),
+    return BlocConsumer<BaseCubit, BaseStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = BaseCubit.get(context);
+        return Scaffold(
+          body: Center(
+            child: cubit.pages[cubit.currentIndex],
+          ),
+          bottomNavigationBar: bottomNavigationBar(cubit),
+        );
+      },
     );
   }
 
-  Widget bottomNavigationBar() {
+  Widget bottomNavigationBar(BaseCubit cubit) {
     return Container(
-      color: ColorManager.white,
+      color: ColorManager.whiteGrey.withOpacity(0.7),
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p16),
+        padding: const EdgeInsets.all(AppPadding.p16).copyWith(top: AppPadding.p6),
         child: GNav(
-          backgroundColor: ColorManager.white,
+          backgroundColor: ColorManager.whiteGrey,
           color: ColorManager.grey,
-          activeColor: ColorManager.white,
+          activeColor: ColorManager.whiteGrey,
           tabBackgroundColor: ColorManager.orange,
           padding: const EdgeInsets.all(AppPadding.p16),
           gap: AppSize.s10,
-          onTabChange: (value) => onTap(value),
+          onTabChange: (value) => cubit.onTap(value),
           tabs: const [
             GButton(
               icon: Icons.home,
@@ -58,8 +54,8 @@ class _MainViewState extends State<MainView> {
               text: AppStrings.search,
             ),
             GButton(
-              icon: Icons.shopping_cart_outlined,
-              text: AppStrings.shop,
+              icon: Icons.shopping_bag_outlined,
+              text: AppStrings.cart,
             ),
             GButton(
               icon: Icons.person,
@@ -69,11 +65,5 @@ class _MainViewState extends State<MainView> {
         ),
       ),
     );
-  }
-
-  void onTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
   }
 }

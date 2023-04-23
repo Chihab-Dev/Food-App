@@ -22,7 +22,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BaseCubit()),
+        BlocProvider(
+          create: (context) => BaseCubit()
+            ..getPopularItems()
+            ..getItems(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

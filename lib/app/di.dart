@@ -6,6 +6,8 @@ import 'package:food_app/data/network/network_info.dart';
 import 'package:food_app/data/repository/repository_impl.dart';
 import 'package:food_app/domain/repository/repostitory.dart';
 import 'package:food_app/domain/usecases/get_home_data.dart';
+import 'package:food_app/domain/usecases/get_items_usecase.dart';
+import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,5 +37,8 @@ initHomeData() {
     instance.registerFactory<GetUserDataUsecase>(() => GetUserDataUsecase(instance()));
 
     // instance.registerFactory<HomeCubit>(() => HomeCubit(instance(), instance()));
+
+    instance.registerFactory<GetPopularItemsUsecase>(() => GetPopularItemsUsecase(instance()));
+    instance.registerFactory<GetItemsUsecase>(() => GetItemsUsecase(instance()));
   }
 }

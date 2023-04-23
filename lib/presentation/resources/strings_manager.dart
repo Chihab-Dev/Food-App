@@ -1,15 +1,33 @@
 class AppStrings {
   static const String noRouteFound = "NO ROUTE FOUND";
 
+  // add order
+
+  static const String orderAdded = "Order added";
+  static const String orderAlreadyExist = "Order already exists";
+
+  // Home screen Ui
+  static const String deliveryTo = "Delivery to";
+  static const String category = "Category";
+  static const String fastFood = "Fast food";
+  static const String snack = "snack";
+  static const String drink = "Drink";
+  static const String dessert = "Dessert";
+
+  static const String popularItems = "Popular items";
+  static const String more = "More";
+
   // Fire base
 
   static const String users = "users";
+  static const String items = "items";
 
   // OnBoarding screen ::
   static const String onBoardingDone = "done";
   static const String skip = "skip";
   static const String pizza = "pizza";
   static const String burger = "burger";
+  static const String hotdog = "hotdog";
   static const String delivery = "delivery";
   static const String pizzaDescription = "Fresh pizza from our restaurent yahooooooooo yammy";
   static const String burgerDescription = "Fresh burger from our restaurent yahooooooooo yammy";
@@ -38,7 +56,7 @@ class AppStrings {
   // main screen
   static const String home = "Home";
   static const String search = "Search";
-  static const String shop = "Shop";
+  static const String cart = "Cart";
   static const String profile = "Profile";
 
   //errors

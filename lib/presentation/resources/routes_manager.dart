@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/app/di.dart';
+import 'package:food_app/domain/model/models.dart';
+import 'package:food_app/presentation/mealDetail/view/meal_detail_view.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
 import 'package:food_app/presentation/main/main_view.dart';
 import 'package:food_app/presentation/onBoarding/onboarding_view.dart';
@@ -15,6 +17,7 @@ class Routes {
   static const String otp = "/otp";
   static const String register = "/register";
   static const String main = "/main";
+  static const String mealDetail = "/mealDetail";
 }
 
 class RoutesGenerator {
@@ -37,6 +40,11 @@ class RoutesGenerator {
         return MaterialPageRoute(
             builder: (context) =>
                 RegisterView(phoneNumber: parameters.phoneNumber, uid: parameters.uid));
+      case Routes.mealDetail:
+        ItemObject item = settings.arguments as ItemObject;
+        return MaterialPageRoute(
+          builder: (context) => MealDetailScreen(item),
+        );
       default:
         return unDefindRoute();
     }

@@ -35,7 +35,7 @@ TextStyle getRegularStyle({
 }
 
 TextStyle getlargeStyle({
-  double fontSize = FontSize.s30,
+  double fontSize = FontSize.s25,
   required Color color,
 }) {
   return _getTextStyle(fontSize, FontWeightManager.bold, color);

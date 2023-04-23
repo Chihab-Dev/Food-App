@@ -46,7 +46,7 @@ class _RegisterViewState extends State<RegisterView> {
                 elevation: 0,
               ),
               body: Container(
-                color: ColorManager.white,
+                color: ColorManager.whiteGrey,
                 height: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p14),
