@@ -57,3 +57,15 @@ class BaseAddOrderErrorState extends BaseStates {
 // remove item
 
 class BaseRemoveOrderSuccessState extends BaseStates {}
+
+// sent order to firebase
+
+class SentOrderToFirebaseLoadingState extends BaseStates {}
+
+class SentOrderToFirebaseSuccessState extends BaseStates {}
+
+class SentOrderToFirebaseErrorState extends BaseStates {
+  final String error;
+
+  SentOrderToFirebaseErrorState(this.error);
+}

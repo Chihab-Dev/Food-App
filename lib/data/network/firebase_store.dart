@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_app/data/response/responses.dart';
+import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 
 class FirebaseStoreClient {
@@ -51,4 +52,31 @@ class FirebaseStoreClient {
       },
     );
   }
+
+  Future<void> sentOrderToFirebase(Orders orders) async {
+    return await _firestore
+        .collection("orders")
+        .add(
+          orders.toMap(),
+        )
+        .then((value) {
+      value.update(
+        {'orderId': value.id},
+      );
+    }).catchError((error) {
+      print(error.toString());
+    });
+  }
+
+// return await _firestore
+//         .collection("orders")
+//         .add(orders.toJson()).
+
+//         .then((value) {
+//       print(" ✅ Sent Order To Firebase Success");
+//     }).catchError((error) {
+//       print(" 🛑 Sent Order To Firebase error");
+//       print(error.toString());
+//     });
+//   }}
 }

@@ -10,7 +10,7 @@ ThemeData getApplicationTheme() {
   return ThemeData(
     primaryColor: ColorManager.whiteGrey,
     splashColor: ColorManager.orange,
-
+    useMaterial3: true,
     iconTheme: IconThemeData(
       color: ColorManager.orange,
       size: AppSize.s25,

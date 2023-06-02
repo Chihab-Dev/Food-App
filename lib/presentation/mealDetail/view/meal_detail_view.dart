@@ -160,6 +160,13 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s25),
                   color: ColorManager.orange,
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorManager.orange.withOpacity(0.2),
+                      spreadRadius: 4,
+                      blurRadius: 6,
+                    ),
+                  ],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p20),

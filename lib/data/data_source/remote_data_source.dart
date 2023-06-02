@@ -1,10 +1,12 @@
 import 'package:food_app/data/network/firebase_store.dart';
 import 'package:food_app/data/response/responses.dart';
+import 'package:food_app/domain/model/models.dart';
 
 abstract class RemoteDataSource {
   Future<CustomerResponse> getUserData(String uid);
   Future<List<ItemResponse>> getPopularItems();
   Future<List<ItemResponse>> getItems();
+  Future<void> sentOrderToFirebase(Orders orders);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -24,5 +26,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<ItemResponse>> getItems() async {
     return await _firebaseStoreClient.getItems();
+  }
+
+  @override
+  Future<void> sentOrderToFirebase(Orders orders) async {
+    return await _firebaseStoreClient.sentOrderToFirebase(orders);
   }
 }

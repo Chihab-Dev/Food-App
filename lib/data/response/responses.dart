@@ -37,3 +37,31 @@ class ItemResponse {
 
   Map<String, dynamic> toJson() => _$ItemResponseToJson(this);
 }
+
+@JsonSerializable()
+class OrderResponse {
+  @JsonKey(name: 'itemResponse')
+  ItemResponse? itemResponse;
+  @JsonKey(name: 'quentity')
+  int? quentity;
+
+  OrderResponse(this.itemResponse, this.quentity);
+
+  factory OrderResponse.fromJson(Map<String, dynamic> json) => _$OrderResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderResponseToJson(this);
+}
+
+@JsonSerializable()
+class OrdersResponse {
+  @JsonKey(name: 'orders')
+  List<OrderResponse>? orders;
+  @JsonKey(name: 'phoneNumber')
+  String phoneNumber;
+  @JsonKey(name: 'location')
+  String location;
+
+  OrdersResponse(this.orders, this.phoneNumber, this.location);
+
+  factory OrdersResponse.fromJson(Map<String, dynamic> json) => _$OrdersResponseFromJson(json);
+}

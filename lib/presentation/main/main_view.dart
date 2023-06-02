@@ -33,9 +33,10 @@ class _MainViewState extends State<MainView> {
 
   Widget bottomNavigationBar(BaseCubit cubit) {
     return Container(
-      color: ColorManager.whiteGrey.withOpacity(0.7),
+      // color: ColorManager.whiteGrey.withOpacity(0.7),
+      color: ColorManager.whiteGrey,
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p16).copyWith(top: AppPadding.p6),
+        padding: const EdgeInsets.all(AppPadding.p16).copyWith(top: AppPadding.p4),
         child: GNav(
           backgroundColor: ColorManager.whiteGrey,
           color: ColorManager.grey,

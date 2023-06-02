@@ -57,4 +57,17 @@ class RepositoryImpl implements Repository {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> sentOrderToFirebase(Orders orders) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        return right(_remoteDataSource.sentOrderToFirebase(orders));
+      } on FirebaseException catch (error) {
+        return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

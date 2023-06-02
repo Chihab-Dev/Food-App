@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         // locale: context.local,
         onGenerateRoute: RoutesGenerator.getRoute,
         initialRoute: Routes.splashRoute,
+        
         theme: getApplicationTheme(),
       ),
     );

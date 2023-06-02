@@ -11,6 +11,7 @@ import 'package:food_app/presentation/resources/strings_manager.dart';
 
 import '../../../app/app_pref.dart';
 import '../../../app/di.dart';
+import '../../../domain/usecases/sent_orders_tofirebase_ucecase.dart';
 import '../view/pages/home/view/home_screen.dart';
 import '../view/pages/profile/view/profile_screen.dart';
 import '../view/pages/search/view/search_screen.dart';
@@ -25,6 +26,8 @@ class BaseCubit extends Cubit<BaseStates> {
   final AppPrefrences _appPrefrences = AppPrefrences(instance());
   final GetPopularItemsUsecase _getPopularItemsUsecase = GetPopularItemsUsecase(instance());
   final GetItemsUsecase _getItemsUsecase = GetItemsUsecase(instance());
+  final SentOrderToFirebaseUsecase _sentOrderToFirebaseUsecase =
+      SentOrderToFirebaseUsecase(instance());
 
   CustomerObject? customerObject;
 
@@ -72,6 +75,9 @@ class BaseCubit extends Cubit<BaseStates> {
     emit(BaseGetPopularItemsLoadingState());
     (await _getPopularItemsUsecase.start(Void)).fold(
       (failure) {
+        print("🛑popular itmes🛑");
+        print(failure.message);
+
         emit(BaseGetPopularItemsErrorState(failure.message));
       },
       (data) {
@@ -90,6 +96,8 @@ class BaseCubit extends Cubit<BaseStates> {
     (await _getItemsUsecase.start(Void)).fold(
       (failure) {
         emit(BaseGetItemsErrorState(failure.message));
+        print("🛑itmes🛑");
+        print(failure.message);
       },
       (data) {
         emit(BaseGetItemsSuccessState());
@@ -118,5 +126,21 @@ class BaseCubit extends Cubit<BaseStates> {
   void removeOrder(Order order) {
     orders.remove(order);
     emit(BaseRemoveOrderSuccessState());
+  }
+
+  void sentOrderToFirebase() async {
+    emit(SentOrderToFirebaseLoadingState());
+    if (orders.isNotEmpty) {
+      (await _sentOrderToFirebaseUsecase.start(Orders(orders, "0666666666", "kais","999"))).fold(
+        (l) {
+          emit(SentOrderToFirebaseErrorState(l.message));
+        },
+        (r) {
+          emit(SentOrderToFirebaseSuccessState());
+          orders = [];
+          print("🐦⭐️🔥 Sent Order To Firebase Success");
+        },
+      );
+    }
   }
 }

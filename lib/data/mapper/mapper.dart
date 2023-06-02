@@ -24,3 +24,37 @@ extension ItemResponseMapper on ItemResponse? {
     );
   }
 }
+
+// extension ItemObjectMapper on ItemObject {
+//   ItemResponse toResponse() {
+//     return ItemResponse(image, title, description, price, stars);
+//   }
+// }
+
+// extension OrderResponseMapper on OrderResponse? {
+//   Order toDomain() {
+//     return Order(
+//       this?.itemResponse.toDomain() ??
+//           ItemObject(
+//               Constants.empty, Constants.empty, Constants.empty, Constants.zero, Constants.zero),
+//       this?.quentity.orZero() ?? Constants.zero,
+//     );
+//   }
+// }
+
+// extension OrdersResponseMapper on OrdersResponse? {
+//   Orders toDomain() {
+//     List<Order> orders = (this?.orders?.map(
+//                   (order) => order.toDomain(),
+//                 ) ??
+//             const Iterable.empty())
+//         .cast<Order>()
+//         .toList();
+
+//     return Orders(
+//       orders,
+//       this?.phoneNumber.orEmpty() ?? Constants.empty,
+//       this?.location.orEmpty() ?? Constants.empty,
+//     );
+//   }
+// }
