@@ -21,6 +21,7 @@ Map<String, dynamic> _$CustomerResponseToJson(CustomerResponse instance) =>
     };
 
 ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) => ItemResponse(
+      json['id'] as String?,
       json['image'] as String?,
       json['title'] as String?,
       json['description'] as String?,
@@ -30,6 +31,7 @@ ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) => ItemResponse(
 
 Map<String, dynamic> _$ItemResponseToJson(ItemResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'image': instance.image,
       'title': instance.title,
       'description': instance.description,
@@ -58,11 +60,14 @@ OrdersResponse _$OrdersResponseFromJson(Map<String, dynamic> json) =>
           .toList(),
       json['phoneNumber'] as String,
       json['location'] as String,
-    );
+      json['orderId'] as String,
+    )..date = json['date'] as String;
 
 Map<String, dynamic> _$OrdersResponseToJson(OrdersResponse instance) =>
     <String, dynamic>{
       'orders': instance.orders,
       'phoneNumber': instance.phoneNumber,
       'location': instance.location,
+      'orderId': instance.orderId,
+      'date': instance.date,
     };

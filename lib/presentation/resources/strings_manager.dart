@@ -1,7 +1,23 @@
 class AppStrings {
   static const String noRouteFound = "NO ROUTE FOUND";
 
-  // add order
+  // Admin Order Screen ::
+  static const String startPreparring = "Start preparing";
+  static const String startDelivering = "Start delivering";
+
+  // Admin All Orders screen
+  static const String adminOrdersScreen = "Orders Screen";
+  static const String numOfItems = "Number of items :";
+  static const String clientNumber = "Client Number :";
+  static const String clientLocation = "Client Location :";
+  static const String orderDate = "Order Date :";
+  static const String totalPrice = "Total Price :";
+
+  // Admin screen
+  static const String adminScreen = "Admin Screen";
+  static const String addMeal = "Add a Meal";
+
+  // add order to cart
 
   static const String orderAdded = "Order added";
   static const String orderAlreadyExist = "Order already exists";
@@ -21,6 +37,7 @@ class AppStrings {
 
   static const String users = "users";
   static const String items = "items";
+  static const String orders = "orders";
 
   // OnBoarding screen ::
   static const String onBoardingDone = "done";

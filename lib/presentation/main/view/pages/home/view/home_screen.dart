@@ -10,7 +10,6 @@ import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
-import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,13 +19,13 @@ class HomeScreen extends StatelessWidget {
     return BlocConsumer<BaseCubit, BaseStates>(
       listener: (context, state) {
         if (state is BaseGetUserDataErrorState) {
-          errorToast(state.error);
+          errorToast(state.error).show(context);
         }
         if (state is BaseGetPopularItemsErrorState) {
-          errorToast(state.error);
+          errorToast(state.error).show(context);
         }
         if (state is BaseGetItemsErrorState) {
-          errorToast(state.error);
+          errorToast(state.error).show(context);
         }
       },
       builder: ((context, state) {
@@ -37,12 +36,12 @@ class HomeScreen extends StatelessWidget {
         List<ItemObject>? items = cubit.items;
         return state is BaseGetPopularItemsLoadingState || items.isEmpty && popularItems.isEmpty
             ? loadingScreen()
-            : homeScreen(popularItems, cubit);
+            : homeScreen(context, popularItems, cubit);
       }),
     );
   }
 
-  Container homeScreen(List<ItemObject> popularItems, BaseCubit cubit) {
+  Container homeScreen(BuildContext context, List<ItemObject> popularItems, BaseCubit cubit) {
     return Container(
       color: ColorManager.whiteGrey.withOpacity(0.7),
       height: double.infinity,
@@ -51,7 +50,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: kBottomNavigationBarHeight),
-            appBar("Khenchela kais"),
+            appBar(context, "Khenchela kais"),
             const SizedBox(height: AppPadding.p25),
             titleWidget(AppStrings.category),
             const SizedBox(height: AppPadding.p12),
@@ -70,11 +69,49 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Container loadingScreen() {
-    return Container(
-      color: ColorManager.whiteGrey.withOpacity(0.7),
-      child: Center(
-        child: Lottie.asset(LottieAsset.loading),
+  Widget appBar(BuildContext context, String location) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10).copyWith(bottom: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppStrings.deliveryTo,
+                style: getMeduimStyle(color: ColorManager.grey),
+              ),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.location_on,
+                    size: AppSize.s20,
+                  ),
+                  Text(
+                    location,
+                    style: getMeduimStyle(color: ColorManager.black),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.admin);
+                },
+                icon: const Icon(
+                  Icons.admin_panel_settings_outlined,
+                ),
+              ),
+              const Icon(
+                Icons.favorite_border,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -94,87 +131,6 @@ class HomeScreen extends StatelessWidget {
           categoryContainer(ImageAsset.hotdogImage, AppStrings.hotdog),
         ],
       ),
-    );
-  }
-
-  Widget moreItemsGridView(BaseCubit cubit) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: cubit.items.length,
-      padding: const EdgeInsets.all(0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (context, index) {
-        ItemObject item = cubit.items[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
-          child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
-            },
-            child: Container(
-              // width: AppSize.s200,
-              padding: const EdgeInsets.all(AppPadding.p10),
-              decoration: BoxDecoration(
-                color: ColorManager.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorManager.ligthGrey.withOpacity(0.1),
-                    blurRadius: 5,
-                    spreadRadius: 4,
-                    offset: const Offset(4, 8),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(AppSize.s20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s20),
-                        image: DecorationImage(
-                          image: NetworkImage(item.image),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSize.s10),
-                  Text(
-                    item.image.isEmpty ? 'meal' : item.title,
-                    style: getMeduimStyle(color: ColorManager.black),
-                  ),
-                  SizedBox(
-                    width: AppSize.s200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: List.generate(
-                            starsCalculator(item.stars),
-                            (index) => Icon(
-                              index < item.stars ? Icons.star : Icons.star_border,
-                              color: Colors.yellowAccent[700],
-                              size: AppSize.s18,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "\$${item.price}",
-                          style: getMeduimStyle(color: ColorManager.black),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -217,42 +173,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(String location) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10)
-          .copyWith(bottom: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppStrings.deliveryTo,
-                style: getMeduimStyle(color: ColorManager.grey),
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    size: AppSize.s20,
-                  ),
-                  Text(
-                    location,
-                    style: getMeduimStyle(color: ColorManager.black),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Icon(
-            Icons.favorite_border,
-          )
-        ],
-      ),
-    );
-  }
-
   Widget populatItemList(List<ItemObject> items) {
     return SizedBox(
       height: AppSize.s200,
@@ -260,78 +180,169 @@ class HomeScreen extends StatelessWidget {
       child: ListView.builder(
         itemCount: items.length,
         scrollDirection: Axis.horizontal,
-        reverse: true,
         itemBuilder: (context, index) {
           ItemObject item = items[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
-            child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
-              },
-              child: Container(
-                width: AppSize.s200,
-                padding: const EdgeInsets.all(AppPadding.p10),
-                decoration: BoxDecoration(
-                  color: ColorManager.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorManager.ligthGrey.withOpacity(0.1),
-                      blurRadius: 5,
-                      spreadRadius: 4,
-                      offset: const Offset(4, 8),
+
+          return popularItemContainer(context, item);
+        },
+      ),
+    );
+  }
+
+  Padding popularItemContainer(BuildContext context, ItemObject item) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
+        },
+        child: Container(
+          width: AppSize.s200,
+          padding: const EdgeInsets.all(AppPadding.p10),
+          decoration: BoxDecoration(
+            color: ColorManager.white,
+            boxShadow: [
+              BoxShadow(
+                color: ColorManager.ligthGrey.withOpacity(0.1),
+                blurRadius: 5,
+                spreadRadius: 4,
+                offset: const Offset(4, 8),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(AppSize.s20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppSize.s20),
+                    image: DecorationImage(
+                      image: NetworkImage(item.image),
+                      fit: BoxFit.cover,
                     ),
-                  ],
-                  borderRadius: BorderRadius.circular(AppSize.s20),
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              const SizedBox(height: AppSize.s10),
+              Text(
+                item.image.isEmpty ? 'meal' : item.title,
+                style: getMeduimStyle(color: ColorManager.black),
+              ),
+              SizedBox(
+                width: AppSize.s200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSize.s20),
-                          image: DecorationImage(
-                            image: NetworkImage(item.image),
-                            fit: BoxFit.fitHeight,
-                          ),
+                    Row(
+                      children: List.generate(
+                        starsCalculator(item.stars),
+                        (index) => Icon(
+                          index < item.stars ? Icons.star : Icons.star_border,
+                          color: Colors.yellowAccent[700],
+                          size: AppSize.s18,
                         ),
                       ),
                     ),
-                    const SizedBox(height: AppSize.s10),
                     Text(
-                      item.image.isEmpty ? 'meal' : item.title,
+                      "\$${item.price}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: getMeduimStyle(color: ColorManager.black),
-                    ),
-                    SizedBox(
-                      width: AppSize.s200,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: List.generate(
-                              starsCalculator(item.stars),
-                              (index) => Icon(
-                                index < item.stars ? Icons.star : Icons.star_border,
-                                color: Colors.yellowAccent[700],
-                                size: AppSize.s18,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "\$${item.price}",
-                            style: getMeduimStyle(color: ColorManager.black),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-          );
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget moreItemsGridView(BaseCubit cubit) {
+    return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: cubit.items.length,
+      padding: const EdgeInsets.all(0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemBuilder: (context, index) {
+        ItemObject item = cubit.items[index];
+        return popularItemContainer(context, item);
+      },
+    );
+  }
+
+  Padding moreItemContainer(BuildContext context, ItemObject item) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
         },
+        child: Container(
+          // width: AppSize.s200,
+          padding: const EdgeInsets.all(AppPadding.p10),
+          decoration: BoxDecoration(
+            color: ColorManager.white,
+            boxShadow: [
+              BoxShadow(
+                color: ColorManager.ligthGrey.withOpacity(0.1),
+                blurRadius: 5,
+                spreadRadius: 4,
+                offset: const Offset(4, 8),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(AppSize.s20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppSize.s20),
+                    image: DecorationImage(
+                      image: NetworkImage(item.image),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSize.s10),
+              Text(
+                item.image.isEmpty ? 'meal' : item.title,
+                style: getMeduimStyle(color: ColorManager.black),
+              ),
+              SizedBox(
+                width: AppSize.s200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: List.generate(
+                        starsCalculator(item.stars),
+                        (index) => Icon(
+                          index < item.stars ? Icons.star : Icons.star_border,
+                          color: Colors.yellowAccent[700],
+                          size: AppSize.s18,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "\$${item.price}",
+                      style: getMeduimStyle(color: ColorManager.black),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

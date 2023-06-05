@@ -8,6 +8,7 @@ import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
+import 'package:food_app/presentation/resources/widgets.dart';
 
 import '../../../app/app_pref.dart';
 import '../../../app/di.dart';
@@ -26,8 +27,7 @@ class BaseCubit extends Cubit<BaseStates> {
   final AppPrefrences _appPrefrences = AppPrefrences(instance());
   final GetPopularItemsUsecase _getPopularItemsUsecase = GetPopularItemsUsecase(instance());
   final GetItemsUsecase _getItemsUsecase = GetItemsUsecase(instance());
-  final SentOrderToFirebaseUsecase _sentOrderToFirebaseUsecase =
-      SentOrderToFirebaseUsecase(instance());
+  final SentOrderToFirebaseUsecase _sentOrderToFirebaseUsecase = SentOrderToFirebaseUsecase(instance());
 
   CustomerObject? customerObject;
 
@@ -60,11 +60,11 @@ class BaseCubit extends Cubit<BaseStates> {
         emit(BaseGetUserDataErrorState(failure.message));
       },
       (customerObjectData) {
-        emit(BaseGetUserDataSuccessState());
         customerObject = customerObjectData;
+        emit(BaseGetUserDataSuccessState());
       },
     );
-    return null;
+    // return null;
   }
 
   // get Items ::
@@ -81,10 +81,10 @@ class BaseCubit extends Cubit<BaseStates> {
         emit(BaseGetPopularItemsErrorState(failure.message));
       },
       (data) {
-        emit(BaseGetPopularItemsSuccessState());
         popularItems = data;
-        print("🐦popular itmes🐦");
-        print(data.length);
+        emit(BaseGetPopularItemsSuccessState());
+        // print("🐦popular itmes🐦");
+        // print(data.length);
       },
     );
   }
@@ -100,23 +100,23 @@ class BaseCubit extends Cubit<BaseStates> {
         print(failure.message);
       },
       (data) {
-        emit(BaseGetItemsSuccessState());
         items = data;
-        print("🐦 itmes🐦");
-        print(data.length);
+        emit(BaseGetItemsSuccessState());
+        // print("🐦 itmes🐦");
+        // print(data.length);
       },
     );
   }
 
   // Cart & Order
 
-  List<Order> orders = [];
+  List<Order> userOrders = [];
 
   void addOrder(Order order) {
-    bool orderExiste = orders.any((element) => element.itemObject == order.itemObject);
+    bool orderExiste = userOrders.any((element) => element.itemObject == order.itemObject);
     if (!orderExiste) {
+      userOrders.add(order);
       emit(BaseAddOrderSuccessState());
-      orders.add(order);
       print("ADD ORDER 🐦🐦🐦");
     } else {
       emit(BaseAddOrderErrorState(AppStrings.orderAlreadyExist));
@@ -124,20 +124,27 @@ class BaseCubit extends Cubit<BaseStates> {
   }
 
   void removeOrder(Order order) {
-    orders.remove(order);
+    userOrders.remove(order);
     emit(BaseRemoveOrderSuccessState());
   }
 
   void sentOrderToFirebase() async {
     emit(SentOrderToFirebaseLoadingState());
-    if (orders.isNotEmpty) {
-      (await _sentOrderToFirebaseUsecase.start(Orders(orders, "0666666666", "kais","999"))).fold(
+    if (userOrders.isNotEmpty) {
+      (await _sentOrderToFirebaseUsecase.start(ClientAllOrders(
+        userOrders,
+        "0666666666",
+        "kais",
+        "999",
+        getFormattedDateTime(DateTime.now()),
+      )))
+          .fold(
         (l) {
           emit(SentOrderToFirebaseErrorState(l.message));
         },
         (r) {
+          userOrders = [];
           emit(SentOrderToFirebaseSuccessState());
-          orders = [];
           print("🐦⭐️🔥 Sent Order To Firebase Success");
         },
       );

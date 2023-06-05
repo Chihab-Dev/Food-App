@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_app/data/data_source/remote_data_source.dart';
 import 'package:food_app/data/mapper/mapper.dart';
@@ -59,10 +61,38 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, void>> sentOrderToFirebase(Orders orders) async {
+  Future<Either<Failure, void>> sentOrderToFirebase(ClientAllOrders orders) async {
     if (await _networkInfo.isConnected) {
       try {
         return right(_remoteDataSource.sentOrderToFirebase(orders));
+      } on FirebaseException catch (error) {
+        return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ClientAllOrders>>> getOrdersFromFirebase() async {
+    if (await _networkInfo.isConnected) {
+      try {
+        List<OrdersResponse> ordersReponse = await _remoteDataSource.getOrdersFromFirebase();
+        return right(ordersReponse.map((ordersResponse) => ordersResponse.toDomain()).toList());
+      } on FirebaseException catch (error) {
+        return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteOrder(String id) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.deleteOrder(id);
+        return right(Void);
       } on FirebaseException catch (error) {
         return left(Failure(error.code, error.message.toString()));
       }

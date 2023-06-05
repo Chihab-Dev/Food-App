@@ -6,7 +6,9 @@ abstract class RemoteDataSource {
   Future<CustomerResponse> getUserData(String uid);
   Future<List<ItemResponse>> getPopularItems();
   Future<List<ItemResponse>> getItems();
-  Future<void> sentOrderToFirebase(Orders orders);
+  Future<void> sentOrderToFirebase(ClientAllOrders orders);
+  Future<List<OrdersResponse>> getOrdersFromFirebase();
+  Future<void> deleteOrder(String id);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -29,7 +31,17 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<void> sentOrderToFirebase(Orders orders) async {
+  Future<void> sentOrderToFirebase(ClientAllOrders orders) async {
     return await _firebaseStoreClient.sentOrderToFirebase(orders);
+  }
+
+  @override
+  Future<List<OrdersResponse>> getOrdersFromFirebase() async {
+    return await _firebaseStoreClient.getOrdersFromFirebase();
+  }
+
+  @override
+  Future<void> deleteOrder(String id) async {
+    return await _firebaseStoreClient.deleteOrder(id);
   }
 }

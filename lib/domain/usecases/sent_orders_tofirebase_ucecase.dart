@@ -5,13 +5,13 @@ import '../../data/network/failure.dart';
 import '../repository/repostitory.dart';
 import 'base_usecase.dart';
 
-class SentOrderToFirebaseUsecase extends BaseUsecase<Orders, void> {
+class SentOrderToFirebaseUsecase extends BaseUsecase<ClientAllOrders, void> {
   final Repository _repository;
 
   SentOrderToFirebaseUsecase(this._repository);
 
   @override
-  Future<Either<Failure, void>> start(Orders orders) async {
+  Future<Either<Failure, void>> start(ClientAllOrders orders) async {
     return await _repository.sentOrderToFirebase(orders);
   }
 }

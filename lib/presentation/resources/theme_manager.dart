@@ -20,7 +20,7 @@ ThemeData getApplicationTheme() {
     appBarTheme: AppBarTheme(
       centerTitle: true,
       elevation: AppSize.s4,
-      color: ColorManager.orange,
+      color: ColorManager.darkOrange,
       iconTheme: IconThemeData(color: ColorManager.whiteGrey),
       titleTextStyle: getMeduimStyle(color: ColorManager.whiteGrey),
       systemOverlayStyle: const SystemUiOverlayStyle(
@@ -57,12 +57,29 @@ ThemeData getApplicationTheme() {
       // displayLarge: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
       // headlineLarge: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
       // headlineMedium: getRegulerStyle(color: ColorManager.darkGrey, fontSize: FontSize.s14),
-      titleMedium: getMeduimStyle(color: ColorManager.whiteGrey, fontSize: FontSize.s16),
-      titleSmall: getSmallStyle(color: ColorManager.grey, fontSize: FontSize.s16),
-      labelSmall: getSmallStyle(color: ColorManager.grey, fontSize: FontSize.s14),
-      bodyLarge: getlargeStyle(color: ColorManager.whiteGrey),
-      bodySmall: getSmallStyle(color: ColorManager.grey),
-      bodyMedium: getMeduimStyle(color: ColorManager.grey, fontSize: FontSize.s12),
+      titleSmall: getSmallStyle(
+        color: ColorManager.grey,
+        fontSize: FontSize.s16,
+      ),
+      labelSmall: getSmallStyle(
+        color: ColorManager.grey,
+        fontSize: FontSize.s14,
+      ),
+      bodySmall: getSmallStyle(
+        color: ColorManager.grey,
+      ),
+      titleMedium: getMeduimStyle(
+        color: ColorManager.whiteGrey,
+        fontSize: FontSize.s16,
+      ),
+      bodyMedium: getMeduimStyle(
+        color: ColorManager.grey,
+        fontSize: FontSize.s12,
+      ),
+
+      bodyLarge: getlargeStyle(
+        color: ColorManager.whiteGrey,
+      ),
     ),
 
     // input decoration theme ( text form field )

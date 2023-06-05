@@ -5,7 +5,7 @@ class ColorManager {
   static Color specialGrey = const Color.fromARGB(200, 137, 138, 144);
   static Color whiteGrey = const Color(0xFFEEEFF5);
   static Color orange = const Color(0xffFF783E);
-  // static Color orange = const Color(0xffF26321);
+  static Color darkOrange = const Color(0xffF26321);
   static Color ligthGrey = const Color(0xffCCCCCC);
   // static Color ligthGrey = const Color(0xffFAFAFA);
   static Color grey = const Color(0xff737477);

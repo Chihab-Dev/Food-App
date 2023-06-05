@@ -21,7 +21,12 @@ class FirebaseStoreClient {
   }
 
   Future<List<ItemResponse>> getPopularItems() async {
-    return await _firestore.collection("items").orderBy("stars").get().then(
+    return await _firestore
+        .collection("items")
+        .orderBy("stars", descending: true // Sort in descending order
+            )
+        .get()
+        .then(
       (value) {
         List<ItemResponse> popularItems = [];
         for (var element in value.docs) {
@@ -53,9 +58,9 @@ class FirebaseStoreClient {
     );
   }
 
-  Future<void> sentOrderToFirebase(Orders orders) async {
+  Future<void> sentOrderToFirebase(ClientAllOrders orders) async {
     return await _firestore
-        .collection("orders")
+        .collection(AppStrings.orders)
         .add(
           orders.toMap(),
         )
@@ -71,7 +76,6 @@ class FirebaseStoreClient {
 // return await _firestore
 //         .collection("orders")
 //         .add(orders.toJson()).
-
 //         .then((value) {
 //       print(" ✅ Sent Order To Firebase Success");
 //     }).catchError((error) {
@@ -79,4 +83,44 @@ class FirebaseStoreClient {
 //       print(error.toString());
 //     });
 //   }}
+
+  Future<List<OrdersResponse>> getOrdersFromFirebase() async {
+    return await _firestore.collection(AppStrings.orders).orderBy("date").get().then(
+      (value) {
+        List<OrdersResponse> orders = [];
+        for (var element in value.docs) {
+          orders.add(OrdersResponse.fromJson(element.data()));
+        }
+        return orders;
+      },
+    ).catchError(
+      (error) {
+        throw error;
+      },
+    );
+  }
+
+  Future<void> addNewMealItem(ItemObject itemObject) async {
+    return await _firestore.collection(AppStrings.items).add(itemObject.toMap()).then(
+      (value) {
+        value.update(
+          {'id': value.id},
+        );
+      },
+    ).catchError(
+      (error) {},
+    );
+  }
+
+  Future<void> deleteOrder(String id) async {
+    return await _firestore.collection(AppStrings.orders).doc(id).delete().then(
+      (value) {
+        print('Item deleted successfully!');
+      },
+    ).catchError(
+      (error) {
+        print('Failed to delete item: $error');
+      },
+    );
+  }
 }

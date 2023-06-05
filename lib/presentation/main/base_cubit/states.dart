@@ -69,3 +69,4 @@ class SentOrderToFirebaseErrorState extends BaseStates {
 
   SentOrderToFirebaseErrorState(this.error);
 }
+

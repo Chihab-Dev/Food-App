@@ -14,6 +14,7 @@ class OtpCubit extends Cubit<OtpStates> {
   OtpCubit() : super(OtpInittialState());
 
   static OtpCubit get(context) => BlocProvider.of(context);
+
   FirebaseAuth auth = FirebaseAuth.instance;
   final AppPrefrences _appPrefrences = AppPrefrences(instance());
 
@@ -24,8 +25,7 @@ class OtpCubit extends Cubit<OtpStates> {
   }) async {
     emit(OtpCheckLoadingState());
     try {
-      PhoneAuthCredential credential =
-          PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
 
       // Sign the user in (or link) with the credential
       var credentials = await auth.signInWithCredential(credential);

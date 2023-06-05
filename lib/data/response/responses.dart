@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'responses.g.dart';
@@ -20,6 +22,8 @@ class CustomerResponse {
 
 @JsonSerializable()
 class ItemResponse {
+  @JsonKey(name: 'id')
+  String? id;
   @JsonKey(name: 'image')
   String? image;
   @JsonKey(name: 'title')
@@ -31,7 +35,7 @@ class ItemResponse {
   @JsonKey(name: 'stars')
   int? stars;
 
-  ItemResponse(this.image, this.title, this.description, this.price, this.stars);
+  ItemResponse(this.id, this.image, this.title, this.description, this.price, this.stars);
 
   factory ItemResponse.fromJson(Map<String, dynamic> json) => _$ItemResponseFromJson(json);
 
@@ -55,13 +59,59 @@ class OrderResponse {
 @JsonSerializable()
 class OrdersResponse {
   @JsonKey(name: 'orders')
-  List<OrderResponse>? orders;
+  late List<OrderResponse>? orders;
   @JsonKey(name: 'phoneNumber')
-  String phoneNumber;
+  late String phoneNumber;
   @JsonKey(name: 'location')
-  String location;
+  late String location;
+  @JsonKey(name: 'orderId')
+  late String orderId;
+  @JsonKey(name: 'date')
+  late String date;
 
-  OrdersResponse(this.orders, this.phoneNumber, this.location);
+  OrdersResponse(this.orders, this.phoneNumber, this.location, this.orderId);
 
-  factory OrdersResponse.fromJson(Map<String, dynamic> json) => _$OrdersResponseFromJson(json);
+  OrdersResponse.fromJson(Map<String, dynamic> json) {
+    var ordersList = json["orders"] as List;
+    List<OrderResponse> orders = ordersList.map(
+      (orderResponse) {
+        var itemResponseJson = orderResponse["itemObject"];
+        ItemResponse itemResponse = ItemResponse(
+          itemResponseJson["id"],
+          itemResponseJson["image"],
+          itemResponseJson["title"],
+          itemResponseJson["description"],
+          itemResponseJson["price"],
+          itemResponseJson["stars"],
+        );
+        var quentity = orderResponse["quentity"];
+
+        return OrderResponse(itemResponse, quentity);
+      },
+    ).toList();
+
+    this.orders = orders;
+    phoneNumber = json["phoneNumber"];
+    location = json["location"];
+    orderId = json["orderId"];
+    date = json["date"];
+  }
+
+  // OrdersResponse.fromJson(Map<String, dynamic> json) {
+  //   var ordersList = json["orders"] as List;
+  //   List<OrderResponse> OrderResponse = ordersList.map((OrderResponse) {
+  //     var ItemResponseJson = OrderResponse["OrderResponse"];
+  //     var ItemResponse = ItemResponse(
+  //       image: ItemResponseJson["image"],
+  //       title: ItemResponseJson["title"],
+  //       description: ItemResponseJson["description"],
+  //       price: ItemResponseJson["price"],
+  //       stars: ItemResponseJson["stars"],
+  //     );
+
+  //     var quentity = OrderResponse["quentity"];
+
+  //     return OrderResponse(ItemResponse, quentity);
+  //   }).toList();
+  // }
 }

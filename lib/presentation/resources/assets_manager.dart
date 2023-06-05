@@ -14,6 +14,7 @@ class ImageAsset {
   static const String ketchup = "$imagePath/ketchup.png";
   static const String tomato = "$imagePath/tomato.png";
   static const String beef = "$imagePath/beef.png";
+  static const String box = "$imagePath/box.jpg";
 }
 
 class LottieAsset {
@@ -26,4 +27,6 @@ class LottieAsset {
   static const String otpAnimation = "$lottiePath/otpAnimation.json";
   static const String loading = "$lottiePath/foodLoading.json";
   static const String noOrders = "$lottiePath/noOrders.json";
+  static const String pizzaBox = "$lottiePath/pizzaBox.json";
+  static const String addItem = "$lottiePath/addItem.json";
 }

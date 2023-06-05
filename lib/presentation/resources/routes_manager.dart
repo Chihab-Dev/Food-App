@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/app/di.dart';
 import 'package:food_app/domain/model/models.dart';
+import 'package:food_app/presentation/admin/view/admin_screen_view.dart';
+import 'package:food_app/presentation/admin_all_order/view/admin_orders_screen_view.dart';
+import 'package:food_app/presentation/admin_order/view/admin_order_view.dart';
 import 'package:food_app/presentation/mealDetail/view/meal_detail_view.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
 import 'package:food_app/presentation/main/main_view.dart';
@@ -18,6 +21,9 @@ class Routes {
   static const String register = "/register";
   static const String main = "/main";
   static const String mealDetail = "/mealDetail";
+  static const String admin = "/admin";
+  static const String adminAllOrders = "/adminAllOrders";
+  static const String adminOrder = "/adminOrder";
 }
 
 class RoutesGenerator {
@@ -38,13 +44,22 @@ class RoutesGenerator {
       case Routes.register:
         RegisterViewParamters parameters = settings.arguments as RegisterViewParamters;
         return MaterialPageRoute(
-            builder: (context) =>
-                RegisterView(phoneNumber: parameters.phoneNumber, uid: parameters.uid));
+            builder: (context) => RegisterView(phoneNumber: parameters.phoneNumber, uid: parameters.uid));
       case Routes.mealDetail:
         ItemObject item = settings.arguments as ItemObject;
         return MaterialPageRoute(
           builder: (context) => MealDetailScreen(item),
         );
+      case Routes.admin:
+        return MaterialPageRoute(builder: ((context) => const AdminScreenView()));
+      case Routes.adminAllOrders:
+        return MaterialPageRoute(builder: ((context) => const AdminAllOrdersView()));
+      case Routes.adminOrder:
+        ClientAllOrders clientAllOrders = settings.arguments as ClientAllOrders;
+        return MaterialPageRoute(
+            builder: ((context) => AdminOrderView(
+                  clientAllOrders: clientAllOrders,
+                )));
       default:
         return unDefindRoute();
     }

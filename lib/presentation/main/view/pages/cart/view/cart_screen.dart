@@ -5,12 +5,10 @@ import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
-import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
-import 'package:lottie/lottie.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -33,11 +31,8 @@ class _CartScreenState extends State<CartScreen> {
       },
       builder: (context, state) {
         BaseCubit cubit = BaseCubit.get(context);
-        int totalPrice = 0;
         // Calculate the total Price
-        for (var i = 0; i < cubit.orders.length; i++) {
-          totalPrice += cubit.orders[i].itemObject.price * cubit.orders[i].quentity;
-        }
+        int totalPrice = calculateTotalPrice(cubit.userOrders);
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -48,7 +43,11 @@ class _CartScreenState extends State<CartScreen> {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: cubit.orders.isEmpty ? noOrdersScreen() : ordersList(cubit, totalPrice),
+          body: state is SentOrderToFirebaseLoadingState
+              ? loadingScreen()
+              : cubit.userOrders.isEmpty
+                  ? noOrdersScreen()
+                  : ordersList(cubit, totalPrice),
         );
       },
     );
@@ -60,9 +59,9 @@ class _CartScreenState extends State<CartScreen> {
         Container(
           color: ColorManager.whiteGrey,
           child: ListView.builder(
-            itemCount: cubit.orders.length,
+            itemCount: cubit.userOrders.length,
             itemBuilder: (context, index) {
-              Order order = cubit.orders[index];
+              Order order = cubit.userOrders[index];
               return cartOrderContainer(order, context, cubit);
             },
           ),
@@ -92,9 +91,9 @@ class _CartScreenState extends State<CartScreen> {
           children: [
             ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: cubit.orders.length,
+              itemCount: cubit.userOrders.length,
               itemBuilder: (context, index) {
-                Order order = cubit.orders[index];
+                Order order = cubit.userOrders[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: AppPadding.p10),
                   child: Row(
@@ -250,12 +249,12 @@ class _CartScreenState extends State<CartScreen> {
                                 size: AppSize.s25,
                               ),
                             ),
-                            const SizedBox(width: AppSize.s8),
+                            // const SizedBox(width: AppSize.s4),
                             Text(
                               order.quentity.toString(),
                               style: getMeduimStyle(color: ColorManager.black),
                             ),
-                            const SizedBox(width: AppSize.s8),
+                            // const SizedBox(width: AppSize.s4),
                             IconButton(
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
@@ -276,10 +275,12 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(width: MediaQuery.of(context).size.width / 3.3),
+                        // SizedBox(width: MediaQuery.of(context).size.width / 4),
+                        const SizedBox(width: AppSize.s20),
                         Text(
                           "\$${order.itemObject.price * order.quentity}",
                           style: getMeduimStyle(color: ColorManager.black),
+                          maxLines: 1,
                         ),
                       ],
                     ),
@@ -288,18 +289,6 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Container noOrdersScreen() {
-    return Container(
-      color: ColorManager.whiteGrey,
-      child: Center(
-        child: LottieBuilder.asset(
-          LottieAsset.noOrders,
-          animate: true,
         ),
       ),
     );
