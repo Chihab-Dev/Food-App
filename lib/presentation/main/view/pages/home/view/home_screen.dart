@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
@@ -307,7 +309,7 @@ class HomeScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppSize.s20),
                     image: DecorationImage(
-                      image: NetworkImage(item.image),
+                      image: FileImage(item.image as File),
                       fit: BoxFit.cover,
                     ),
                   ),

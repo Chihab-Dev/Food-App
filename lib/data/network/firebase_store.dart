@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:food_app/data/response/responses.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class FirebaseStoreClient {
   final FirebaseFirestore _firestore;
@@ -25,6 +29,7 @@ class FirebaseStoreClient {
         .collection("items")
         .orderBy("stars", descending: true // Sort in descending order
             )
+        .limit(5)
         .get()
         .then(
       (value) {
@@ -100,18 +105,6 @@ class FirebaseStoreClient {
     );
   }
 
-  Future<void> addNewMealItem(ItemObject itemObject) async {
-    return await _firestore.collection(AppStrings.items).add(itemObject.toMap()).then(
-      (value) {
-        value.update(
-          {'id': value.id},
-        );
-      },
-    ).catchError(
-      (error) {},
-    );
-  }
-
   Future<void> deleteOrder(String id) async {
     return await _firestore.collection(AppStrings.orders).doc(id).delete().then(
       (value) {
@@ -122,5 +115,31 @@ class FirebaseStoreClient {
         print('Failed to delete item: $error');
       },
     );
+  }
+
+  Future<void> addNewMealItem(AddNewMealObject addNewMealObject) async {
+    String imageUrl = await uploadImageAndGetUrl(addNewMealObject.file!);
+
+    Map<String, dynamic> itemData = addNewMealObject.itemObject.toMap();
+    itemData['image'] = imageUrl;
+
+    return await _firestore.collection(AppStrings.items).add(itemData).then(
+      (value) {
+        value.update(
+          {'id': value.id},
+        );
+      },
+    ).catchError(
+      (error) {},
+    );
+  }
+
+  Future<String> uploadImageAndGetUrl(File imageFile) async {
+    String fileName = imageFile.path.split('/').last;
+    Reference firebaseStorageRef = firebase_storage.FirebaseStorage.instance.ref().child('images/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+    String imageUrl = await taskSnapshot.ref.getDownloadURL();
+    return imageUrl;
   }
 }

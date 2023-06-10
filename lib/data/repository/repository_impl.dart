@@ -100,4 +100,18 @@ class RepositoryImpl implements Repository {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, void>> addNewMealItem(AddNewMealObject addNewMealObject) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        _remoteDataSource.addNewMealItem(addNewMealObject);
+        return right(Void);
+      } on FirebaseException catch (error) {
+        return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

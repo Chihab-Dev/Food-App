@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:food_app/app/di.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/admin/view/admin_screen_view.dart';
-import 'package:food_app/presentation/admin_all_order/view/admin_orders_screen_view.dart';
+import 'package:food_app/presentation/admin_add_new_meal/view/admin_add_new_meal.dart';
+import 'package:food_app/presentation/admin_all_items/admin_all_items.dart';
+import 'package:food_app/presentation/admin_all_orders/view/admin_orders_screen_view.dart';
+import 'package:food_app/presentation/admin_meal_detail/meal_detail_view.dart';
 import 'package:food_app/presentation/admin_order/view/admin_order_view.dart';
-import 'package:food_app/presentation/mealDetail/view/meal_detail_view.dart';
+import 'package:food_app/presentation/meal_detail/view/meal_detail_view.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
 import 'package:food_app/presentation/main/main_view.dart';
 import 'package:food_app/presentation/onBoarding/onboarding_view.dart';
@@ -23,7 +26,10 @@ class Routes {
   static const String mealDetail = "/mealDetail";
   static const String admin = "/admin";
   static const String adminAllOrders = "/adminAllOrders";
-  static const String adminOrder = "/adminOrder";
+  static const String adminOrders = "/adminOrders";
+  static const String adminAddNewMeal = "/addNewMeal";
+  static const String adminMealDetail = "/adminAddNewMeal";
+  static const String adminAllItems = "/adminAllItems";
 }
 
 class RoutesGenerator {
@@ -54,12 +60,25 @@ class RoutesGenerator {
         return MaterialPageRoute(builder: ((context) => const AdminScreenView()));
       case Routes.adminAllOrders:
         return MaterialPageRoute(builder: ((context) => const AdminAllOrdersView()));
-      case Routes.adminOrder:
+      case Routes.adminOrders:
         ClientAllOrders clientAllOrders = settings.arguments as ClientAllOrders;
+
         return MaterialPageRoute(
             builder: ((context) => AdminOrderView(
                   clientAllOrders: clientAllOrders,
                 )));
+      case Routes.adminAddNewMeal:
+        return MaterialPageRoute(builder: ((context) => const AdminAddNewMeal()));
+
+      case Routes.adminMealDetail:
+        AddNewMealObject item = settings.arguments as AddNewMealObject;
+        return MaterialPageRoute(
+          builder: (context) => AdminMealDetail(item.itemObject, item.file!),
+        );
+
+      case Routes.adminAllItems:
+        return MaterialPageRoute(builder: ((context) => const AdminAllItems()));
+
       default:
         return unDefindRoute();
     }

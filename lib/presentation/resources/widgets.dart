@@ -2,15 +2,57 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
+import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../domain/model/models.dart';
 import 'appsize.dart';
 import 'assets_manager.dart';
+import 'font_manager.dart';
 
+// image File to URL
+
+// Future<String> uploadImageAndGetUrl(File imageFile) async {
+//   String fileName = imageFile.path.split('/').last;
+//   Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('images/$fileName');
+//   UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
+//   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+//   String imageUrl = await taskSnapshot.ref.getDownloadURL();
+//   return imageUrl;
+// }
+
+class FirebaseStorage {}
 // Form Field ::
 
-Widget customFormField(BuildContext context, Function(String)? onChanged, IconData prefixIcon, TextInputType inputType,
+Widget textFormField(
+    TextEditingController titleTextEditingController, String label, String? error, Function(String)? function) {
+  return TextFormField(
+    controller: titleTextEditingController,
+    style: TextStyle(color: ColorManager.orange),
+    keyboardType: TextInputType.text,
+    onChanged: function,
+    decoration: InputDecoration(
+      errorText: error,
+      label: Text(
+        label,
+        style: getMeduimStyle(color: ColorManager.orange),
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      border: InputBorder.none,
+      contentPadding: const EdgeInsets.only(
+        left: AppSize.s10,
+        right: AppSize.s5,
+        bottom: AppSize.s20,
+      ),
+      labelStyle: TextStyle(
+        color: ColorManager.black,
+        fontSize: FontSize.s18,
+        fontWeight: FontWeightManager.medium,
+      ),
+    ),
+  );
+}
+
+Widget customFormField(BuildContext context, Function(String)? onChanged, IconData? prefixIcon, TextInputType inputType,
     TextEditingController controller, String? errorText,
     {String? label}) {
   return SizedBox(

@@ -29,4 +29,5 @@ class LottieAsset {
   static const String noOrders = "$lottiePath/noOrders.json";
   static const String pizzaBox = "$lottiePath/pizzaBox.json";
   static const String addItem = "$lottiePath/addItem.json";
+  static const String imagePicker = "$lottiePath/imagePicker.json";
 }

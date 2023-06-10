@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:food_app/domain/model/models.dart';
-import 'package:food_app/presentation/admin_all_order/admin_cubit/admin_cubit.dart';
-import 'package:food_app/presentation/admin_all_order/admin_cubit/admin_states.dart';
+import 'package:food_app/presentation/admin_all_orders/admin_cubit/admin_cubit.dart';
+import 'package:food_app/presentation/admin_all_orders/admin_cubit/admin_states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
@@ -61,7 +61,7 @@ class AdminAllOrdersView extends StatelessWidget {
           ],
         ),
         child: InkWell(
-          onTap: () => Navigator.pushNamed(context, Routes.adminOrder, arguments: clientAllOrders),
+          onTap: () => Navigator.pushNamed(context, Routes.adminOrders, arguments: clientAllOrders),
           child: Container(
             width: double.infinity,
             height: AppSize.s200,

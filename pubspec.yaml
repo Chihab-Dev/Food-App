@@ -10,9 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # firebase
   cloud_firestore: ^4.4.5
   firebase_auth: ^4.3.0
   firebase_core: ^2.8.0
+  firebase_storage: ^11.2.2
+
 
   bloc: ^8.1.1
   flutter_bloc: ^8.1.2
@@ -37,6 +40,10 @@ dependencies:
   shimmer: ^2.0.0
   flutter_slidable: ^3.0.0
   json_annotation: ^4.8.0
+
+  # add new meal 
+  image_picker: ^0.8.7+5
+  numberpicker: ^2.1.2
 
   
 

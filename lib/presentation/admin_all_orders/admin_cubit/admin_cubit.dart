@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/usecases/delete_ordere_usecase.dart';
-import 'package:food_app/presentation/admin_all_order/admin_cubit/admin_states.dart';
+import 'package:food_app/presentation/admin_all_orders/admin_cubit/admin_states.dart';
 
 import '../../../app/di.dart';
 import '../../../domain/model/models.dart';

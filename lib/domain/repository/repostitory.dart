@@ -9,4 +9,5 @@ abstract class Repository {
   Future<Either<Failure, void>> sentOrderToFirebase(ClientAllOrders orders);
   Future<Either<Failure, List<ClientAllOrders>>> getOrdersFromFirebase();
   Future<Either<Failure, void>> deleteOrder(String id);
+  Future<Either<Failure, void>> addNewMealItem(AddNewMealObject addNewMealObject);
 }

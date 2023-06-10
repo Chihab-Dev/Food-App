@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class CustomerObject {
   String fullName;
   String phoneNumber;
@@ -96,4 +98,11 @@ class ClientAllOrders {
       'date': date,
     };
   }
+}
+
+class AddNewMealObject {
+  ItemObject itemObject;
+  File? file;
+
+  AddNewMealObject(this.itemObject, this.file);
 }

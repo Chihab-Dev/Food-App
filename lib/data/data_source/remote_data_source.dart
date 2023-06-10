@@ -9,6 +9,7 @@ abstract class RemoteDataSource {
   Future<void> sentOrderToFirebase(ClientAllOrders orders);
   Future<List<OrdersResponse>> getOrdersFromFirebase();
   Future<void> deleteOrder(String id);
+  Future<void> addNewMealItem(AddNewMealObject addNewMealObject);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -43,5 +44,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<void> deleteOrder(String id) async {
     return await _firebaseStoreClient.deleteOrder(id);
+  }
+
+  @override
+  Future<void> addNewMealItem(AddNewMealObject addNewMealObject) async {
+    return await _firebaseStoreClient.addNewMealItem(addNewMealObject);
   }
 }

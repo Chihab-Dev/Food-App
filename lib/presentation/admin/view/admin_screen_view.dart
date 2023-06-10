@@ -20,20 +20,31 @@ class AdminScreenView extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            item(context, AppStrings.orders, LottieAsset.pizzaBox),
-            item(context, AppStrings.addMeal, LottieAsset.addItem),
+            item(
+              context,
+              AppStrings.orders,
+              LottieAsset.pizzaBox,
+              () {
+                Navigator.pushNamed(context, Routes.adminAllOrders);
+              },
+            ),
+            item(
+              context,
+              AppStrings.addMeal,
+              LottieAsset.addItem,
+              () {
+                Navigator.pushNamed(context, Routes.adminAddNewMeal);
+              },
+            ),
           ],
         ));
   }
 
-  Padding item(BuildContext context, String title, String lottieAsset) {
+  Padding item(BuildContext context, String title, String lottieAsset, Function()? onTap) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
       child: InkWell(
-        onTap: () {
-          //TODO: add it as a parametre
-          Navigator.pushNamed(context, Routes.adminAllOrders);
-        },
+        onTap: onTap,
         child: Container(
           width: double.infinity,
           height: AppSize.s200,

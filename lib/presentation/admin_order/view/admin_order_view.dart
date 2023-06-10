@@ -38,35 +38,39 @@ class AdminOrderView extends StatelessWidget {
               ),
             ],
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: double.infinity,
-              height: 100,
-              decoration: BoxDecoration(
-                color: ColorManager.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorManager.ligthGrey.withOpacity(0.1),
-                    blurRadius: 5,
-                    spreadRadius: 4,
-                    offset: const Offset(4, 8),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(AppSize.s20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
-                child: Row(
-                  children: [
-                    orderStateContainer(AppStrings.startPreparring, () {}),
-                    orderStateContainer(AppStrings.startDelivering, () {}),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          bottomNavigationBar(),
         ],
+      ),
+    );
+  }
+
+  Widget bottomNavigationBar() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        width: double.infinity,
+        height: 100,
+        decoration: BoxDecoration(
+          color: ColorManager.white,
+          boxShadow: [
+            BoxShadow(
+              color: ColorManager.ligthGrey.withOpacity(0.1),
+              blurRadius: 5,
+              spreadRadius: 4,
+              offset: const Offset(4, 8),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(AppSize.s20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+          child: Row(
+            children: [
+              orderStateContainer(AppStrings.startPreparring, () {}),
+              orderStateContainer(AppStrings.startDelivering, () {}),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -192,7 +196,7 @@ class AdminOrderView extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: Text(
-                item.id.toString(),
+                quentity.toString(),
                 style: getlargeStyle(color: ColorManager.black),
               ),
             ),
