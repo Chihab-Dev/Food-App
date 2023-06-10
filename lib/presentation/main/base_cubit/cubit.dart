@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
+import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
 import 'package:food_app/domain/usecases/get_home_data.dart';
 import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
@@ -28,6 +29,7 @@ class BaseCubit extends Cubit<BaseStates> {
   final GetPopularItemsUsecase _getPopularItemsUsecase = GetPopularItemsUsecase(instance());
   final GetItemsUsecase _getItemsUsecase = GetItemsUsecase(instance());
   final SentOrderToFirebaseUsecase _sentOrderToFirebaseUsecase = SentOrderToFirebaseUsecase(instance());
+  final DeleteMealUsecase _deleteMealUsecase = DeleteMealUsecase(instance());
 
   CustomerObject? customerObject;
 
@@ -96,7 +98,7 @@ class BaseCubit extends Cubit<BaseStates> {
     (await _getItemsUsecase.start(Void)).fold(
       (failure) {
         emit(BaseGetItemsErrorState(failure.message));
-        print("🛑itmes🛑");
+        print("🛑items🛑");
         print(failure.message);
       },
       (data) {
@@ -149,5 +151,11 @@ class BaseCubit extends Cubit<BaseStates> {
         },
       );
     }
+  }
+
+  // Admin  delete item
+
+  void deleteItem(String id) async {
+    await _deleteMealUsecase.start(id);
   }
 }

@@ -30,6 +30,14 @@ class AdminScreenView extends StatelessWidget {
             ),
             item(
               context,
+              AppStrings.allItems,
+              LottieAsset.burger,
+              () {
+                Navigator.pushNamed(context, Routes.adminAllItems);
+              },
+            ),
+            item(
+              context,
               AppStrings.addMeal,
               LottieAsset.addItem,
               () {

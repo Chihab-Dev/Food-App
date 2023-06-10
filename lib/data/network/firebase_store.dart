@@ -142,4 +142,16 @@ class FirebaseStoreClient {
     String imageUrl = await taskSnapshot.ref.getDownloadURL();
     return imageUrl;
   }
+
+  Future<void> deleteMeal(String id) async {
+    await _firestore.collection(AppStrings.items).doc(id).delete().then(
+      (value) {
+        print("Meal Deleted Success");
+      },
+    ).catchError(
+      (error) {
+        throw error;
+      },
+    );
+  }
 }

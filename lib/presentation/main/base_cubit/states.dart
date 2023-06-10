@@ -54,7 +54,7 @@ class BaseAddOrderErrorState extends BaseStates {
   BaseAddOrderErrorState(this.error);
 }
 
-// remove item
+// remove order
 
 class BaseRemoveOrderSuccessState extends BaseStates {}
 
@@ -70,3 +70,6 @@ class SentOrderToFirebaseErrorState extends BaseStates {
   SentOrderToFirebaseErrorState(this.error);
 }
 
+// remove meal
+
+class BaseRemoveMealSuccessState extends BaseStates {}

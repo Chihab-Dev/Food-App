@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/app/di.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/domain/usecases/add_new_mealItem_usecase.dart';
-import 'package:food_app/presentation/admin_add_new_meal/cubit/states.dart';
+import 'package:food_app/presentation/admin/admin_add_new_meal/cubit/states.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../resources/strings_manager.dart';
+import '../../../resources/strings_manager.dart';
 
 class AddNewMealCubit extends Cubit<AddNewMealStates> {
   AddNewMealCubit() : super(AddNewMealInitState());

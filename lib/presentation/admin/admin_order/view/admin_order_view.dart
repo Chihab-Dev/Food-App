@@ -3,9 +3,9 @@ import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
 
-import '../../resources/appsize.dart';
-import '../../resources/color_manager.dart';
-import '../../resources/styles_manager.dart';
+import '../../../resources/appsize.dart';
+import '../../../resources/color_manager.dart';
+import '../../../resources/styles_manager.dart';
 
 class AdminOrderView extends StatelessWidget {
   final ClientAllOrders clientAllOrders;

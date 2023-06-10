@@ -31,6 +31,7 @@ class AppStrings {
   // Admin screen
   static const String adminScreen = "Admin Screen";
   static const String addMeal = "Add a Meal";
+  static const String allItems = "All Items";
 
   // add order to cart
 

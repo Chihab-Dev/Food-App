@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
-import 'package:food_app/presentation/admin_add_new_meal/cubit/cubit.dart';
-import 'package:food_app/presentation/admin_add_new_meal/cubit/states.dart';
+import 'package:food_app/presentation/admin/admin_add_new_meal/cubit/cubit.dart';
+import 'package:food_app/presentation/admin/admin_add_new_meal/cubit/states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
@@ -10,9 +10,9 @@ import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-import '../../resources/appsize.dart';
-import '../../resources/color_manager.dart';
-import '../../resources/widgets.dart';
+import '../../../resources/appsize.dart';
+import '../../../resources/color_manager.dart';
+import '../../../resources/widgets.dart';
 
 class AdminAddNewMeal extends StatelessWidget {
   const AdminAddNewMeal({super.key});

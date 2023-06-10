@@ -2,11 +2,11 @@ import 'dart:ffi';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/usecases/delete_ordere_usecase.dart';
-import 'package:food_app/presentation/admin_all_orders/admin_cubit/admin_states.dart';
+import 'package:food_app/presentation/admin/admin_all_orders/admin_cubit/admin_states.dart';
 
-import '../../../app/di.dart';
-import '../../../domain/model/models.dart';
-import '../../../domain/usecases/get_orders_fromFirebase_usecase.dart';
+import '../../../../app/di.dart';
+import '../../../../domain/model/models.dart';
+import '../../../../domain/usecases/get_orders_fromFirebase_usecase.dart';
 
 class AdminCubit extends Cubit<AdminStates> {
   AdminCubit() : super(AdminInitialState());
