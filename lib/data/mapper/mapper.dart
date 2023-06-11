@@ -22,6 +22,7 @@ extension ItemResponseMapper on ItemResponse? {
       this?.description.orEmpty() ?? Constants.empty,
       this?.price.orZero() ?? Constants.zero,
       this?.stars.orZero() ?? Constants.zero,
+      this?.category.orDefaultCategory() ?? ItemCategory.FASTFOOD,
     );
   }
 }
@@ -31,7 +32,14 @@ extension OrderResponseMapper on OrderResponse? {
     return Order(
       this?.itemResponse.toDomain() ??
           ItemObject(
-              Constants.empty, Constants.empty, Constants.empty, Constants.empty, Constants.zero, Constants.zero),
+            Constants.empty,
+            Constants.empty,
+            Constants.empty,
+            Constants.empty,
+            Constants.zero,
+            Constants.zero,
+            ItemCategory.FASTFOOD,
+          ),
       this?.quentity.orZero() ?? Constants.zero,
     );
   }

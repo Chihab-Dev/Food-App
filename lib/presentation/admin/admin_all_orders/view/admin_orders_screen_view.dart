@@ -30,7 +30,7 @@ class AdminAllOrdersView extends StatelessWidget {
             body: state is GetOrdersFromFirebaseLoadingState
                 ? loadingScreen()
                 : orders.isEmpty
-                    ? noOrdersScreen()
+                    ? emptyScreen()
                     : ListView.builder(
                         itemCount: orders.length,
                         itemBuilder: (context, index) => orderContainer(context, cubit, orders[index]),

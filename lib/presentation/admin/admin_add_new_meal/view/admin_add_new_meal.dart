@@ -33,54 +33,99 @@ class AdminAddNewMeal extends StatelessWidget {
         builder: (context, state) {
           var cubit = AddNewMealCubit.get(context);
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(AppStrings.addNewMealScreen.toUpperCase()),
-            ),
-            body: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSize.s12),
-                    child: Column(
-                      children: [
-                        pickImageContainer(cubit),
-                        const SizedBox(height: AppSize.s25),
-                        textFormField(
-                          cubit.titleController,
-                          AppStrings.mealTitle,
-                          cubit.nameErrorMessage,
-                          (String value) {
-                            cubit.isNameValidFun();
-                            cubit.nameErrorMessage = cubit.nameErrorMessageFun();
-                            cubit.isAllParametersValidFun();
-                          },
-                        ),
-                        const SizedBox(height: AppSize.s25),
-                        textFormField(
-                          cubit.descController,
-                          AppStrings.mealDescription,
-                          cubit.descErrorMessage,
-                          (String value) {
-                            cubit.isDescValidFun();
-                            cubit.descErrorMessage = cubit.descErrorMessageFun();
-                            cubit.isAllParametersValidFun();
-                          },
-                        ),
-                        const SizedBox(height: AppSize.s25),
-                        pricePicker(cubit),
-                        const SizedBox(height: AppSize.s25),
-                        starsPicker(cubit),
-                        const SizedBox(height: AppSize.s100),
-                      ],
-                    ),
+          return state is AddNewMealLoadingState
+              ? loadingScreen()
+              : Scaffold(
+                  appBar: AppBar(
+                    title: Text(AppStrings.addNewMealScreen.toUpperCase()),
                   ),
-                ),
-                bottomNavigationBar(cubit, context),
-              ],
-            ),
-          );
+                  body: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppSize.s12),
+                          child: Column(
+                            children: [
+                              pickImageContainer(cubit),
+                              const SizedBox(height: AppSize.s25),
+                              textFormField(
+                                cubit.titleController,
+                                AppStrings.mealTitle,
+                                cubit.nameErrorMessage,
+                                (String value) {
+                                  cubit.isNameValidFun();
+                                  cubit.nameErrorMessage = cubit.nameErrorMessageFun();
+                                  cubit.isAllParametersValidFun();
+                                },
+                              ),
+                              const SizedBox(height: AppSize.s25),
+                              textFormField(
+                                cubit.descController,
+                                AppStrings.mealDescription,
+                                cubit.descErrorMessage,
+                                (String value) {
+                                  cubit.isDescValidFun();
+                                  cubit.descErrorMessage = cubit.descErrorMessageFun();
+                                  cubit.isAllParametersValidFun();
+                                },
+                              ),
+                              const SizedBox(height: AppSize.s25),
+                              pricePicker(cubit),
+                              const SizedBox(height: AppSize.s25),
+                              starsPicker(cubit),
+                              const SizedBox(height: AppSize.s25),
+                              dropDownButton(cubit, context),
+                              const SizedBox(height: AppSize.s100),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // if keyboard is open hide it
+                      if (MediaQuery.of(context).viewInsets.bottom == 0) bottomNavigationBar(cubit, context),
+                    ],
+                  ),
+                );
         },
+      ),
+    );
+  }
+
+  Widget dropDownButton(AddNewMealCubit cubit, BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.5,
+      decoration: BoxDecoration(
+        color: ColorManager.white,
+        boxShadow: [
+          BoxShadow(
+            color: ColorManager.ligthGrey.withOpacity(0.1),
+            blurRadius: 5,
+            spreadRadius: 4,
+            offset: const Offset(4, 8),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(AppSize.s50),
+      ),
+      child: DropdownButton<ItemCategory>(
+        value: cubit.category,
+        items: cubit.categoryList,
+        onChanged: (ItemCategory? itemCategory) {
+          cubit.onCategoryChange(itemCategory!);
+          cubit.isAllParametersValidFun();
+        },
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: ColorManager.grey,
+        ),
+        iconSize: AppSize.s40,
+        isExpanded: true,
+        style: getRegularStyle(color: ColorManager.orange),
+        borderRadius: BorderRadius.circular(AppSize.s20),
+        padding: const EdgeInsets.symmetric(horizontal: AppSize.s20),
+        underline: Container(
+            // height: 2,
+            // color: ColorManager.orange,
+            ),
+        autofocus: false,
       ),
     );
   }

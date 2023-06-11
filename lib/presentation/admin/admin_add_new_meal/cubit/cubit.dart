@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/app/di.dart';
 import 'package:food_app/domain/model/models.dart';
@@ -17,7 +17,7 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
 
   final AddNewMealItemUseCase _addNewMealItemUseCase = AddNewMealItemUseCase(instance());
 
-  ItemObject itemObject = ItemObject("", "", "", "", 0, 0);
+  ItemObject itemObject = ItemObject("", "", "", "", 0, 0, ItemCategory.FASTFOOD);
 
   // Pick title & desc
 
@@ -74,11 +74,11 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
         emit(AddNewMealErrorState(failure.message));
       },
       (success) {
-        print("✅ Item Added success ✅");
         image = null;
         titleController.clear();
         descController.clear();
         changePrice(20);
+        category = ItemCategory.FASTFOOD;
         emit(AddNewMealSuccessState());
       },
     );
@@ -89,7 +89,7 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
 
   Future<bool> isAllParametersValidFun() async {
     if (isNameValid && isDescValid && isImageValid) {
-      itemObject = ItemObject("", "", titleController.text, descController.text, price, stars);
+      itemObject = ItemObject("", "", titleController.text, descController.text, price, stars, category);
       emit(AddNewMealIsAllParemetersValidState());
       isAllParametersValid = true;
       return true;
@@ -212,5 +212,45 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
 
   void isImageValidFun(File? image) {
     image == null ? isImageValid = false : isImageValid = true;
+  }
+
+  // Select category
+
+  List<DropdownMenuItem<ItemCategory>>? categoryList = [
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.FASTFOOD,
+      child: Text(AppStrings.fastFood),
+    ),
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.DRINK,
+      child: Text(AppStrings.drink),
+    ),
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.SNACK,
+      child: Text(AppStrings.snack),
+    ),
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.DESSERT,
+      child: Text(AppStrings.dessert),
+    ),
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.BURGER,
+      child: Text(AppStrings.burger),
+    ),
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.PIZZA,
+      child: Text(AppStrings.pizza),
+    ),
+    const DropdownMenuItem<ItemCategory>(
+      value: ItemCategory.HOTDOG,
+      child: Text(AppStrings.hotdog),
+    ),
+  ];
+
+  ItemCategory category = ItemCategory.FASTFOOD;
+
+  void onCategoryChange(ItemCategory itemCategory) {
+    category = itemCategory;
+    emit(AddNewMealChangeCategoryState());
   }
 }

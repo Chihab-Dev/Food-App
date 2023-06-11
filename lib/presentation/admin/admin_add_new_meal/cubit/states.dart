@@ -48,3 +48,7 @@ class AddNewMealDescErrorState extends AddNewMealStates {}
 // is All parameters Valid
 
 class AddNewMealIsAllParemetersValidState extends AddNewMealStates {}
+
+// Category change
+
+class AddNewMealChangeCategoryState extends AddNewMealStates {}

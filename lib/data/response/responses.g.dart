@@ -27,6 +27,7 @@ ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) => ItemResponse(
       json['description'] as String?,
       json['price'] as int?,
       json['stars'] as int?,
+      $enumDecodeNullable(_$ItemCategoryEnumMap, json['category']),
     );
 
 Map<String, dynamic> _$ItemResponseToJson(ItemResponse instance) =>
@@ -37,7 +38,18 @@ Map<String, dynamic> _$ItemResponseToJson(ItemResponse instance) =>
       'description': instance.description,
       'price': instance.price,
       'stars': instance.stars,
+      'category': _$ItemCategoryEnumMap[instance.category],
     };
+
+const _$ItemCategoryEnumMap = {
+  ItemCategory.FASTFOOD: 'FASTFOOD',
+  ItemCategory.DRINK: 'DRINK',
+  ItemCategory.SNACK: 'SNACK',
+  ItemCategory.DESSERT: 'DESSERT',
+  ItemCategory.PIZZA: 'PIZZA',
+  ItemCategory.BURGER: 'BURGER',
+  ItemCategory.HOTDOG: 'HOTDOG',
+};
 
 OrderResponse _$OrderResponseFromJson(Map<String, dynamic> json) =>
     OrderResponse(

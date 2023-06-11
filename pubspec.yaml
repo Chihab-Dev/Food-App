@@ -44,6 +44,7 @@ dependencies:
   # add new meal 
   image_picker: ^0.8.7+5
   numberpicker: ^2.1.2
+  snippet_coder_utils: ^1.0.14
 
   
 

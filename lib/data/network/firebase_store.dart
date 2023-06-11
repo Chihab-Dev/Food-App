@@ -29,7 +29,7 @@ class FirebaseStoreClient {
         .collection("items")
         .orderBy("stars", descending: true // Sort in descending order
             )
-        .limit(5)
+        .limit(3)
         .get()
         .then(
       (value) {
@@ -125,12 +125,16 @@ class FirebaseStoreClient {
 
     return await _firestore.collection(AppStrings.items).add(itemData).then(
       (value) {
+        print("✅✅✅");
         value.update(
           {'id': value.id},
         );
       },
     ).catchError(
-      (error) {},
+      (error) {
+        print("🛑🛑🛑");
+        throw error;
+      },
     );
   }
 

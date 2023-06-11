@@ -158,4 +158,14 @@ class BaseCubit extends Cubit<BaseStates> {
   void deleteItem(String id) async {
     await _deleteMealUsecase.start(id);
   }
+
+  List<ItemObject> getItemsByCategory(ItemCategory itemCategory) {
+    emit(GetMealsByCategoryState());
+
+    return items
+        .where(
+          (item) => item.category == itemCategory,
+        )
+        .toList();
+  }
 }

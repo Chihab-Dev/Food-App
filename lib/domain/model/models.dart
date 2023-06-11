@@ -8,6 +8,16 @@ class CustomerObject {
   CustomerObject(this.fullName, this.phoneNumber, this.uid);
 }
 
+enum ItemCategory {
+  FASTFOOD,
+  DRINK,
+  SNACK,
+  DESSERT,
+  PIZZA,
+  BURGER,
+  HOTDOG,
+}
+
 class ItemObject {
   String id;
   String image;
@@ -15,6 +25,7 @@ class ItemObject {
   String description;
   int price;
   int stars;
+  ItemCategory category;
 
   ItemObject(
     this.id,
@@ -23,6 +34,7 @@ class ItemObject {
     this.description,
     this.price,
     this.stars,
+    this.category,
   );
 
   Map<String, dynamic> toMap() {
@@ -33,6 +45,7 @@ class ItemObject {
       'description': description,
       'price': price,
       'stars': stars,
+      'category': category.toString().split('.').last,
     };
   }
 }

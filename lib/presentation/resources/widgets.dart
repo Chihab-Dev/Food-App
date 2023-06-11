@@ -2,6 +2,7 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
+import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:lottie/lottie.dart';
 import '../../domain/model/models.dart';
@@ -9,18 +10,79 @@ import 'appsize.dart';
 import 'assets_manager.dart';
 import 'font_manager.dart';
 
-// image File to URL
+// item container
 
-// Future<String> uploadImageAndGetUrl(File imageFile) async {
-//   String fileName = imageFile.path.split('/').last;
-//   Reference firebaseStorageRef = FirebaseStorage.instance.ref().child('images/$fileName');
-//   UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
-//   TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-//   String imageUrl = await taskSnapshot.ref.getDownloadURL();
-//   return imageUrl;
-// }
+Widget itemContainer(BuildContext context, ItemObject item) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+    child: InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
+      },
+      child: Container(
+        // width: AppSize.s200,
+        padding: const EdgeInsets.all(AppPadding.p10),
+        decoration: BoxDecoration(
+          color: ColorManager.white,
+          boxShadow: [
+            BoxShadow(
+              color: ColorManager.ligthGrey.withOpacity(0.1),
+              blurRadius: 5,
+              spreadRadius: 4,
+              offset: const Offset(4, 8),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(AppSize.s20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s20),
+                  image: DecorationImage(
+                    image: NetworkImage(item.image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSize.s10),
+            Text(
+              item.image.isEmpty ? 'meal' : item.title,
+              style: getMeduimStyle(color: ColorManager.black),
+            ),
+            SizedBox(
+              width: AppSize.s200,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: List.generate(
+                      starsCalculator(item.stars),
+                      (index) => Icon(
+                        index < item.stars ? Icons.star : Icons.star_border,
+                        color: Colors.yellowAccent[700],
+                        size: AppSize.s18,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "\$${item.price}",
+                    style: getMeduimStyle(color: ColorManager.black),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
-class FirebaseStorage {}
 // Form Field ::
 
 Widget textFormField(
@@ -114,7 +176,7 @@ Container errorScreen() {
 
 // No Orders Screen ::
 
-Container noOrdersScreen() {
+Container emptyScreen() {
   return Container(
     color: ColorManager.whiteGrey,
     child: Center(

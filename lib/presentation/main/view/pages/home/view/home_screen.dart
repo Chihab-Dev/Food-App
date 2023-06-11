@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
@@ -56,7 +54,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: AppPadding.p25),
             titleWidget(AppStrings.category),
             const SizedBox(height: AppPadding.p12),
-            allCategories(),
+            allCategories(context),
             const SizedBox(height: AppPadding.p12),
             titleWidget(AppStrings.popularItems),
             const SizedBox(height: AppPadding.p12),
@@ -118,29 +116,31 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  SizedBox allCategories() {
+  SizedBox allCategories(BuildContext context) {
     return SizedBox(
       height: AppSize.s80,
       width: double.infinity,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          categoryContainer(ImageAsset.pizzaImage, AppStrings.pizza),
-          categoryContainer(ImageAsset.burgerImage, AppStrings.burger),
-          categoryContainer(ImageAsset.friesImage, AppStrings.snack),
-          categoryContainer(ImageAsset.sodaImage, AppStrings.drink),
-          categoryContainer(ImageAsset.cake2Image, AppStrings.dessert),
-          categoryContainer(ImageAsset.hotdogImage, AppStrings.hotdog),
+          categoryContainer(context, ImageAsset.pizzaImage, AppStrings.pizza),
+          categoryContainer(context, ImageAsset.burgerImage, AppStrings.burger),
+          categoryContainer(context, ImageAsset.friesImage, AppStrings.snack),
+          categoryContainer(context, ImageAsset.sodaImage, AppStrings.drink),
+          categoryContainer(context, ImageAsset.cake2Image, AppStrings.dessert),
+          categoryContainer(context, ImageAsset.hotdogImage, AppStrings.hotdog),
         ],
       ),
     );
   }
 
-  Widget categoryContainer(String image, String title) {
+  Widget categoryContainer(BuildContext context, String image, String title) {
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p6),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, Routes.mealsByCategory, arguments: getItemCategory(title));
+        },
         child: Container(
           height: AppSize.s80,
           width: AppSize.s80,
@@ -173,6 +173,20 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ItemCategory getItemCategory(String title) {
+    if (title == AppStrings.fastFood) return ItemCategory.FASTFOOD;
+    if (title == AppStrings.drink) return ItemCategory.DRINK;
+    if (title == AppStrings.dessert) return ItemCategory.DESSERT;
+    if (title == AppStrings.pizza) return ItemCategory.PIZZA;
+    if (title == AppStrings.burger) return ItemCategory.BURGER;
+    if (title == AppStrings.hotdog) return ItemCategory.HOTDOG;
+    if (title == AppStrings.snack) {
+      return ItemCategory.SNACK;
+    } else {
+      return ItemCategory.FASTFOOD;
+    }
   }
 
   Widget populatItemList(List<ItemObject> items) {
@@ -230,7 +244,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSize.s10),
               Text(
-                item.image.isEmpty ? 'meal' : item.title,
+                item.title.isEmpty ? 'Meal' : item.title,
                 style: getMeduimStyle(color: ColorManager.black),
               ),
               SizedBox(
@@ -275,77 +289,6 @@ class HomeScreen extends StatelessWidget {
         ItemObject item = cubit.items[index];
         return popularItemContainer(context, item);
       },
-    );
-  }
-
-  Padding moreItemContainer(BuildContext context, ItemObject item) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
-        },
-        child: Container(
-          // width: AppSize.s200,
-          padding: const EdgeInsets.all(AppPadding.p10),
-          decoration: BoxDecoration(
-            color: ColorManager.white,
-            boxShadow: [
-              BoxShadow(
-                color: ColorManager.ligthGrey.withOpacity(0.1),
-                blurRadius: 5,
-                spreadRadius: 4,
-                offset: const Offset(4, 8),
-              ),
-            ],
-            borderRadius: BorderRadius.circular(AppSize.s20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s20),
-                    image: DecorationImage(
-                      image: FileImage(item.image as File),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppSize.s10),
-              Text(
-                item.image.isEmpty ? 'meal' : item.title,
-                style: getMeduimStyle(color: ColorManager.black),
-              ),
-              SizedBox(
-                width: AppSize.s200,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: List.generate(
-                        starsCalculator(item.stars),
-                        (index) => Icon(
-                          index < item.stars ? Icons.star : Icons.star_border,
-                          color: Colors.yellowAccent[700],
-                          size: AppSize.s18,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "\$${item.price}",
-                      style: getMeduimStyle(color: ColorManager.black),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 

@@ -1,6 +1,9 @@
 class AppStrings {
   static const String noRouteFound = "NO ROUTE FOUND";
 
+  // Meals by category
+  static const String mealsByCategoryScreen = "meals by category screen";
+
   // Admin all items
   static const String adminAllItemsScreen = "Admin all items screen";
 
@@ -15,6 +18,13 @@ class AppStrings {
   static const String addNewMeal = "Add New Meal";
   static const String addNewMealSuccess = "Add New Meal Success";
   static const String itemNotValid = "Items not valid";
+
+  // // category
+
+  // static const String fastFood = "FASTFOOD";
+  // static const String drink = "DRINK";
+  // static const String snack = "SNACK";
+  // static const String dessert = "DESSERT";
 
   // Admin Order Screen ::
   static const String startPreparring = "Start preparing";
@@ -31,6 +41,7 @@ class AppStrings {
   // Admin screen
   static const String adminScreen = "Admin Screen";
   static const String addMeal = "Add a Meal";
+  static const String mealCategory = "Meal category";
   static const String allItems = "All Items";
 
   // add order to cart
@@ -42,7 +53,7 @@ class AppStrings {
   static const String deliveryTo = "Delivery to";
   static const String category = "Category";
   static const String fastFood = "Fast food";
-  static const String snack = "snack";
+  static const String snack = "Snack";
   static const String drink = "Drink";
   static const String dessert = "Dessert";
 
@@ -58,9 +69,9 @@ class AppStrings {
   // OnBoarding screen ::
   static const String onBoardingDone = "done";
   static const String skip = "skip";
-  static const String pizza = "pizza";
-  static const String burger = "burger";
-  static const String hotdog = "hotdog";
+  static const String pizza = "Pizza";
+  static const String burger = "Burger";
+  static const String hotdog = "Hotdog";
   static const String delivery = "delivery";
   static const String pizzaDescription = "Fresh pizza from our restaurent yahooooooooo yammy";
   static const String burgerDescription = "Fresh burger from our restaurent yahooooooooo yammy";

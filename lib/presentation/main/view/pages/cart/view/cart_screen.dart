@@ -46,7 +46,7 @@ class _CartScreenState extends State<CartScreen> {
           body: state is SentOrderToFirebaseLoadingState
               ? loadingScreen()
               : cubit.userOrders.isEmpty
-                  ? noOrdersScreen()
+                  ? emptyScreen()
                   : ordersList(cubit, totalPrice),
         );
       },

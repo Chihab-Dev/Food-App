@@ -2,6 +2,8 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../domain/model/models.dart';
+
 part 'responses.g.dart';
 
 @JsonSerializable()
@@ -34,8 +36,10 @@ class ItemResponse {
   int? price;
   @JsonKey(name: 'stars')
   int? stars;
+  @JsonKey(name: 'category')
+  ItemCategory? category;
 
-  ItemResponse(this.id, this.image, this.title, this.description, this.price, this.stars);
+  ItemResponse(this.id, this.image, this.title, this.description, this.price, this.stars, this.category);
 
   factory ItemResponse.fromJson(Map<String, dynamic> json) => _$ItemResponseFromJson(json);
 
@@ -83,6 +87,7 @@ class OrdersResponse {
           itemResponseJson["description"],
           itemResponseJson["price"],
           itemResponseJson["stars"],
+          itemResponseJson["category"],
         );
         var quentity = orderResponse["quentity"];
 

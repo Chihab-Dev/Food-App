@@ -75,7 +75,7 @@ class AdminAllItems extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSize.s20),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Container(

@@ -73,3 +73,7 @@ class SentOrderToFirebaseErrorState extends BaseStates {
 // remove meal
 
 class BaseRemoveMealSuccessState extends BaseStates {}
+
+// get meals by category
+
+class GetMealsByCategoryState extends BaseStates {}

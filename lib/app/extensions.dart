@@ -1,4 +1,5 @@
 import 'package:food_app/app/constants.dart';
+import 'package:food_app/domain/model/models.dart';
 
 extension NonNullString on String? {
   String orEmpty() {
@@ -10,10 +11,20 @@ extension NonNullString on String? {
   }
 }
 
-extension NunNullInt on int? {
+extension NonNullInt on int? {
   int orZero() {
     if (this == null) {
       return Constants.zero;
+    } else {
+      return this!;
+    }
+  }
+}
+
+extension NonNullCategory on ItemCategory? {
+  ItemCategory orDefaultCategory() {
+    if (this == null) {
+      return ItemCategory.FASTFOOD;
     } else {
       return this!;
     }

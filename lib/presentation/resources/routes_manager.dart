@@ -8,6 +8,7 @@ import 'package:food_app/presentation/admin/admin_all_orders/view/admin_orders_s
 import 'package:food_app/presentation/admin/admin_meal_detail/meal_detail_view.dart';
 import 'package:food_app/presentation/admin/admin_order/view/admin_order_view.dart';
 import 'package:food_app/presentation/meal_detail/view/meal_detail_view.dart';
+import 'package:food_app/presentation/meals_by_category/meals_by_category.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
 import 'package:food_app/presentation/main/main_view.dart';
 import 'package:food_app/presentation/onBoarding/onboarding_view.dart';
@@ -30,6 +31,7 @@ class Routes {
   static const String adminAddNewMeal = "/addNewMeal";
   static const String adminMealDetail = "/adminAddNewMeal";
   static const String adminAllItems = "/adminAllItems";
+  static const String mealsByCategory = "/mealsByCategory";
 }
 
 class RoutesGenerator {
@@ -78,7 +80,9 @@ class RoutesGenerator {
 
       case Routes.adminAllItems:
         return MaterialPageRoute(builder: ((context) => const AdminAllItems()));
-
+      case Routes.mealsByCategory:
+        ItemCategory itemCategory = settings.arguments as ItemCategory;
+        return MaterialPageRoute(builder: (context) => MealsByCategoryScreen(itemCategory));
       default:
         return unDefindRoute();
     }
