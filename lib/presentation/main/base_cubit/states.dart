@@ -46,12 +46,12 @@ class BaseGetItemsErrorState extends BaseStates {
 
 // add item
 
-class BaseAddOrderSuccessState extends BaseStates {}
+class BaseAddOrderToCartSuccessState extends BaseStates {}
 
-class BaseAddOrderErrorState extends BaseStates {
+class BaseAddOrderToCartErrorState extends BaseStates {
   final String error;
 
-  BaseAddOrderErrorState(this.error);
+  BaseAddOrderToCartErrorState(this.error);
 }
 
 // remove order
@@ -77,3 +77,7 @@ class BaseRemoveMealSuccessState extends BaseStates {}
 // get meals by category
 
 class GetMealsByCategoryState extends BaseStates {}
+
+// search item
+
+class SearchItemState extends BaseStates {}

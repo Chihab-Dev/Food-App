@@ -28,10 +28,10 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<BaseCubit, BaseStates>(
       listener: (context, state) {
-        if (state is BaseAddOrderSuccessState) {
+        if (state is BaseAddOrderToCartSuccessState) {
           successToast(AppStrings.orderAdded).show(context);
         }
-        if (state is BaseAddOrderErrorState) {
+        if (state is BaseAddOrderToCartErrorState) {
           errorToast(state.error).show(context);
         }
       },

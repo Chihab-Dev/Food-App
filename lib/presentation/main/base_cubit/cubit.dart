@@ -118,10 +118,9 @@ class BaseCubit extends Cubit<BaseStates> {
     bool orderExiste = userOrders.any((element) => element.itemObject == order.itemObject);
     if (!orderExiste) {
       userOrders.add(order);
-      emit(BaseAddOrderSuccessState());
-      print("ADD ORDER 🐦🐦🐦");
+      emit(BaseAddOrderToCartSuccessState());
     } else {
-      emit(BaseAddOrderErrorState(AppStrings.orderAlreadyExist));
+      emit(BaseAddOrderToCartErrorState(AppStrings.orderAlreadyExist));
     }
   }
 
@@ -167,5 +166,29 @@ class BaseCubit extends Cubit<BaseStates> {
           (item) => item.category == itemCategory,
         )
         .toList();
+  }
+
+  // Search item by name
+
+  TextEditingController searchController = TextEditingController();
+
+  List<ItemObject> searchedItem = [];
+
+  void searchItemByName() {
+    searchController.text.isNotEmpty
+        ? searchedItem = items.where(
+            (item) {
+              if (item.title.toLowerCase().contains(searchController.text)) {
+                return item.title.toLowerCase().contains(searchController.text);
+              }
+              if (item.title.toUpperCase().contains(searchController.text)) {
+                return item.title.toUpperCase().contains(searchController.text);
+              } else {
+                return item.title.contains(searchController.text);
+              }
+            },
+          ).toList()
+        : searchedItem = [];
+    emit(SearchItemState());
   }
 }

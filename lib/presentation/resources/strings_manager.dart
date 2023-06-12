@@ -1,5 +1,9 @@
 class AppStrings {
+  // Routes
   static const String noRouteFound = "NO ROUTE FOUND";
+
+  // Seach screen
+  static const String searchLable = "What do you want to eat today?";
 
   // Meals by category
   static const String mealsByCategoryScreen = "meals by category screen";
