@@ -23,6 +23,8 @@ extension ItemResponseMapper on ItemResponse? {
       this?.price.orZero() ?? Constants.zero,
       this?.stars.orZero() ?? Constants.zero,
       this?.category.orDefaultCategory() ?? ItemCategory.FASTFOOD,
+      this?.calories.orZero() ?? Constants.zero,
+      this?.preparationTime.orZero() ?? Constants.zero,
     );
   }
 }
@@ -39,6 +41,8 @@ extension OrderResponseMapper on OrderResponse? {
             Constants.zero,
             Constants.zero,
             ItemCategory.FASTFOOD,
+            Constants.zero,
+            Constants.zero,
           ),
       this?.quentity.orZero() ?? Constants.zero,
     );

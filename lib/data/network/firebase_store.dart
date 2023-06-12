@@ -52,7 +52,6 @@ class FirebaseStoreClient {
         List<ItemResponse> items = [];
         for (var element in value.docs) {
           items.add(ItemResponse.fromJson(element.data()));
-          print(element.data());
         }
         return items;
       },
@@ -75,6 +74,7 @@ class FirebaseStoreClient {
       );
     }).catchError((error) {
       print(error.toString());
+      throw error;
     });
   }
 
@@ -113,6 +113,7 @@ class FirebaseStoreClient {
     ).catchError(
       (error) {
         print('Failed to delete item: $error');
+        throw error;
       },
     );
   }
@@ -154,6 +155,7 @@ class FirebaseStoreClient {
       },
     ).catchError(
       (error) {
+        print("Meal Delete error");
         throw error;
       },
     );

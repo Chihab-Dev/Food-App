@@ -14,6 +14,8 @@ class AppStrings {
   static const String mealDescription = "meal description";
   static const String mealPrice = "meal price :";
   static const String mealStars = "meal stars :";
+  static const String mealCalories = "meal calories :";
+  static const String mealPreparationtime = "Preparation time :";
   static const String clientView = "Client View";
   static const String addNewMeal = "Add New Meal";
   static const String addNewMealSuccess = "Add New Meal Success";

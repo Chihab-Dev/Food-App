@@ -70,9 +70,53 @@ class AdminAddNewMeal extends StatelessWidget {
                                 },
                               ),
                               const SizedBox(height: AppSize.s25),
-                              pricePicker(cubit),
+                              timePicker(
+                                cubit.price,
+                                (value) {
+                                  cubit.changePrice(value);
+                                  cubit.isAllParametersValidFun();
+                                },
+                                AppStrings.mealPrice,
+                                5,
+                                100,
+                                5,
+                              ),
                               const SizedBox(height: AppSize.s25),
-                              starsPicker(cubit),
+                              timePicker(
+                                cubit.stars,
+                                (value) {
+                                  cubit.changeStars(value);
+                                  cubit.isAllParametersValidFun();
+                                },
+                                AppStrings.mealStars,
+                                1,
+                                5,
+                                1,
+                              ),
+                              const SizedBox(height: AppSize.s25),
+                              timePicker(
+                                cubit.calories,
+                                (value) {
+                                  cubit.changeCalories(value);
+                                  cubit.isAllParametersValidFun();
+                                },
+                                AppStrings.mealCalories,
+                                50,
+                                1000,
+                                50,
+                              ),
+                              const SizedBox(height: AppSize.s25),
+                              timePicker(
+                                cubit.preparationTime,
+                                (value) {
+                                  cubit.changePreparationTime(value);
+                                  cubit.isAllParametersValidFun();
+                                },
+                                AppStrings.mealPreparationtime,
+                                1,
+                                45,
+                                1,
+                              ),
                               const SizedBox(height: AppSize.s25),
                               dropDownButton(cubit, context),
                               const SizedBox(height: AppSize.s100),
@@ -253,52 +297,23 @@ class AdminAddNewMeal extends StatelessWidget {
     );
   }
 
-  Widget pricePicker(AddNewMealCubit cubit) {
+  Widget timePicker(int value, Function(int) function, String name, int minValue, int maxValue, int step) {
     return Row(
       children: [
         Text(
-          AppStrings.mealPrice,
+          name,
           style: getRegularStyle(color: ColorManager.orange),
         ),
         Expanded(
           child: NumberPicker(
-            minValue: 5,
-            maxValue: 100,
-            value: cubit.price,
-            onChanged: (value) {
-              cubit.changePrice(value);
-              cubit.isAllParametersValidFun();
-            },
+            minValue: minValue,
+            maxValue: maxValue,
+            value: value,
+            onChanged: function,
             selectedTextStyle: getlargeStyle(color: ColorManager.orange),
             axis: Axis.horizontal,
             itemCount: 3,
-            step: 5,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget starsPicker(AddNewMealCubit cubit) {
-    return Row(
-      children: [
-        Text(
-          AppStrings.mealStars,
-          style: getRegularStyle(color: ColorManager.orange),
-        ),
-        Expanded(
-          child: NumberPicker(
-            minValue: 1,
-            maxValue: 5,
-            value: cubit.stars,
-            onChanged: (value) {
-              cubit.changeStars(value);
-              cubit.isAllParametersValidFun();
-            },
-            selectedTextStyle: getlargeStyle(color: ColorManager.orange),
-            axis: Axis.horizontal,
-            itemCount: 3,
-            step: 1,
+            step: step,
           ),
         ),
       ],

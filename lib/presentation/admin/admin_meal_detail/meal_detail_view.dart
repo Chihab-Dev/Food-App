@@ -42,7 +42,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
                 children: [
                   showImageContainer(widget.imageFile),
                   const SizedBox(height: AppSize.s15),
-                  showMealDetails(),
+                  showMealDetails(widget.item),
                 ],
               ),
             ),
@@ -131,7 +131,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
     );
   }
 
-  Widget showMealDetails() {
+  Widget showMealDetails(ItemObject item) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p14),
       child: Column(
@@ -139,7 +139,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
         children: [
           tittleText(widget.item.title),
           const SizedBox(height: AppSize.s20),
-          itemDetails(),
+          itemDetails(item),
           const SizedBox(height: AppSize.s20),
           descriptionText(),
           const SizedBox(height: AppSize.s20),
@@ -203,7 +203,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
     );
   }
 
-  Row itemDetails() {
+  Row itemDetails(ItemObject item) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -221,7 +221,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
             style: getRegularStyle(color: ColorManager.darkGrey),
           ),
           ColorManager.orange,
-          "60 Calories",
+          "${item.calories} Calories",
         ),
         itemDetailContainer(
           Text(
@@ -229,7 +229,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
             style: getRegularStyle(color: ColorManager.darkGrey),
           ),
           ColorManager.orange,
-          "20min",
+          "${item.preparationTime} min",
         )
       ],
     );

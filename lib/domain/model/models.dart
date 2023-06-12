@@ -26,6 +26,8 @@ class ItemObject {
   int price;
   int stars;
   ItemCategory category;
+  int calories;
+  int preparationTime;
 
   ItemObject(
     this.id,
@@ -35,6 +37,8 @@ class ItemObject {
     this.price,
     this.stars,
     this.category,
+    this.calories,
+    this.preparationTime,
   );
 
   Map<String, dynamic> toMap() {
@@ -46,6 +50,8 @@ class ItemObject {
       'price': price,
       'stars': stars,
       'category': category.toString().split('.').last,
+      'calories': calories,
+      "preparationTime": preparationTime,
     };
   }
 }

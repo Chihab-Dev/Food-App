@@ -17,12 +17,26 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
 
   final AddNewMealItemUseCase _addNewMealItemUseCase = AddNewMealItemUseCase(instance());
 
-  ItemObject itemObject = ItemObject("", "", "", "", 0, 0, ItemCategory.FASTFOOD);
+  ItemObject itemObject = ItemObject("", "", "", "", 0, 0, ItemCategory.FASTFOOD, 0, 0);
 
   // Pick title & desc
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
+
+  // pick Calories
+  int calories = 200;
+
+  void changeCalories(int value) {
+    calories = value;
+  }
+
+  // pick Calories
+  int preparationTime = 5;
+
+  void changePreparationTime(int value) {
+    preparationTime = value;
+  }
 
   // Pick Image
   File? image;
@@ -79,6 +93,10 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
         descController.clear();
         changePrice(20);
         category = ItemCategory.FASTFOOD;
+        changeStars(3);
+        changeCalories(200);
+        changePreparationTime(5);
+
         emit(AddNewMealSuccessState());
       },
     );
@@ -88,8 +106,24 @@ class AddNewMealCubit extends Cubit<AddNewMealStates> {
   bool isAllParametersValid = false;
 
   Future<bool> isAllParametersValidFun() async {
-    if (isNameValid && isDescValid && isImageValid) {
-      itemObject = ItemObject("", "", titleController.text, descController.text, price, stars, category);
+    if (isNameValid &&
+        isDescValid &&
+        isImageValid &&
+        calories != 0 &&
+        price != 0 &&
+        preparationTime != 0 &&
+        stars != 0) {
+      itemObject = ItemObject(
+        "",
+        "",
+        titleController.text,
+        descController.text,
+        price,
+        stars,
+        category,
+        calories,
+        preparationTime,
+      );
       emit(AddNewMealIsAllParemetersValidState());
       isAllParametersValid = true;
       return true;

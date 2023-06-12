@@ -38,8 +38,22 @@ class ItemResponse {
   int? stars;
   @JsonKey(name: 'category')
   ItemCategory? category;
+  @JsonKey(name: 'calories')
+  int? calories;
+  @JsonKey(name: 'preparationTime')
+  int? preparationTime;
 
-  ItemResponse(this.id, this.image, this.title, this.description, this.price, this.stars, this.category);
+  ItemResponse(
+    this.id,
+    this.image,
+    this.title,
+    this.description,
+    this.price,
+    this.stars,
+    this.category,
+    this.calories,
+    this.preparationTime,
+  );
 
   factory ItemResponse.fromJson(Map<String, dynamic> json) => _$ItemResponseFromJson(json);
 
@@ -88,6 +102,8 @@ class OrdersResponse {
           itemResponseJson["price"],
           itemResponseJson["stars"],
           itemResponseJson["category"],
+          itemResponseJson['calories'],
+          itemResponseJson['preparationTime'],
         );
         var quentity = orderResponse["quentity"];
 
