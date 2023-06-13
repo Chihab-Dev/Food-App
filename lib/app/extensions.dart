@@ -30,3 +30,13 @@ extension NonNullCategory on ItemCategory? {
     }
   }
 }
+
+extension NonNullState on OrderState? {
+  OrderState orDefaultState() {
+    if (this == null) {
+      return OrderState.WAITING;
+    } else {
+      return this!;
+    }
+  }
+}

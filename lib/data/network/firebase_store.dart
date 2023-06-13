@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,39 +63,55 @@ class FirebaseStoreClient {
     );
   }
 
-  Future<void> sentOrderToFirebase(ClientAllOrders orders) async {
+  Future<String> sentOrderToFirebase(ClientAllOrders orders) async {
     return await _firestore
         .collection(AppStrings.orders)
         .add(
           orders.toMap(),
         )
         .then((value) {
+      print('✅✅✅');
       value.update(
         {'orderId': value.id},
       );
+      return value.id;
     }).catchError((error) {
+      print('🛑🛑🛑');
       print(error.toString());
       throw error;
     });
   }
 
-// return await _firestore
-//         .collection("orders")
-//         .add(orders.toJson()).
-//         .then((value) {
-//       print(" ✅ Sent Order To Firebase Success");
-//     }).catchError((error) {
-//       print(" 🛑 Sent Order To Firebase error");
-//       print(error.toString());
-//     });
-//   }}
+  Stream<String> getRealTimeOrderState(String orderId) {
+    return FirebaseFirestore.instance.collection(AppStrings.orders).doc(orderId).snapshots().map(
+      (snapshot) {
+        return snapshot['state'];
+      },
+    );
+  }
 
-  Future<List<OrdersResponse>> getOrdersFromFirebase() async {
+  Future<void> changingOrderState(ChangingOrderStateObject object) {
+    Map<String, dynamic> data = {
+      'state': object.orderState.toString().split('.').last,
+    };
+
+    return _firestore.collection(AppStrings.orders).doc(object.orderId).update(data).then(
+      (value) {
+        print("Order state updated successfully");
+      },
+    ).catchError(
+      (error) {
+        print("Error updating order state: \n$error");
+      },
+    );
+  }
+
+  Future<List<ClientAllOrdersResponse>> getOrdersFromFirebase() async {
     return await _firestore.collection(AppStrings.orders).orderBy("date").get().then(
       (value) {
-        List<OrdersResponse> orders = [];
+        List<ClientAllOrdersResponse> orders = [];
         for (var element in value.docs) {
-          orders.add(OrdersResponse.fromJson(element.data()));
+          orders.add(ClientAllOrdersResponse.fromJson(element.data()));
         }
         return orders;
       },

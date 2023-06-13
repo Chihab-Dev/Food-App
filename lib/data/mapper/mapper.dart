@@ -48,8 +48,8 @@ extension OrderResponseMapper on OrderResponse? {
     );
   }
 }
-
-extension OrdersResponseMapper on OrdersResponse? {
+ 
+extension OrdersResponseMapper on ClientAllOrdersResponse? {
   ClientAllOrders toDomain() {
     List<Order> orders =
         (this?.orders?.map((order) => order.toDomain()) ?? const Iterable.empty()).cast<Order>().toList();
@@ -60,6 +60,7 @@ extension OrdersResponseMapper on OrdersResponse? {
       this?.location.orEmpty() ?? Constants.empty,
       this?.orderId.orEmpty() ?? Constants.empty,
       this?.date.orEmpty() ?? Constants.empty,
+      this?.state.orDefaultState() ?? OrderState.WAITING,
     );
   }
 }

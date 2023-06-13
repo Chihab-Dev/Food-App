@@ -69,21 +69,32 @@ Map<String, dynamic> _$OrderResponseToJson(OrderResponse instance) =>
       'quentity': instance.quentity,
     };
 
-OrdersResponse _$OrdersResponseFromJson(Map<String, dynamic> json) =>
-    OrdersResponse(
+ClientAllOrdersResponse _$ClientAllOrdersResponseFromJson(
+        Map<String, dynamic> json) =>
+    ClientAllOrdersResponse(
       (json['orders'] as List<dynamic>?)
           ?.map((e) => OrderResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['phoneNumber'] as String,
-      json['location'] as String,
-      json['orderId'] as String,
-    )..date = json['date'] as String;
+      json['phoneNumber'] as String?,
+      json['location'] as String?,
+      json['orderId'] as String?,
+      $enumDecodeNullable(_$OrderStateEnumMap, json['state']),
+    )..date = json['date'] as String?;
 
-Map<String, dynamic> _$OrdersResponseToJson(OrdersResponse instance) =>
+Map<String, dynamic> _$ClientAllOrdersResponseToJson(
+        ClientAllOrdersResponse instance) =>
     <String, dynamic>{
       'orders': instance.orders,
       'phoneNumber': instance.phoneNumber,
       'location': instance.location,
       'orderId': instance.orderId,
       'date': instance.date,
+      'state': _$OrderStateEnumMap[instance.state],
     };
+
+const _$OrderStateEnumMap = {
+  OrderState.WAITING: 'WAITING',
+  OrderState.PREPARING: 'PREPARING',
+  OrderState.DELIVERING: 'DELIVERING',
+  OrderState.FINISHED: 'FINISHED',
+};

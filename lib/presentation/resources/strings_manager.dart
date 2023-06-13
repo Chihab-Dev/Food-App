@@ -1,4 +1,10 @@
 class AppStrings {
+  // live order state
+  static const String waitingForYourTurn = 'Waiting for your turn';
+  static const String preparingYourOrder = 'Preparing your order';
+  static const String deliveringYourOrder = 'Delivering your order';
+  static const String yourOrderHasBeenDelivered = 'Your order has been delivered';
+
   // Routes
   static const String noRouteFound = "NO ROUTE FOUND";
 
@@ -18,6 +24,7 @@ class AppStrings {
   static const String mealDescription = "meal description";
   static const String mealPrice = "meal price :";
   static const String mealStars = "meal stars :";
+  static const String mealState = "meal state :";
   static const String mealCalories = "meal calories :";
   static const String mealPreparationtime = "Preparation time :";
   static const String clientView = "Client View";
@@ -33,8 +40,9 @@ class AppStrings {
   // static const String dessert = "DESSERT";
 
   // Admin Order Screen ::
-  static const String startPreparring = "Start preparing";
-  static const String startDelivering = "Start delivering";
+  static const String startPreparring = "Preparing";
+  static const String startDelivering = "Delivering";
+  static const String orderDelivered = "Delivered";
 
   // Admin All Orders screen
   static const String adminOrdersScreen = "Orders Screen";

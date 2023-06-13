@@ -81,3 +81,19 @@ class GetMealsByCategoryState extends BaseStates {}
 // search item
 
 class SearchItemState extends BaseStates {}
+
+// get real time order state
+
+class GetRealTimeOrderStateLiveState extends BaseStates {}
+
+class GetRealTimeOrderStateLoadingState extends BaseStates {}
+
+class GetRealTimeOrderStateSuccessState extends BaseStates {}
+
+class GetRealTimeOrderStateErrorState extends BaseStates {
+  final String error;
+
+  GetRealTimeOrderStateErrorState(this.error);
+}
+
+class OrderDoneState extends BaseStates {}

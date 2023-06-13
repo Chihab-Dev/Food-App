@@ -6,11 +6,13 @@ abstract class RemoteDataSource {
   Future<CustomerResponse> getUserData(String uid);
   Future<List<ItemResponse>> getPopularItems();
   Future<List<ItemResponse>> getItems();
-  Future<void> sentOrderToFirebase(ClientAllOrders orders);
-  Future<List<OrdersResponse>> getOrdersFromFirebase();
+  Future<String> sentOrderToFirebase(ClientAllOrders orders);
+  Future<List<ClientAllOrdersResponse>> getOrdersFromFirebase();
   Future<void> deleteOrder(String id);
   Future<void> addNewMealItem(AddNewMealObject addNewMealObject);
   Future<void> deleteMeal(String id);
+  Stream<String> getRealTimeOrderState(String id);
+  Future<void> changingOrderState(ChangingOrderStateObject object);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -33,12 +35,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<void> sentOrderToFirebase(ClientAllOrders orders) async {
+  Future<String> sentOrderToFirebase(ClientAllOrders orders) async {
     return await _firebaseStoreClient.sentOrderToFirebase(orders);
   }
 
   @override
-  Future<List<OrdersResponse>> getOrdersFromFirebase() async {
+  Future<List<ClientAllOrdersResponse>> getOrdersFromFirebase() async {
     return await _firebaseStoreClient.getOrdersFromFirebase();
   }
 
@@ -55,5 +57,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<void> deleteMeal(String id) async {
     await _firebaseStoreClient.deleteMeal(id);
+  }
+
+  @override
+  Stream<String> getRealTimeOrderState(String id) {
+    return _firebaseStoreClient.getRealTimeOrderState(id);
+  }
+
+  @override
+  Future<void> changingOrderState(ChangingOrderStateObject object) async {
+    return await _firebaseStoreClient.changingOrderState(object);
   }
 }

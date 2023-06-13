@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:food_app/domain/model/models.dart';
-import 'package:food_app/presentation/admin/admin_all_orders/admin_cubit/admin_states.dart';
+import 'package:food_app/presentation/admin/admin_cubit/admin_states.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/widgets.dart';

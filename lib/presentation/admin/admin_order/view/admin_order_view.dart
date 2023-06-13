@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
+import 'package:food_app/presentation/admin/admin_cubit/admin_cubit.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
 
+import '../../../main/base_cubit/cubit.dart';
 import '../../../resources/appsize.dart';
 import '../../../resources/color_manager.dart';
 import '../../../resources/styles_manager.dart';
+import '../../admin_cubit/admin_states.dart';
 
 class AdminOrderView extends StatelessWidget {
   final ClientAllOrders clientAllOrders;
@@ -14,44 +18,55 @@ class AdminOrderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Order> orders = clientAllOrders.orders;
-    return Scaffold(
-      appBar: AppBar(),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              clientInformation(
-                clientAllOrders.phoneNumber,
-                clientAllOrders.location,
-                calculateNumOfItems(clientAllOrders.orders),
-                calculateTotalPrice(clientAllOrders.orders).toString(),
-                clientAllOrders.date,
-              ),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: clientAllOrders.orders.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                  itemBuilder: (context, index) {
-                    return itemContainer(orders[index].itemObject, orders[index].quentity);
-                  },
+    return BlocProvider(
+      create: (context) => AdminCubit(),
+      child: BlocConsumer<AdminCubit, AdminStates>(
+        listener: ((context, state) {}),
+        builder: (context, state) {
+          var cubit = AdminCubit.get(context);
+          return Scaffold(
+            appBar: AppBar(),
+            body: Stack(
+              children: [
+                Column(
+                  children: [
+                    clientInformation(
+                      clientAllOrders.phoneNumber,
+                      clientAllOrders.location,
+                      calculateNumOfItems(clientAllOrders.orders),
+                      calculateTotalPrice(clientAllOrders.orders).toString(),
+                      clientAllOrders.date,
+                      clientAllOrders.orderId,
+                      BaseCubit.get(context),
+                    ),
+                    Expanded(
+                      child: GridView.builder(
+                        itemCount: clientAllOrders.orders.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                        itemBuilder: (context, index) {
+                          return itemContainer(orders[index].itemObject, orders[index].quentity);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          bottomNavigationBar(),
-        ],
+                bottomNavigationBar(cubit, clientAllOrders),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget bottomNavigationBar() {
+  Widget bottomNavigationBar(AdminCubit cubit, ClientAllOrders clientAllOrders) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
         width: double.infinity,
         height: 100,
         decoration: BoxDecoration(
-          color: ColorManager.white,
+          color: ColorManager.white.withOpacity(0.5),
           boxShadow: [
             BoxShadow(
               color: ColorManager.ligthGrey.withOpacity(0.1),
@@ -66,8 +81,15 @@ class AdminOrderView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
           child: Row(
             children: [
-              orderStateContainer(AppStrings.startPreparring, () {}),
-              orderStateContainer(AppStrings.startDelivering, () {}),
+              orderStateContainer(AppStrings.startPreparring, () {
+                cubit.changeOrderState(clientAllOrders.orderId, OrderState.PREPARING);
+              }),
+              orderStateContainer(AppStrings.startDelivering, () {
+                cubit.changeOrderState(clientAllOrders.orderId, OrderState.DELIVERING);
+              }),
+              orderStateContainer(AppStrings.orderDelivered, () {
+                cubit.changeOrderState(clientAllOrders.orderId, OrderState.FINISHED);
+              }),
             ],
           ),
         ),
@@ -75,21 +97,28 @@ class AdminOrderView extends StatelessWidget {
     );
   }
 
-  Widget orderStateContainer(String name, Function function) {
+  Widget orderStateContainer(String name, Function() function) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
         child: InkWell(
-          onTap: () => function,
+          onTap: function,
           child: Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s25),
               color: ColorManager.orange,
-              borderRadius: BorderRadius.circular(AppSize.s20),
+              boxShadow: [
+                BoxShadow(
+                  color: ColorManager.orange.withOpacity(0.2),
+                  spreadRadius: 4,
+                  blurRadius: 6,
+                ),
+              ],
             ),
             child: Center(
               child: Text(
                 name,
-                style: getRegularStyle(color: ColorManager.white),
+                style: getMeduimStyle(color: ColorManager.white),
               ),
             ),
           ),
@@ -98,7 +127,8 @@ class AdminOrderView extends StatelessWidget {
     );
   }
 
-  Widget clientInformation(String phoneNumber, String location, int numOfItems, String totalPrice, String date) {
+  Widget clientInformation(String phoneNumber, String location, int numOfItems, String totalPrice, String date,
+      String orderId, BaseCubit cubit) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
       child: Container(
@@ -123,10 +153,29 @@ class AdminOrderView extends StatelessWidget {
               clientInformationText(AppStrings.orderDate, date),
               clientInformationText(AppStrings.numOfItems, numOfItems.toString()),
               clientInformationText(AppStrings.totalPrice, "$totalPrice\$"),
+              // clientInformationText(AppStrings.mealState, state.toString().split('.').last),
+              getOrderState(orderId, cubit),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget getOrderState(String id, BaseCubit cubit) {
+    return StreamBuilder(
+      stream: cubit.getRealTimeOrderState(id),
+      initialData: OrderState.WAITING.toString().split('.').last,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Text("error");
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else {
+          return clientInformationText(AppStrings.mealState, snapshot.data!);
+        }
+      },
     );
   }
 

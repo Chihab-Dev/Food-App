@@ -25,3 +25,15 @@ class DeleteOrderFromFirebaseErrorState extends AdminStates {
 
   DeleteOrderFromFirebaseErrorState(this.error);
 }
+
+// change order from firebase
+
+class ChangeOrderStateLoadingState extends AdminStates {}
+
+class ChangeOrderStateSuccessState extends AdminStates {}
+
+class ChangeOrderStateErrorState extends AdminStates {
+  final String error;
+
+  ChangeOrderStateErrorState(this.error);
+}

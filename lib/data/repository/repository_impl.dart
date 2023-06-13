@@ -61,12 +61,12 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, void>> sentOrderToFirebase(ClientAllOrders orders) async {
+  Future<Either<Failure, String>> sentOrderToFirebase(ClientAllOrders orders) async {
     if (await _networkInfo.isConnected) {
       try {
-        return right(_remoteDataSource.sentOrderToFirebase(orders));
-      } on FirebaseException catch (error) {
-        return left(Failure(error.code, error.message.toString()));
+        return right(await _remoteDataSource.sentOrderToFirebase(orders));
+      } catch (error) {
+        return left(Failure(error.hashCode.toString(), error.toString()));
       }
     } else {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
@@ -77,7 +77,7 @@ class RepositoryImpl implements Repository {
   Future<Either<Failure, List<ClientAllOrders>>> getOrdersFromFirebase() async {
     if (await _networkInfo.isConnected) {
       try {
-        List<OrdersResponse> ordersReponse = await _remoteDataSource.getOrdersFromFirebase();
+        List<ClientAllOrdersResponse> ordersReponse = await _remoteDataSource.getOrdersFromFirebase();
         return right(ordersReponse.map((ordersResponse) => ordersResponse.toDomain()).toList());
       } on FirebaseException catch (error) {
         return left(Failure(error.code, error.message.toString()));
@@ -123,6 +123,33 @@ class RepositoryImpl implements Repository {
         return right(Void);
       } on FirebaseException catch (error) {
         return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Stream<String> getRealTimeOrderState(String id) {
+    return _remoteDataSource.getRealTimeOrderState(id);
+    // if (await _networkInfo.isConnected) {
+    //   try {
+    //     return right(_remoteDataSource.getRealTimeOrderState(id));
+    //   } catch (e) {
+    //     return left(Failure(e.hashCode.toString(), e.toString()));
+    //   }
+    // } else {
+    //   return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    // }
+  }
+
+  @override
+  Future<Either<Failure, void>> changingOrderState(ChangingOrderStateObject object) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        return right(await _remoteDataSource.changingOrderState(object));
+      } catch (e) {
+        return left(Failure(e.hashCode.toString(), e.toString()));
       }
     } else {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());

@@ -1,12 +1,13 @@
 import 'dart:ffi';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_app/domain/usecases/changing_order_state_usecase.dart';
 import 'package:food_app/domain/usecases/delete_ordere_usecase.dart';
-import 'package:food_app/presentation/admin/admin_all_orders/admin_cubit/admin_states.dart';
+import 'package:food_app/presentation/admin/admin_cubit/admin_states.dart';
 
-import '../../../../app/di.dart';
-import '../../../../domain/model/models.dart';
-import '../../../../domain/usecases/get_orders_fromFirebase_usecase.dart';
+import '../../../app/di.dart';
+import '../../../domain/model/models.dart';
+import '../../../domain/usecases/get_orders_fromFirebase_usecase.dart';
 
 class AdminCubit extends Cubit<AdminStates> {
   AdminCubit() : super(AdminInitialState());
@@ -15,6 +16,7 @@ class AdminCubit extends Cubit<AdminStates> {
 
   final GetOrdersFromFirebaseUseCase _getOrdersFromFirebaseUseCase = GetOrdersFromFirebaseUseCase(instance());
   final DeleteOrderUseCase _deleteOrderUseCase = DeleteOrderUseCase(instance());
+  final ChangingOrderStateUsecase _changingOrderStateUsecase = ChangingOrderStateUsecase(instance());
 
 // GET ORDERS :
   List<ClientAllOrders> clientsOrders = [];
@@ -52,8 +54,15 @@ class AdminCubit extends Cubit<AdminStates> {
     );
   }
 
-  // void deleteOrder(String id) async {
-  //   await _deleteOrderUseCase.start(id);
-  //   emit(DeleteOrderFromFirebaseSuccessState());
-  // }
+  void changeOrderState(String orderId, OrderState orderState) async {
+    emit(ChangeOrderStateLoadingState());
+    (await _changingOrderStateUsecase.start(ChangingOrderStateObject(orderId, orderState))).fold(
+      (failure) {
+        emit(ChangeOrderStateErrorState(failure.message));
+      },
+      (data) {
+        emit(ChangeOrderStateSuccessState());
+      },
+    );
+  }
 }

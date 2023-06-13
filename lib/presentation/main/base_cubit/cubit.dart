@@ -1,15 +1,20 @@
 import 'dart:ffi';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
 import 'package:food_app/domain/usecases/get_home_data.dart';
 import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
+import 'package:food_app/domain/usecases/get_real_time_order_state_usecase.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
+import 'package:food_app/presentation/resources/assets_manager.dart';
+import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
+import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../app/app_pref.dart';
 import '../../../app/di.dart';
@@ -30,6 +35,7 @@ class BaseCubit extends Cubit<BaseStates> {
   final GetItemsUsecase _getItemsUsecase = GetItemsUsecase(instance());
   final SentOrderToFirebaseUsecase _sentOrderToFirebaseUsecase = SentOrderToFirebaseUsecase(instance());
   final DeleteMealUsecase _deleteMealUsecase = DeleteMealUsecase(instance());
+  final GetRealTimeOrderState _getRealTimeOrderState = GetRealTimeOrderState(instance());
 
   CustomerObject? customerObject;
 
@@ -114,6 +120,10 @@ class BaseCubit extends Cubit<BaseStates> {
 
   List<Order> userOrders = [];
 
+  String? orderID;
+
+  // String? orderState;
+
   void addOrder(Order order) {
     bool orderExiste = userOrders.any((element) => element.itemObject == order.itemObject);
     if (!orderExiste) {
@@ -132,22 +142,94 @@ class BaseCubit extends Cubit<BaseStates> {
   void sentOrderToFirebase() async {
     emit(SentOrderToFirebaseLoadingState());
     if (userOrders.isNotEmpty) {
-      (await _sentOrderToFirebaseUsecase.start(ClientAllOrders(
-        userOrders,
-        "0666666666",
-        "kais",
-        "999",
-        getFormattedDateTime(DateTime.now()),
-      )))
+      (await _sentOrderToFirebaseUsecase.start(
+        ClientAllOrders(
+          userOrders,
+          "0666666666",
+          "kais",
+          "999",
+          getFormattedDateTime(DateTime.now()),
+          OrderState.WAITING,
+        ),
+      ))
           .fold(
         (l) {
           emit(SentOrderToFirebaseErrorState(l.message));
         },
-        (r) {
+        (data) {
           userOrders = [];
+          orderID = data;
+          getRealTimeOrderState(orderID!);
           emit(SentOrderToFirebaseSuccessState());
-          print("🐦⭐️🔥 Sent Order To Firebase Success");
         },
+      );
+    }
+  }
+
+  // get order State live ::
+
+  Stream<String> getRealTimeOrderState(String id) {
+    return _getRealTimeOrderState.start(id);
+  }
+
+  Widget getStateWidget(String state) {
+    if (OrderState.PREPARING.toString().split('.').last == state) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            AppStrings.preparingYourOrder,
+            style: getlargeStyle(color: ColorManager.orange),
+          ),
+          LottieBuilder.asset(LottieAsset.burgerMachine),
+        ],
+      );
+    }
+    if (OrderState.DELIVERING.toString().split('.').last == state) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            AppStrings.deliveringYourOrder,
+            style: getlargeStyle(color: ColorManager.orange),
+          ),
+          LottieBuilder.asset(LottieAsset.delivery),
+        ],
+      );
+    }
+    if (OrderState.FINISHED.toString().split('.').last == state) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            AppStrings.yourOrderHasBeenDelivered,
+            style: getlargeStyle(color: ColorManager.orange),
+          ),
+          LottieBuilder.asset(LottieAsset.orderRecived),
+          TextButton(
+            onPressed: () {
+              orderID = null;
+              emit(OrderDoneState());
+            },
+            child: Text(
+              'DONE',
+              style: getlargeStyle(color: ColorManager.orange),
+            ),
+          )
+        ],
+      );
+    } else
+    // (OrderState.WAITING.toString().split('.').last == state)
+    {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            AppStrings.waitingForYourTurn,
+            style: getlargeStyle(color: ColorManager.orange),
+          ),
+          LottieBuilder.asset(LottieAsset.blueBirdWaiting),
+        ],
       );
     }
   }

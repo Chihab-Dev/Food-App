@@ -43,17 +43,8 @@ class ItemResponse {
   @JsonKey(name: 'preparationTime')
   int? preparationTime;
 
-  ItemResponse(
-    this.id,
-    this.image,
-    this.title,
-    this.description,
-    this.price,
-    this.stars,
-    this.category,
-    this.calories,
-    this.preparationTime,
-  );
+  ItemResponse(this.id, this.image, this.title, this.description, this.price, this.stars, this.category, this.calories,
+      this.preparationTime);
 
   factory ItemResponse.fromJson(Map<String, dynamic> json) => _$ItemResponseFromJson(json);
 
@@ -75,21 +66,26 @@ class OrderResponse {
 }
 
 @JsonSerializable()
-class OrdersResponse {
+class ClientAllOrdersResponse {
   @JsonKey(name: 'orders')
   late List<OrderResponse>? orders;
   @JsonKey(name: 'phoneNumber')
-  late String phoneNumber;
+  late String? phoneNumber;
   @JsonKey(name: 'location')
-  late String location;
+  late String? location;
   @JsonKey(name: 'orderId')
-  late String orderId;
+  late String? orderId;
   @JsonKey(name: 'date')
-  late String date;
+  late String? date;
+  @JsonKey(name: 'state')
+  late OrderState? state;
 
-  OrdersResponse(this.orders, this.phoneNumber, this.location, this.orderId);
+  ClientAllOrdersResponse(this.orders, this.phoneNumber, this.location, this.orderId, this.state);
 
-  OrdersResponse.fromJson(Map<String, dynamic> json) {
+  // doesn't handle the list ::
+  // factory ClientAllOrdersResponse.fromJson(Map<String, dynamic> json) => _$ClientAllOrdersResponseFromJson(json);
+
+  ClientAllOrdersResponse.fromJson(Map<String, dynamic> json) {
     var ordersList = json["orders"] as List;
     List<OrderResponse> orders = ordersList.map(
       (orderResponse) {
@@ -116,23 +112,27 @@ class OrdersResponse {
     location = json["location"];
     orderId = json["orderId"];
     date = json["date"];
+    state = OrderState.values.firstWhere(
+      (element) => element.toString() == 'OrderState.${json["state"]}',
+      orElse: () => OrderState.WAITING, // Provide a default value if the state value is invalid
+    );
   }
-
-  // OrdersResponse.fromJson(Map<String, dynamic> json) {
-  //   var ordersList = json["orders"] as List;
-  //   List<OrderResponse> OrderResponse = ordersList.map((OrderResponse) {
-  //     var ItemResponseJson = OrderResponse["OrderResponse"];
-  //     var ItemResponse = ItemResponse(
-  //       image: ItemResponseJson["image"],
-  //       title: ItemResponseJson["title"],
-  //       description: ItemResponseJson["description"],
-  //       price: ItemResponseJson["price"],
-  //       stars: ItemResponseJson["stars"],
-  //     );
-
-  //     var quentity = OrderResponse["quentity"];
-
-  //     return OrderResponse(ItemResponse, quentity);
-  //   }).toList();
-  // }
 }
+
+// OrdersResponse.fromJson(Map<String, dynamic> json) {
+//   var ordersList = json["orders"] as List;
+//   List<OrderResponse> OrderResponse = ordersList.map((OrderResponse) {
+//     var ItemResponseJson = OrderResponse["OrderResponse"];
+//     var ItemResponse = ItemResponse(
+//       image: ItemResponseJson["image"],
+//       title: ItemResponseJson["title"],
+//       description: ItemResponseJson["description"],
+//       price: ItemResponseJson["price"],
+//       stars: ItemResponseJson["stars"],
+//     );
+
+//     var quentity = OrderResponse["quentity"];
+
+//     return OrderResponse(ItemResponse, quentity);
+//   }).toList();
+// }

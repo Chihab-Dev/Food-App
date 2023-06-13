@@ -39,43 +39,64 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
         BaseCubit cubit = BaseCubit.get(context);
         return Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            iconTheme: IconThemeData(color: ColorManager.orange),
-            elevation: 0,
-            // title: Text(
-            //   "Detail",
-            //   style: getRegularStyle(color: ColorManager.orange),
-            // ),
-            actions: [
-              Icon(
-                Icons.favorite_border,
-                color: ColorManager.orange,
+          // appBar: AppBar(
+          //   backgroundColor: Colors.transparent,
+          //   iconTheme: IconThemeData(color: ColorManager.orange),
+          //   elevation: 0,
+          //   // title: Text(
+          //   //   "Detail",
+          //   //   style: getRegularStyle(color: ColorManager.orange),
+          //   // ),
+          //   actions: [
+          //     Icon(
+          //       Icons.favorite_border,
+          //       color: ColorManager.orange,
+          //     ),
+          //   ],
+          // ),
+          body: Stack(
+            children: [
+              // SingleChildScrollView(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       // const SizedBox(height: kBottomNavigationBarHeight),
+              //       showImageContainer(),
+              //       const SizedBox(height: AppSize.s15),
+              //       showMealDetails(widget.item),
+              //     ],
+              //   ),
+              // ),
+              CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    iconTheme: IconThemeData(
+                      color: ColorManager.orange,
+                      size: AppSize.s30,
+                    ),
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    elevation: 0,
+                    pinned: false,
+                    centerTitle: false,
+                    expandedHeight: 300,
+                    stretch: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      stretchModes: const [
+                        StretchMode.zoomBackground,
+                      ],
+                      background: showImageContainer(),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: showMealDetails(widget.item),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: addToCartBottomContainer(cubit),
               ),
             ],
-          ),
-          body: Container(
-            color: ColorManager.white.withOpacity(0.7),
-            height: double.infinity,
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // const SizedBox(height: kBottomNavigationBarHeight),
-                      showImageContainer(),
-                      const SizedBox(height: AppSize.s15),
-                      showMealDetails(widget.item),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: addToCartBottomContainer(cubit),
-                ),
-              ],
-            ),
           ),
         );
       },
@@ -84,8 +105,8 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
 
   Container showImageContainer() {
     return Container(
-      width: double.infinity,
-      height: 350,
+      // width: double.infinity,
+      // height: 350,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(widget.item.image),
@@ -95,12 +116,13 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     );
   }
 
-  Padding showMealDetails(ItemObject item) {
+  Widget showMealDetails(ItemObject item) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: AppSize.s20),
           tittleText(widget.item.title),
           const SizedBox(height: AppSize.s20),
           itemDetails(item),

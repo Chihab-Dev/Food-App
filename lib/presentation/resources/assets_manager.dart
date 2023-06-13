@@ -18,16 +18,20 @@ class ImageAsset {
 }
 
 class LottieAsset {
-  static const String pizza = "$lottiePath/pizza.json";
+  static const String addItem = "$lottiePath/addItem.json";
+  static const String blueBirdWaiting = "$lottiePath/blueBirdWaiting.json";
   static const String burger = "$lottiePath/burger.json";
+  static const String burgerMachine = "$lottiePath/burgerMachine.json";
   static const String delivery = "$lottiePath/delivery.json";
+  static const String loading = "$lottiePath/foodLoading.json";
+  static const String foodPreparing = "$lottiePath/foodPreparing.json";
+  static const String imagePicker = "$lottiePath/imagePicker.json";
   static const String login = "$lottiePath/login.json";
+  static const String noOrders = "$lottiePath/noOrders.json";
+  static const String orderRecived = "$lottiePath/orderRecived.json";
+  static const String otpAnimation = "$lottiePath/otpAnimation.json";
   static const String password = "$lottiePath/password.json";
   static const String phoneNumber = "$lottiePath/phoneNumber.json";
-  static const String otpAnimation = "$lottiePath/otpAnimation.json";
-  static const String loading = "$lottiePath/foodLoading.json";
-  static const String noOrders = "$lottiePath/noOrders.json";
   static const String pizzaBox = "$lottiePath/pizzaBox.json";
-  static const String addItem = "$lottiePath/addItem.json";
-  static const String imagePicker = "$lottiePath/imagePicker.json";
+  static const String pizza = "$lottiePath/pizza.json";
 }

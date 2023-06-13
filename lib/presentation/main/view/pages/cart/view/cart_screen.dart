@@ -43,12 +43,33 @@ class _CartScreenState extends State<CartScreen> {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: state is SentOrderToFirebaseLoadingState
-              ? loadingScreen()
-              : cubit.userOrders.isEmpty
-                  ? emptyScreen()
-                  : ordersList(cubit, totalPrice),
+          body: cubit.orderID != null
+              ? getOrderState(cubit.orderID!, cubit)
+              : state is SentOrderToFirebaseLoadingState
+                  ? loadingScreen()
+                  : cubit.userOrders.isEmpty
+                      ? emptyScreen()
+                      : ordersList(cubit, totalPrice),
         );
+      },
+    );
+  }
+
+  Widget getOrderState(String id, BaseCubit cubit) {
+    return StreamBuilder(
+      stream: cubit.getRealTimeOrderState(id),
+      initialData: OrderState.WAITING.toString().split('.').last,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Text("error");
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else {
+          return Center(
+            child: cubit.getStateWidget(snapshot.data.toString()),
+          );
+        }
       },
     );
   }
