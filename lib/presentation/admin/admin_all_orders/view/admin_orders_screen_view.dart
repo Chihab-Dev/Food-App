@@ -31,13 +31,40 @@ class AdminAllOrdersView extends StatelessWidget {
                 ? loadingScreen()
                 : orders.isEmpty
                     ? emptyScreen()
-                    : ListView.builder(
-                        itemCount: orders.length,
-                        itemBuilder: (context, index) => orderContainer(context, cubit, orders[index]),
-                      ),
+                    : streamOrders(cubit),
           );
         },
       ),
+    );
+  }
+
+  StreamBuilder<List<ClientAllOrders>> streamOrders(AdminCubit cubit) {
+    return StreamBuilder(
+      stream: cubit.getRealtimeOrders(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text("error", style: getlargeStyle(color: ColorManager.orange)));
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          List<ClientAllOrders> orders = snapshot.data!;
+
+          return Center(
+            child: ListView.builder(
+              itemCount: orders.length,
+              itemBuilder: (context, index) => orderContainer(context, cubit, orders[index]),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget listViewOfOrders(List<ClientAllOrders> orders, AdminCubit cubit) {
+    return ListView.builder(
+      itemCount: orders.length,
+      itemBuilder: (context, index) => orderContainer(context, cubit, orders[index]),
     );
   }
 

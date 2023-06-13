@@ -157,4 +157,15 @@ class RepositoryImpl implements Repository {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  @override
+  Stream<List<ClientAllOrders>> getRealtimeOrders() {
+    return _remoteDataSource.getRealtimeOrders().map(
+      (event) {
+        return event.map((clientAllOrdersResponse) {
+          return clientAllOrdersResponse.toDomain();
+        }).toList();
+      },
+    );
+  }
 }

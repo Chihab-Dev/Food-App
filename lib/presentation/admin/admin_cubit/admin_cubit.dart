@@ -5,6 +5,7 @@ import 'dart:ffi';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/usecases/changing_order_state_usecase.dart';
 import 'package:food_app/domain/usecases/delete_ordere_usecase.dart';
+import 'package:food_app/domain/usecases/get_realtime_orders_usecase.dart';
 import 'package:food_app/presentation/admin/admin_cubit/admin_states.dart';
 
 import '../../../app/di.dart';
@@ -19,6 +20,7 @@ class AdminCubit extends Cubit<AdminStates> {
   final GetOrdersFromFirebaseUseCase _getOrdersFromFirebaseUseCase = GetOrdersFromFirebaseUseCase(instance());
   final DeleteOrderUseCase _deleteOrderUseCase = DeleteOrderUseCase(instance());
   final ChangingOrderStateUsecase _changingOrderStateUsecase = ChangingOrderStateUsecase(instance());
+  final GetRealtimeOrdersUsecase _getRealtimeOrdersUsecase = GetRealtimeOrdersUsecase(instance());
 
 // GET ORDERS :
   List<ClientAllOrders> clientsOrders = [];
@@ -40,6 +42,10 @@ class AdminCubit extends Cubit<AdminStates> {
         // print(data.first.orders.first.quentity);
       },
     );
+  }
+
+  Stream<List<ClientAllOrders>> getRealtimeOrders() {
+    return _getRealtimeOrdersUsecase.start();
   }
 
   void deleteOrder(String id) async {

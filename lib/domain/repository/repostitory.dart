@@ -13,4 +13,5 @@ abstract class Repository {
   Future<Either<Failure, void>> deleteMeal(String id);
   Stream<String> getRealTimeOrderState(String id);
   Future<Either<Failure, void>> changingOrderState(ChangingOrderStateObject object);
+  Stream<List<ClientAllOrders>> getRealtimeOrders();
 }

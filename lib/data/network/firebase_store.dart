@@ -122,6 +122,24 @@ class FirebaseStoreClient {
     );
   }
 
+  Stream<List<ClientAllOrdersResponse>> getRealtimeOrders() {
+    return _firestore.collection(AppStrings.orders).orderBy('date').snapshots().map(
+      (querySnapshot) {
+        List<ClientAllOrdersResponse> list = [];
+
+        // Mapping query snapshot: The snapshots() method returns a stream of
+        // QuerySnapshot objects. We need to iterate over the docs property of the snapshot
+        // and convert each document to the ClientAllOrdersResponse model object
+        for (var element in querySnapshot.docs) {
+          ClientAllOrdersResponse order = ClientAllOrdersResponse.fromJson(element.data());
+          list.add(order);
+        }
+
+        return list;
+      },
+    );
+  }
+
   Future<void> deleteOrder(String id) async {
     return await _firestore.collection(AppStrings.orders).doc(id).delete().then(
       (value) {
