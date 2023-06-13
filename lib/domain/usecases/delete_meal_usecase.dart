@@ -9,7 +9,7 @@ class DeleteMealUsecase extends BaseUsecase<String, void> {
   DeleteMealUsecase(this._repository);
 
   @override
-  Future<Either<Failure, void>> start(String id) async {
-    return await _repository.deleteMeal(id);
+  Future<Either<Failure, void>> start(String input) async {
+    return await _repository.deleteMeal(input);
   }
 }

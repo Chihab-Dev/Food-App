@@ -10,7 +10,7 @@ class AddNewMealItemUseCase extends BaseUsecase<AddNewMealObject, void> {
 
   AddNewMealItemUseCase(this._repository);
   @override
-  Future<Either<Failure, void>> start(AddNewMealObject addNewMealObject) async {
-    return await _repository.addNewMealItem(addNewMealObject);
+  Future<Either<Failure, void>> start(AddNewMealObject input) async {
+    return await _repository.addNewMealItem(input);
   }
 }

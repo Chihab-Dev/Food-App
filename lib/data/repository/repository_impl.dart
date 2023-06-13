@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks
+
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

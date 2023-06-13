@@ -11,7 +11,7 @@ class SentOrderToFirebaseUsecase extends BaseUsecase<ClientAllOrders, void> {
   SentOrderToFirebaseUsecase(this._repository);
 
   @override
-  Future<Either<Failure, String>> start(ClientAllOrders orders) async {
-    return await _repository.sentOrderToFirebase(orders);
+  Future<Either<Failure, String>> start(ClientAllOrders input) async {
+    return await _repository.sentOrderToFirebase(input);
   }
 }
