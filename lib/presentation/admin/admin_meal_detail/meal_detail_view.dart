@@ -26,26 +26,27 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: ColorManager.orange),
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   iconTheme: IconThemeData(color: ColorManager.orange),
+      //   elevation: 0,
+      // ),
       body: Container(
         color: ColorManager.white.withOpacity(0.7),
         height: double.infinity,
         child: Stack(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  showImageContainer(widget.imageFile),
-                  const SizedBox(height: AppSize.s15),
-                  showMealDetails(widget.item),
-                ],
-              ),
-            ),
+            // SingleChildScrollView(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       showImageContainer(widget.imageFile),
+            //       const SizedBox(height: AppSize.s15),
+            //       showMealDetails(widget.item),
+            //     ],
+            //   ),
+            // ),
+            customScrollViewSliver(context),
             Align(
               alignment: Alignment.bottomCenter,
               child: addToCartBottomContainer(),
@@ -53,6 +54,32 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
           ],
         ),
       ),
+    );
+  }
+
+  CustomScrollView customScrollViewSliver(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          elevation: 0,
+          centerTitle: false,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          expandedHeight: 300,
+          floating: true,
+          iconTheme: IconThemeData(color: ColorManager.orange, size: AppSize.s30),
+          pinned: false,
+          stretch: true,
+          flexibleSpace: FlexibleSpaceBar(
+            stretchModes: const [
+              StretchMode.zoomBackground,
+            ],
+            background: showImageContainer(widget.imageFile),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: showMealDetails(widget.item),
+        ),
+      ],
     );
   }
 
@@ -137,6 +164,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: AppSize.s20),
           tittleText(widget.item.title),
           const SizedBox(height: AppSize.s20),
           itemDetails(item),

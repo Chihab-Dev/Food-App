@@ -67,31 +67,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
               //     ],
               //   ),
               // ),
-              CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    iconTheme: IconThemeData(
-                      color: ColorManager.orange,
-                      size: AppSize.s30,
-                    ),
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    elevation: 0,
-                    pinned: false,
-                    centerTitle: false,
-                    expandedHeight: 300,
-                    stretch: true,
-                    flexibleSpace: FlexibleSpaceBar(
-                      stretchModes: const [
-                        StretchMode.zoomBackground,
-                      ],
-                      background: showImageContainer(),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: showMealDetails(widget.item),
-                  ),
-                ],
-              ),
+              customScrollViewSliver(context),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: addToCartBottomContainer(cubit),
@@ -100,6 +76,34 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget customScrollViewSliver(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          iconTheme: IconThemeData(
+            color: ColorManager.orange,
+            size: AppSize.s30,
+          ),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          elevation: 0,
+          pinned: false,
+          centerTitle: false,
+          expandedHeight: 300,
+          stretch: true,
+          flexibleSpace: FlexibleSpaceBar(
+            stretchModes: const [
+              StretchMode.zoomBackground,
+            ],
+            background: showImageContainer(),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: showMealDetails(widget.item),
+        ),
+      ],
     );
   }
 
