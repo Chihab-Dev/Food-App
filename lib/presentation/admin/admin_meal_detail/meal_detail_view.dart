@@ -165,7 +165,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: AppSize.s20),
-          tittleText(widget.item.title),
+          titleText(widget.item.title),
           const SizedBox(height: AppSize.s20),
           itemDetails(item),
           const SizedBox(height: AppSize.s20),
@@ -173,7 +173,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
           const SizedBox(height: AppSize.s20),
           quantityContainer(),
           const SizedBox(height: AppSize.s20),
-          tittleText("Ingredinats"),
+          text("Ingredinats"),
           const SizedBox(height: AppSize.s20),
           SizedBox(
             height: 60,
@@ -223,7 +223,26 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
     );
   }
 
-  Text tittleText(String text) {
+  Widget titleText(String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          overflow: TextOverflow.ellipsis,
+          style: getRegularStyle(color: ColorManager.black),
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.favorite_border,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Text text(String text) {
     return Text(
       text,
       overflow: TextOverflow.ellipsis,

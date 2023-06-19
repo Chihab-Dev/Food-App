@@ -257,6 +257,16 @@ class BaseCubit extends Cubit<BaseStates> {
         .toList();
   }
 
+  List<ItemObject> getItemsByCategoryWithoutItemItSelf(ItemObject itemObject) {
+    emit(GetMealsByCategoryState());
+
+    return items
+        .where(
+          (item) => item.category == itemObject.category && item.id != itemObject.id,
+        )
+        .toList();
+  }
+
   // Search item by name
 
   TextEditingController searchController = TextEditingController();

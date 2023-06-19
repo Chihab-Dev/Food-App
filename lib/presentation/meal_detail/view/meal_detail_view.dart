@@ -87,7 +87,6 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
 
   Widget customScrollViewSliver(BuildContext context, BaseCubit cubit, BaseStates state) {
     return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
           iconTheme: IconThemeData(
@@ -100,6 +99,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           centerTitle: false,
           expandedHeight: 300,
           stretch: true,
+          floating: true,
           flexibleSpace: FlexibleSpaceBar(
             stretchModes: const [
               StretchMode.zoomBackground,
@@ -110,6 +110,14 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
         SliverToBoxAdapter(
           child: showMealDetails(widget.item, cubit, state),
         ),
+        SliverGrid.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          itemCount: cubit.getItemsByCategoryWithoutItemItSelf(widget.item).length,
+          itemBuilder: (context, index) {
+            return itemContainer(context, cubit.getItemsByCategoryWithoutItemItSelf(widget.item)[index]);
+          },
+        ),
+        const SliverPadding(padding: EdgeInsets.only(bottom: AppSize.s80)),
       ],
     );
   }
@@ -167,7 +175,11 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
                 ingrediantsContainer(ImageAsset.ketchup),
               ],
             ),
-          )
+          ),
+          const SizedBox(height: AppSize.s20),
+          if (cubit.getItemsByCategoryWithoutItemItSelf(item).isNotEmpty) ...[
+            text("More"),
+          ]
         ],
       ),
     );
