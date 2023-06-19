@@ -9,6 +9,7 @@ extension CustomerResponseMapper on CustomerResponse? {
       this?.fullName.orEmpty() ?? Constants.empty,
       this?.phoneNumber.orEmpty() ?? Constants.empty,
       this?.uid.orEmpty() ?? Constants.empty,
+      this?.favoriteItems?.map((e) => e.orEmpty()).toList() ?? [],
     );
   }
 }
@@ -48,7 +49,7 @@ extension OrderResponseMapper on OrderResponse? {
     );
   }
 }
- 
+
 extension OrdersResponseMapper on ClientAllOrdersResponse? {
   ClientAllOrders toDomain() {
     List<Order> orders =

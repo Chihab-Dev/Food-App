@@ -14,8 +14,10 @@ class CustomerResponse {
   String? phoneNumber;
   @JsonKey(name: 'uid')
   String? uid;
+  @JsonKey(name: 'favoriteItems')
+  List<String>? favoriteItems;
 
-  CustomerResponse(this.fullName, this.phoneNumber, this.uid);
+  CustomerResponse(this.fullName, this.phoneNumber, this.uid, this.favoriteItems);
 
   factory CustomerResponse.fromJson(Map<String, dynamic> json) => _$CustomerResponseFromJson(json);
 

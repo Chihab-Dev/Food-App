@@ -5,11 +5,13 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
+import 'package:food_app/domain/usecases/add_item_to_favorite_list_usecase.dart';
 import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
-import 'package:food_app/domain/usecases/get_home_data.dart';
+import 'package:food_app/domain/usecases/get_user_data.dart';
 import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_real_time_order_state_usecase.dart';
+import 'package:food_app/domain/usecases/remove_item_from_favorite_list_usecase.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
@@ -38,6 +40,9 @@ class BaseCubit extends Cubit<BaseStates> {
   final SentOrderToFirebaseUsecase _sentOrderToFirebaseUsecase = SentOrderToFirebaseUsecase(instance());
   final DeleteMealUsecase _deleteMealUsecase = DeleteMealUsecase(instance());
   final GetRealTimeOrderState _getRealTimeOrderState = GetRealTimeOrderState(instance());
+  final AddItemToFavoriteListUsecase _addItemToFavoriteListUsecase = AddItemToFavoriteListUsecase(instance());
+  final RemoveItemFromFavoriteListUsecase _removeItemFromFavoriteListUsecase =
+      RemoveItemFromFavoriteListUsecase(instance());
 
   CustomerObject? customerObject;
 
@@ -63,7 +68,7 @@ class BaseCubit extends Cubit<BaseStates> {
     return await _appPrefrences.getUserId();
   }
 
-  void getUserData(String uid, BuildContext context) async {
+  void getUserData() async {
     emit(BaseGetUserDataLoadingState());
     (await _getUserDataUsecase.start(await getUserId())).fold(
       (failure) {
@@ -274,5 +279,48 @@ class BaseCubit extends Cubit<BaseStates> {
           ).toList()
         : searchedItem = [];
     emit(SearchItemState());
+  }
+
+  // ADD item to favorite list
+
+  void addItemToFavoriteList(String itemId) async {
+    emit(AddItemToFavoriteLoadingState());
+    (await _addItemToFavoriteListUsecase.start(AddToFavoriteObject(customerObject!.uid, itemId))).fold(
+      (failure) {
+        emit(AddItemToFavoriteErrorState(failure.message));
+      },
+      (r) {
+        print('🇩🇿item added to favorite');
+        getUserData();
+        emit(AddItemToFavoriteSuccessState());
+      },
+    );
+  }
+
+  // REMOVE item from favorite list
+
+  void removeItemFromFavoriteList(String itemId) async {
+    emit(RemoveItemFromFavoriteLoadingState());
+    (await _removeItemFromFavoriteListUsecase.start(AddToFavoriteObject(customerObject!.uid, itemId))).fold(
+      (failure) {
+        emit(RemoveItemFromFavoriteErrorState(failure.message));
+      },
+      (r) {
+        print('🇩🇿remove item  from favorite');
+        getUserData();
+        emit(RemoveItemFromFavoriteSuccessState());
+      },
+    );
+  }
+
+  // favorite screen
+  List<ItemObject> favoriteItems = [];
+
+  void getFavoriteItems() {
+    favoriteItems = items.where(
+      (element) {
+        return customerObject!.favoriteItems.contains(element.id);
+      },
+    ).toList();
   }
 }

@@ -6,8 +6,9 @@ class CustomerObject {
   String fullName;
   String phoneNumber;
   String uid;
+  List<String> favoriteItems;
 
-  CustomerObject(this.fullName, this.phoneNumber, this.uid);
+  CustomerObject(this.fullName, this.phoneNumber, this.uid, this.favoriteItems);
 }
 
 enum ItemCategory {
@@ -150,4 +151,18 @@ class ChangingOrderStateObject {
   OrderState orderState;
 
   ChangingOrderStateObject(this.orderId, this.orderState);
+}
+
+class AddToFavoriteObject {
+  String clientId;
+  String itemId;
+
+  AddToFavoriteObject(this.clientId, this.itemId);
+}
+
+class RegisterViewParamters {
+  String phoneNumber;
+  String uid;
+
+  RegisterViewParamters(this.phoneNumber, this.uid);
 }

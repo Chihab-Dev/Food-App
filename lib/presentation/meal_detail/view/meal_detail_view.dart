@@ -34,6 +34,12 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
         if (state is BaseAddOrderToCartErrorState) {
           errorToast(state.error).show(context);
         }
+        if (state is AddItemToFavoriteErrorState) {
+          errorToast(state.error).show(context);
+        }
+        if (state is RemoveItemFromFavoriteErrorState) {
+          errorToast(state.error).show(context);
+        }
       },
       builder: (context, state) {
         BaseCubit cubit = BaseCubit.get(context);
@@ -67,7 +73,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
               //     ],
               //   ),
               // ),
-              customScrollViewSliver(context),
+              customScrollViewSliver(context, cubit, state),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: addToCartBottomContainer(cubit),
@@ -79,8 +85,9 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     );
   }
 
-  Widget customScrollViewSliver(BuildContext context) {
+  Widget customScrollViewSliver(BuildContext context, BaseCubit cubit, BaseStates state) {
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
           iconTheme: IconThemeData(
@@ -101,7 +108,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           ),
         ),
         SliverToBoxAdapter(
-          child: showMealDetails(widget.item),
+          child: showMealDetails(widget.item, cubit, state),
         ),
       ],
     );
@@ -120,14 +127,24 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     );
   }
 
-  Widget showMealDetails(ItemObject item) {
+  Widget showMealDetails(ItemObject item, BaseCubit cubit, BaseStates state) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: AppSize.s20),
-          tittleText(widget.item.title),
+          titleText(
+            item.title,
+            () {
+              cubit.addItemToFavoriteList(item.id);
+            },
+            () {
+              cubit.removeItemFromFavoriteList(item.id);
+            },
+            cubit.customerObject!.favoriteItems.contains(item.id),
+            state,
+          ),
           const SizedBox(height: AppSize.s20),
           itemDetails(item),
           const SizedBox(height: AppSize.s20),
@@ -135,7 +152,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           const SizedBox(height: AppSize.s20),
           quantityContainer(),
           const SizedBox(height: AppSize.s20),
-          tittleText("Ingredinats"),
+          text("Ingredinats"),
           const SizedBox(height: AppSize.s20),
           SizedBox(
             height: 60,
@@ -249,7 +266,43 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     );
   }
 
-  Text tittleText(String text) {
+  Widget titleText(String text, Function() onTapIsLiked, Function() onTapIsNotLiked, bool isLiked, BaseStates state) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          overflow: TextOverflow.ellipsis,
+          style: getRegularStyle(color: ColorManager.black),
+        ),
+        state is AddItemToFavoriteLoadingState || state is RemoveItemFromFavoriteLoadingState
+            ? Center(
+                child: SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: CircularProgressIndicator(
+                    color: ColorManager.orange,
+                  ),
+                ),
+              )
+            : isLiked
+                ? IconButton(
+                    onPressed: onTapIsNotLiked,
+                    icon: const Icon(
+                      Icons.favorite_outlined,
+                    ),
+                  )
+                : IconButton(
+                    onPressed: onTapIsLiked,
+                    icon: const Icon(
+                      Icons.favorite_border,
+                    ),
+                  ),
+      ],
+    );
+  }
+
+  Text text(String text) {
     return Text(
       text,
       overflow: TextOverflow.ellipsis,

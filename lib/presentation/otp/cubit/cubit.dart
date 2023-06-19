@@ -8,6 +8,7 @@ import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
 
 import '../../../app/di.dart';
+import '../../../domain/model/models.dart';
 import '../../resources/routes_manager.dart';
 
 class OtpCubit extends Cubit<OtpStates> {

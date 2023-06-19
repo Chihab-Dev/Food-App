@@ -14,4 +14,6 @@ abstract class Repository {
   Stream<String> getRealTimeOrderState(String id);
   Future<Either<Failure, void>> changingOrderState(ChangingOrderStateObject object);
   Stream<List<ClientAllOrders>> getRealtimeOrders();
+  Future<Either<Failure, void>> addItemToFavoriteList(AddToFavoriteObject addToFavoriteObject);
+  Future<Either<Failure, void>> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject);
 }

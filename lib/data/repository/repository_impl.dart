@@ -168,4 +168,32 @@ class RepositoryImpl implements Repository {
       },
     );
   }
+
+  @override
+  Future<Either<Failure, void>> addItemToFavoriteList(AddToFavoriteObject addToFavoriteObject) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.addItemToFavoriteList(addToFavoriteObject);
+        return right(Void);
+      } catch (error) {
+        return left(Failure(error.hashCode.toString(), error.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.removeItemFromFavoriteList(addToFavoriteObject);
+        return right(Void);
+      } catch (error) {
+        return left(Failure(error.hashCode.toString(), error.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

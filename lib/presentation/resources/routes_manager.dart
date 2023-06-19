@@ -7,6 +7,7 @@ import 'package:food_app/presentation/admin/admin_all_items/admin_all_items.dart
 import 'package:food_app/presentation/admin/admin_all_orders/view/admin_orders_screen_view.dart';
 import 'package:food_app/presentation/admin/admin_meal_detail/meal_detail_view.dart';
 import 'package:food_app/presentation/admin/admin_order/view/admin_order_view.dart';
+import 'package:food_app/presentation/favorite/favorite_items_screen.dart';
 import 'package:food_app/presentation/meal_detail/view/meal_detail_view.dart';
 import 'package:food_app/presentation/meals_by_category/meals_by_category.dart';
 import 'package:food_app/presentation/signin/view/signin_view.dart';
@@ -32,6 +33,7 @@ class Routes {
   static const String adminMealDetail = "/adminAddNewMeal";
   static const String adminAllItems = "/adminAllItems";
   static const String mealsByCategory = "/mealsByCategory";
+  static const String favorite = "/favorite";
 }
 
 class RoutesGenerator {
@@ -39,29 +41,38 @@ class RoutesGenerator {
     switch (settings.name) {
       case Routes.splashRoute:
         return MaterialPageRoute(builder: (context) => const SplashView());
+
       case Routes.onBoardingRoute:
         return MaterialPageRoute(builder: (context) => const OnBoardingView());
+
       case Routes.login:
         return MaterialPageRoute(builder: (context) => const SigninView());
+
       case Routes.otp:
         String parameters = settings.arguments as String;
         return MaterialPageRoute(builder: (context) => OtpView(verificationId: parameters));
+
       case Routes.main:
         initHomeData();
         return MaterialPageRoute(builder: (context) => const MainView());
+
       case Routes.register:
         RegisterViewParamters parameters = settings.arguments as RegisterViewParamters;
         return MaterialPageRoute(
             builder: (context) => RegisterView(phoneNumber: parameters.phoneNumber, uid: parameters.uid));
+
       case Routes.mealDetail:
         ItemObject item = settings.arguments as ItemObject;
         return MaterialPageRoute(
           builder: (context) => MealDetailScreen(item),
         );
+
       case Routes.admin:
         return MaterialPageRoute(builder: ((context) => const AdminScreenView()));
+
       case Routes.adminAllOrders:
         return MaterialPageRoute(builder: ((context) => const AdminAllOrdersView()));
+
       case Routes.adminOrders:
         ClientAllOrders clientAllOrders = settings.arguments as ClientAllOrders;
 
@@ -80,9 +91,14 @@ class RoutesGenerator {
 
       case Routes.adminAllItems:
         return MaterialPageRoute(builder: ((context) => const AdminAllItems()));
+
       case Routes.mealsByCategory:
         ItemCategory itemCategory = settings.arguments as ItemCategory;
         return MaterialPageRoute(builder: (context) => MealsByCategoryScreen(itemCategory));
+
+      case Routes.favorite:
+        return MaterialPageRoute(builder: ((context) => const FavoriteItemsScreen()));
+
       default:
         return unDefindRoute();
     }
@@ -100,11 +116,4 @@ class RoutesGenerator {
       ),
     );
   }
-}
-
-class RegisterViewParamters {
-  String phoneNumber;
-  String uid;
-
-  RegisterViewParamters(this.phoneNumber, this.uid);
 }

@@ -25,6 +25,51 @@ class FirebaseStoreClient {
     );
   }
 
+  Future<void> addItemToFavoriteList(AddToFavoriteObject addToFavoriteObject) async {
+    try {
+      final DocumentReference documentReference =
+          _firestore.collection(AppStrings.users).doc(addToFavoriteObject.clientId);
+
+      final DocumentSnapshot documentSnapshot = await documentReference.get();
+
+      if (documentSnapshot.exists) {
+        List<String> favoriteList = List<String>.from(
+          (documentSnapshot.data() as Map<String, dynamic>)['favoriteItems'] ?? [],
+        );
+
+        favoriteList.add(addToFavoriteObject.itemId);
+
+        await documentReference.update(
+          {
+            'favoriteItems': favoriteList,
+          },
+        );
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject) async {
+    final DocumentReference documentReference =
+        _firestore.collection(AppStrings.users).doc(addToFavoriteObject.clientId);
+
+    final DocumentSnapshot documentSnapshot = await documentReference.get();
+
+    if (documentSnapshot.exists) {
+      List<String> favoriteList =
+          List<String>.from((documentSnapshot.data() as Map<String, dynamic>)['favoriteItems'] ?? []);
+
+      favoriteList.remove(addToFavoriteObject.itemId);
+
+      documentReference.update(
+        {
+          'favoriteItems': favoriteList,
+        },
+      );
+    }
+  }
+
   Future<List<ItemResponse>> getPopularItems() async {
     return await _firestore
         .collection("items")

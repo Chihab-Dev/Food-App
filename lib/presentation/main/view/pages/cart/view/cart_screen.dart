@@ -37,7 +37,7 @@ class _CartScreenState extends State<CartScreen> {
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             title: Text(
-              AppStrings.cart,
+              AppStrings.cart.toUpperCase(),
               style: getMeduimStyle(color: ColorManager.black),
             ),
             backgroundColor: Colors.transparent,

@@ -11,6 +11,9 @@ CustomerResponse _$CustomerResponseFromJson(Map<String, dynamic> json) =>
       json['fullName'] as String?,
       json['phoneNumber'] as String?,
       json['uid'] as String?,
+      (json['favoriteItems'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$CustomerResponseToJson(CustomerResponse instance) =>
@@ -18,6 +21,7 @@ Map<String, dynamic> _$CustomerResponseToJson(CustomerResponse instance) =>
       'fullName': instance.fullName,
       'phoneNumber': instance.phoneNumber,
       'uid': instance.uid,
+      'favoriteItems': instance.favoriteItems,
     };
 
 ItemResponse _$ItemResponseFromJson(Map<String, dynamic> json) => ItemResponse(

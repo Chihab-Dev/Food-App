@@ -1,4 +1,14 @@
 class AppStrings {
+  // favorite screen
+  static const String favorite = "Favorite";
+  // profile screen
+  static const String settings = "Settings";
+  static const String logout = "Logout";
+  static const String notification = "Notification";
+  static const String coupon = "Coupon";
+  static const String points = "Points";
+  static const String order = "Order";
+
   // live order state
   static const String waitingForYourTurn = 'Waiting for your turn';
   static const String preparingYourOrder = 'Preparing your order';

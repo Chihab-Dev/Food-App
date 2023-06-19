@@ -97,3 +97,27 @@ class GetRealTimeOrderStateErrorState extends BaseStates {
 }
 
 class OrderDoneState extends BaseStates {}
+
+// ADD item to favorite list
+
+class AddItemToFavoriteLoadingState extends BaseStates {}
+
+class AddItemToFavoriteSuccessState extends BaseStates {}
+
+class AddItemToFavoriteErrorState extends BaseStates {
+  final String error;
+
+  AddItemToFavoriteErrorState(this.error);
+}
+
+// Remove item to favorite list
+
+class RemoveItemFromFavoriteLoadingState extends BaseStates {}
+
+class RemoveItemFromFavoriteSuccessState extends BaseStates {}
+
+class RemoveItemFromFavoriteErrorState extends BaseStates {
+  final String error;
+
+  RemoveItemFromFavoriteErrorState(this.error);
+}

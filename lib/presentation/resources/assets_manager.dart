@@ -15,6 +15,7 @@ class ImageAsset {
   static const String tomato = "$imagePath/tomato.png";
   static const String beef = "$imagePath/beef.png";
   static const String box = "$imagePath/box.jpg";
+  static const String profileImage = "$imagePath/profileImage.jpeg";
 }
 
 class LottieAsset {

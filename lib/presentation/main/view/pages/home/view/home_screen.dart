@@ -27,6 +27,9 @@ class HomeScreen extends StatelessWidget {
         if (state is BaseGetItemsErrorState) {
           errorToast(state.error).show(context);
         }
+        if (state is BaseGetUserDataErrorState) {
+          errorToast(state.error).show(context);
+        }
       },
       builder: ((context, state) {
         var cubit = BaseCubit.get(context);
@@ -34,7 +37,9 @@ class HomeScreen extends StatelessWidget {
         // userData == null ? cubit.getUserData(userUid!, context) : null;
         List<ItemObject>? popularItems = cubit.popularItems;
         List<ItemObject>? items = cubit.items;
-        return state is BaseGetPopularItemsLoadingState || items.isEmpty && popularItems.isEmpty
+        return state is BaseGetPopularItemsLoadingState ||
+                items.isEmpty && popularItems.isEmpty ||
+                cubit.customerObject == null
             ? loadingScreen()
             : homeScreen(context, popularItems, cubit);
       }),
@@ -50,7 +55,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: kBottomNavigationBarHeight),
-            appBar(context, "Khenchela kais"),
+            appBar(context, "Khenchela kais", cubit),
             const SizedBox(height: AppPadding.p25),
             titleWidget(AppStrings.category),
             const SizedBox(height: AppPadding.p12),
@@ -69,7 +74,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget appBar(BuildContext context, String location) {
+  Widget appBar(BuildContext context, String location, BaseCubit cubit) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10).copyWith(bottom: 0),
       child: Row(
@@ -98,16 +103,22 @@ class HomeScreen extends StatelessWidget {
           ),
           Row(
             children: [
+              if (cubit.customerObject!.uid == "VthqCWpwcZMBBzRW2vGWo3STdWA3")
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.admin);
+                  },
+                  icon: const Icon(
+                    Icons.admin_panel_settings_outlined,
+                  ),
+                ),
               IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, Routes.admin);
+                  Navigator.pushNamed(context, Routes.favorite);
                 },
                 icon: const Icon(
-                  Icons.admin_panel_settings_outlined,
+                  Icons.favorite_border,
                 ),
-              ),
-              const Icon(
-                Icons.favorite_border,
               ),
             ],
           )

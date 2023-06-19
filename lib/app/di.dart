@@ -5,7 +5,7 @@ import 'package:food_app/data/network/firebase_store.dart';
 import 'package:food_app/data/network/network_info.dart';
 import 'package:food_app/data/repository/repository_impl.dart';
 import 'package:food_app/domain/repository/repostitory.dart';
-import 'package:food_app/domain/usecases/get_home_data.dart';
+import 'package:food_app/domain/usecases/get_user_data.dart';
 import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
 import 'package:get_it/get_it.dart';
