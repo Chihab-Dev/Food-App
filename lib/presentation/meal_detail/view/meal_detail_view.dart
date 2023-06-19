@@ -11,6 +11,7 @@ import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
+import 'package:readmore/readmore.dart';
 
 class MealDetailScreen extends StatefulWidget {
   MealDetailScreen(this.item, {super.key});
@@ -423,14 +424,35 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     );
   }
 
-  Text descriptionText() {
-    return Text(
+  Widget descriptionText() {
+    return ReadMoreText(
       widget.item.description,
-      overflow: TextOverflow.ellipsis,
+      trimLines: 2,
+      trimMode: TrimMode.Line,
+      colorClickableText: Colors.pink,
+      trimCollapsedText: ' Show more ',
+      trimExpandedText: ' Show less ',
       style: getMeduimStyle(color: ColorManager.ligthGrey),
-      maxLines: 4,
+      moreStyle: TextStyle(
+        color: ColorManager.orange,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
+      lessStyle: TextStyle(
+        color: ColorManager.orange,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
+  // Text descriptionText() {
+  //   return Text(
+  //     widget.item.description,
+  //     overflow: TextOverflow.ellipsis,
+  //     style: getMeduimStyle(color: ColorManager.ligthGrey),
+  //     maxLines: 4,
+  //   );
+  // }
 
   Container itemDetailContainer(Widget icon, Color? color, String title) {
     return Container(

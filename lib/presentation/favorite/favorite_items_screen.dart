@@ -29,6 +29,7 @@ class _FavoriteItemsScreenState extends State<FavoriteItemsScreen> {
       builder: (context, state) {
         var cubit = BaseCubit.get(context);
         return Scaffold(
+          backgroundColor: ColorManager.whiteGrey,
           appBar: AppBar(
             title: Text(
               AppStrings.favorite.toUpperCase(),
@@ -38,14 +39,18 @@ class _FavoriteItemsScreenState extends State<FavoriteItemsScreen> {
             elevation: 0,
             iconTheme: IconThemeData(color: ColorManager.orange),
           ),
-          body: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemCount: cubit.favoriteItems.length,
-            itemBuilder: (context, index) {
-              return itemContainer(context, cubit.favoriteItems[index]);
-            },
-          ),
+          body: cubit.favoriteItems.isEmpty ? emptyScreen() : favoriteItemsView(cubit),
         );
+      },
+    );
+  }
+
+  Widget favoriteItemsView(BaseCubit cubit) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      itemCount: cubit.favoriteItems.length,
+      itemBuilder: (context, index) {
+        return itemContainer(context, cubit.favoriteItems[index]);
       },
     );
   }

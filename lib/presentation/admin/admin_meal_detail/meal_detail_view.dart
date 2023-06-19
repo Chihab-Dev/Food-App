@@ -8,6 +8,7 @@ import 'package:food_app/presentation/resources/appsize.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
+import 'package:readmore/readmore.dart';
 
 class AdminMealDetail extends StatefulWidget {
   AdminMealDetail(this.item, this.imageFile, {super.key});
@@ -351,14 +352,36 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
     );
   }
 
-  Text descriptionText() {
-    return Text(
+  Widget descriptionText() {
+    return ReadMoreText(
       widget.item.description,
-      overflow: TextOverflow.ellipsis,
+      trimLines: 2,
+      trimMode: TrimMode.Line,
+      colorClickableText: Colors.pink,
+      trimCollapsedText: ' Show more ',
+      trimExpandedText: ' Show less ',
       style: getMeduimStyle(color: ColorManager.ligthGrey),
-      maxLines: 4,
+      moreStyle: TextStyle(
+        color: ColorManager.orange,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
+      lessStyle: TextStyle(
+        color: ColorManager.orange,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
+
+  // Text descriptionText() {
+  //   return Text(
+  //     widget.item.description,
+  //     overflow: TextOverflow.ellipsis,
+  //     style: getMeduimStyle(color: ColorManager.ligthGrey),
+  //     maxLines: 4,
+  //   );
+  // }
 
   Container itemDetailContainer(Widget icon, Color? color, String title) {
     return Container(
