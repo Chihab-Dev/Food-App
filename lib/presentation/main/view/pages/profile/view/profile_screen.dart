@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = BaseCubit.get(context);
-        CustomerObject customerObject = cubit.customerObject!;
+        CustomerObject? customerObject = cubit.customerObject;
         return Scaffold(
           backgroundColor: ColorManager.whiteGrey,
           appBar: AppBar(
@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: cubit.customerObject == null ? emptyScreen() : profileView(customerObject),
+          body: cubit.customerObject == null ? emptyScreen() : profileView(customerObject!),
         );
       },
     );

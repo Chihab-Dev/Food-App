@@ -152,9 +152,9 @@ class BaseCubit extends Cubit<BaseStates> {
       (await _sentOrderToFirebaseUsecase.start(
         ClientAllOrders(
           userOrders,
-          "0666666666",
+          customerObject!.phoneNumber,
           "kais",
-          "999",
+          "",
           getFormattedDateTime(DateTime.now()),
           OrderState.WAITING,
         ),
@@ -179,7 +179,7 @@ class BaseCubit extends Cubit<BaseStates> {
     return _getRealTimeOrderState.start(id);
   }
 
-  Widget getStateWidget(String state) {
+  Widget getStateWidget(String state, BuildContext context) {
     if (OrderState.PREPARING.toString().split('.').last == state) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +188,10 @@ class BaseCubit extends Cubit<BaseStates> {
             AppStrings.preparingYourOrder,
             style: getlargeStyle(color: ColorManager.orange),
           ),
-          LottieBuilder.asset(LottieAsset.burgerMachine),
+          LottieBuilder.asset(
+            LottieAsset.burgerMachine,
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
         ],
       );
     }
@@ -200,7 +203,10 @@ class BaseCubit extends Cubit<BaseStates> {
             AppStrings.deliveringYourOrder,
             style: getlargeStyle(color: ColorManager.orange),
           ),
-          LottieBuilder.asset(LottieAsset.delivery),
+          LottieBuilder.asset(
+            LottieAsset.delivery,
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
         ],
       );
     }
@@ -212,7 +218,10 @@ class BaseCubit extends Cubit<BaseStates> {
             AppStrings.yourOrderHasBeenDelivered,
             style: getlargeStyle(color: ColorManager.orange),
           ),
-          LottieBuilder.asset(LottieAsset.orderRecived),
+          LottieBuilder.asset(
+            LottieAsset.orderRecived,
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
           TextButton(
             onPressed: () {
               orderID = null;
@@ -235,7 +244,10 @@ class BaseCubit extends Cubit<BaseStates> {
             AppStrings.waitingForYourTurn,
             style: getlargeStyle(color: ColorManager.orange),
           ),
-          LottieBuilder.asset(LottieAsset.blueBirdWaiting),
+          LottieBuilder.asset(
+            LottieAsset.blueBirdWaiting,
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
         ],
       );
     }

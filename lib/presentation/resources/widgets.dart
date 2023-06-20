@@ -169,12 +169,21 @@ Container loadingScreen() {
 
 // Error Screen ::
 
-Container errorScreen() {
-  //TODO: add error screen
-  return Container();
+Container errorScreen(BuildContext context) {
+  return Container(
+    width: double.infinity,
+    color: ColorManager.whiteGrey,
+    child: Center(
+      child: LottieBuilder.asset(
+        LottieAsset.offline,
+        width: MediaQuery.of(context).size.width * 0.5,
+        animate: true,
+      ),
+    ),
+  );
 }
 
-// No Orders Screen ::
+// empty Screen ::
 
 Container emptyScreen() {
   return Container(

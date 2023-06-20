@@ -35,4 +35,5 @@ class LottieAsset {
   static const String phoneNumber = "$lottiePath/phoneNumber.json";
   static const String pizzaBox = "$lottiePath/pizzaBox.json";
   static const String pizza = "$lottiePath/pizza.json";
+  static const String offline = "$lottiePath/offline.json";
 }

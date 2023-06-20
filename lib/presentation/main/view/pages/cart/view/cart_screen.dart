@@ -67,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
           return const CircularProgressIndicator();
         } else {
           return Center(
-            child: cubit.getStateWidget(snapshot.data.toString()),
+            child: cubit.getStateWidget(snapshot.data.toString(), context),
           );
         }
       },

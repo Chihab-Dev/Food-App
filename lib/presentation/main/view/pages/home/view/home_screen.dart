@@ -27,9 +27,6 @@ class HomeScreen extends StatelessWidget {
         if (state is BaseGetItemsErrorState) {
           errorToast(state.error).show(context);
         }
-        if (state is BaseGetUserDataErrorState) {
-          errorToast(state.error).show(context);
-        }
       },
       builder: ((context, state) {
         var cubit = BaseCubit.get(context);
@@ -37,11 +34,15 @@ class HomeScreen extends StatelessWidget {
         // userData == null ? cubit.getUserData(userUid!, context) : null;
         List<ItemObject>? popularItems = cubit.popularItems;
         List<ItemObject>? items = cubit.items;
-        return state is BaseGetPopularItemsLoadingState ||
-                items.isEmpty && popularItems.isEmpty ||
-                cubit.customerObject == null
-            ? loadingScreen()
-            : homeScreen(context, popularItems, cubit);
+        return state is BaseGetUserDataErrorState ||
+                state is BaseGetPopularItemsErrorState ||
+                state is BaseGetItemsErrorState
+            ? errorScreen(context)
+            : (state is BaseGetPopularItemsLoadingState ||
+                    items.isEmpty && popularItems.isEmpty ||
+                    cubit.customerObject == null
+                ? loadingScreen()
+                : homeScreen(context, popularItems, cubit));
       }),
     );
   }
