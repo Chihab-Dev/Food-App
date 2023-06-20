@@ -24,6 +24,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
           create: (context) => BaseCubit()
+            ..getCurrentLocation()
             ..getUserData()
             ..getPopularItems()
             ..getItems(),

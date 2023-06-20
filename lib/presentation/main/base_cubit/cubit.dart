@@ -18,7 +18,11 @@ import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+// import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../app/app_pref.dart';
 import '../../../app/di.dart';
@@ -27,6 +31,8 @@ import '../view/pages/home/view/home_screen.dart';
 import '../view/pages/profile/view/profile_screen.dart';
 import '../view/pages/search/view/search_screen.dart';
 import '../view/pages/cart/view/cart_screen.dart';
+
+import 'package:geocoding/geocoding.dart' as geocoding;
 
 class BaseCubit extends Cubit<BaseStates> {
   BaseCubit() : super(BaseInitialState());
@@ -75,6 +81,7 @@ class BaseCubit extends Cubit<BaseStates> {
         emit(BaseGetUserDataErrorState(failure.message));
       },
       (customerObjectData) {
+        print("✅ GET USER DATA ✅");
         customerObject = customerObjectData;
         emit(BaseGetUserDataSuccessState());
       },
@@ -96,6 +103,7 @@ class BaseCubit extends Cubit<BaseStates> {
         emit(BaseGetPopularItemsErrorState(failure.message));
       },
       (data) {
+        print("✅ GET POPULAR ITEMS ✅");
         popularItems = data;
         emit(BaseGetPopularItemsSuccessState());
         // print("🐦popular itmes🐦");
@@ -115,6 +123,7 @@ class BaseCubit extends Cubit<BaseStates> {
         print(failure.message);
       },
       (data) {
+        print("✅ GET ALL ITEMS ✅");
         items = data;
         emit(BaseGetItemsSuccessState());
         // print("🐦 itmes🐦");
@@ -128,8 +137,6 @@ class BaseCubit extends Cubit<BaseStates> {
   List<Order> userOrders = [];
 
   String? orderID;
-
-  // String? orderState;
 
   void addOrder(Order order) {
     bool orderExiste = userOrders.any((element) => element.itemObject == order.itemObject);
@@ -153,7 +160,7 @@ class BaseCubit extends Cubit<BaseStates> {
         ClientAllOrders(
           userOrders,
           customerObject!.phoneNumber,
-          "kais",
+          placeName!,
           "",
           getFormattedDateTime(DateTime.now()),
           OrderState.WAITING,
@@ -345,4 +352,82 @@ class BaseCubit extends Cubit<BaseStates> {
       },
     ).toList();
   }
+
+  // LOCATION ::
+
+  double? latitude;
+  double? longitude;
+
+  Future<Position> getCurrentLocation() async {
+    emit(GetCurrentLocationLoadingState());
+    // check is service location in user phone enabled or not
+    bool locationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!locationServiceEnabled) {
+      emit(GetCurrentLocationErrorState('location service disabled'));
+      return Future.error('location service disabled');
+    }
+
+    // check the permission to get user location
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        emit(GetCurrentLocationErrorState("Location permissions are denied"));
+        return Future.error("Location permissions are denied");
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      emit(GetCurrentLocationErrorState("Location permissions are permanently denied, we cannot request"));
+      return Future.error("Location permissions are permanently denied, we cannot request");
+    }
+
+    // after getting the permission we can get the current location ::
+
+    return await Geolocator.getCurrentPosition().then(
+      (value) async {
+        print('${value.latitude} + ${value.longitude} + ${value.accuracy} + ${value.heading} ');
+        latitude = value.latitude;
+        longitude = value.longitude;
+        await getLocationName();
+        emit(GetCurrentLocationSuccessState());
+        return value;
+      },
+    );
+  }
+
+  String? placeName;
+  Future<void> getLocationName() async {
+    emit(GetLocationNameLoadingState());
+
+    await geocoding.placemarkFromCoordinates(latitude!, longitude!).then(
+      (List<Placemark> value) {
+        placeName = value[0].name ?? 'kais';
+        print("✅ GET LOCATION ✅");
+        emit(GetLocationNameSuccessState());
+      },
+    ).catchError(
+      (error) {
+        print("get place name Error $error");
+        emit(GetLocationNameErrorState(error));
+      },
+    );
+  }
+
+  Future<void> openMap() async {
+    String googleUrl = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+
+    print(googleUrl);
+
+    await canLaunchUrlString(googleUrl) ? await launchUrlString(googleUrl) : throw "can't launch URL $googleUrl";
+  }
+
+  // Future<void> openLocation() async {
+  //   String googleUrl = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+
+// if (await canLaunch(googleUrl)) {
+//     await launch(googleUrl);
+//   } else {
+//     throw "Couldn't launch URL: $googleUrl";
+//   }
+//   }
 }

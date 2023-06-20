@@ -40,7 +40,8 @@ class HomeScreen extends StatelessWidget {
             ? errorScreen(context)
             : (state is BaseGetPopularItemsLoadingState ||
                     items.isEmpty && popularItems.isEmpty ||
-                    cubit.customerObject == null
+                    cubit.customerObject == null ||
+                    cubit.placeName == null
                 ? loadingScreen()
                 : homeScreen(context, popularItems, cubit));
       }),
@@ -56,7 +57,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: kBottomNavigationBarHeight),
-            appBar(context, "Khenchela kais", cubit),
+            appBar(context, cubit.placeName!, cubit),
             const SizedBox(height: AppPadding.p25),
             titleWidget(AppStrings.category),
             const SizedBox(height: AppPadding.p12),
@@ -94,9 +95,12 @@ class HomeScreen extends StatelessWidget {
                     Icons.location_on,
                     size: AppSize.s20,
                   ),
-                  Text(
-                    location,
-                    style: getMeduimStyle(color: ColorManager.black),
+                  InkWell(
+                    onTap: () => cubit.openMap(),
+                    child: Text(
+                      location,
+                      style: getMeduimStyle(color: ColorManager.black),
+                    ),
                   ),
                 ],
               ),

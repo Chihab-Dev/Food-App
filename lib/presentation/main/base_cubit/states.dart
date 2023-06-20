@@ -121,3 +121,25 @@ class RemoveItemFromFavoriteErrorState extends BaseStates {
 
   RemoveItemFromFavoriteErrorState(this.error);
 }
+
+// get location states
+
+class GetCurrentLocationLoadingState extends BaseStates {}
+
+class GetCurrentLocationSuccessState extends BaseStates {}
+
+class GetCurrentLocationErrorState extends BaseStates {
+  final String error;
+
+  GetCurrentLocationErrorState(this.error);
+}
+
+class GetLocationNameLoadingState extends BaseStates {}
+
+class GetLocationNameSuccessState extends BaseStates {}
+
+class GetLocationNameErrorState extends BaseStates {
+  final String error;
+
+  GetLocationNameErrorState(this.error);
+}
