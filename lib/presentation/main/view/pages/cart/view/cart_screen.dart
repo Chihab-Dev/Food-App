@@ -79,6 +79,7 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         Container(
           color: ColorManager.whiteGrey,
+          padding: const EdgeInsets.only(bottom: AppPadding.p200),
           child: ListView.builder(
             itemCount: cubit.userOrders.length,
             itemBuilder: (context, index) {
@@ -110,28 +111,31 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(AppPadding.p14).copyWith(bottom: AppPadding.p10),
         child: Stack(
           children: [
-            ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: cubit.userOrders.length,
-              itemBuilder: (context, index) {
-                Order order = cubit.userOrders[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: AppPadding.p10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        order.itemObject.title,
-                        style: getMeduimStyle(color: ColorManager.black),
-                      ),
-                      Text(
-                        "\$${order.itemObject.price * order.quentity}",
-                        style: getMeduimStyle(color: ColorManager.black),
-                      ),
-                    ],
-                  ),
-                );
-              },
+            Container(
+              padding: const EdgeInsets.only(bottom: AppPadding.p50),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: cubit.userOrders.length,
+                itemBuilder: (context, index) {
+                  Order order = cubit.userOrders[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: AppPadding.p10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          order.itemObject.title,
+                          style: getMeduimStyle(color: ColorManager.black),
+                        ),
+                        Text(
+                          "\$${order.itemObject.price * order.quentity}",
+                          style: getMeduimStyle(color: ColorManager.black),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
