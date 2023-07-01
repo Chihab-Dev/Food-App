@@ -22,6 +22,7 @@ class ProfileScreen extends StatelessWidget {
         var cubit = BaseCubit.get(context);
         CustomerObject? customerObject = cubit.customerObject;
         return Scaffold(
+          extendBodyBehindAppBar: true,
           backgroundColor: ColorManager.whiteGrey,
           appBar: AppBar(
             title: Text(
@@ -31,33 +32,35 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: cubit.customerObject == null ? emptyScreen() : profileView(customerObject!),
+          body: cubit.customerObject == null ? emptyScreen() : profileView(customerObject!, context),
         );
       },
     );
   }
 
-  Padding profileView(CustomerObject customerObject) {
+  Widget profileView(CustomerObject customerObject, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10).copyWith(bottom: 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(width: double.infinity),
-          imageCircule(),
-          const SizedBox(height: AppSize.s20),
-          nameText(customerObject),
-          phoneText(customerObject),
-          const SizedBox(height: AppSize.s50),
-          clientInformationRow(),
-          const SizedBox(height: AppSize.s50),
-          listTile(AppStrings.notification, Icons.notifications_none_sharp, () {}),
-          divider(),
-          listTile(AppStrings.settings, Icons.settings, () {}),
-          divider(),
-          listTile(AppStrings.logout, Icons.logout_rounded, () {}),
-          const SizedBox(height: AppSize.s50),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: MediaQuery.sizeOf(context).height / 6.5),
+            imageCircule(context),
+            const SizedBox(height: AppSize.s20),
+            nameText(customerObject),
+            phoneText(customerObject),
+            const SizedBox(height: AppSize.s50),
+            clientInformationRow(),
+            const SizedBox(height: AppSize.s50),
+            listTile(AppStrings.notification, Icons.notifications_none_sharp, () {}),
+            divider(),
+            listTile(AppStrings.settings, Icons.settings, () {}),
+            divider(),
+            listTile(AppStrings.logout, Icons.logout_rounded, () {}),
+            // const SizedBox(height: AppSize.s50),
+          ],
+        ),
       ),
     );
   }
@@ -147,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
 
   Text phoneText(CustomerObject customerObject) {
     return Text(
-      '0${customerObject.phoneNumber.split('+213').last}',
+      customerObject.phoneNumber,
       style: getMeduimStyle(color: ColorManager.grey),
     );
   }
@@ -159,10 +162,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Container imageCircule() {
+  Container imageCircule(BuildContext context) {
     return Container(
-      height: 150,
-      width: 150,
+      height: MediaQuery.sizeOf(context).height / 6.5,
+      width: MediaQuery.sizeOf(context).width / 2.9,
       decoration: BoxDecoration(
         color: ColorManager.white,
         boxShadow: [
