@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/domain/usecases/add_item_to_favorite_list_usecase.dart';
 import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
+import 'package:food_app/domain/usecases/get_is_store_open_usecase.dart';
 import 'package:food_app/domain/usecases/get_user_data.dart';
 import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
@@ -26,6 +27,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../app/app_pref.dart';
 import '../../../app/di.dart';
+import '../../../domain/usecases/change_is_store_open_usecase.dart';
 import '../../../domain/usecases/sent_orders_tofirebase_ucecase.dart';
 import '../view/pages/home/view/home_screen.dart';
 import '../view/pages/profile/view/profile_screen.dart';
@@ -49,8 +51,42 @@ class BaseCubit extends Cubit<BaseStates> {
   final AddItemToFavoriteListUsecase _addItemToFavoriteListUsecase = AddItemToFavoriteListUsecase(instance());
   final RemoveItemFromFavoriteListUsecase _removeItemFromFavoriteListUsecase =
       RemoveItemFromFavoriteListUsecase(instance());
+  final GetIsStoreOpenUsecase _getIsStoreOpenUsecase = GetIsStoreOpenUsecase(instance());
+  final ChangeIsStoreOpenUsecase _changeIsStoreOpenUsecase = ChangeIsStoreOpenUsecase(instance());
 
   CustomerObject? customerObject;
+
+  // is store open
+
+  bool isStoreOpen = true;
+
+  void getIsStoreOpen() async {
+    emit(GetIsStoreOpenLoadingState());
+    (await _getIsStoreOpenUsecase.start(Void)).fold(
+      (failure) {
+        emit(GetIsStoreOpenErrorState(failure.message));
+      },
+      (data) {
+        isStoreOpen = data;
+        print("IS STORE OPEN :: $isStoreOpen");
+        emit(GetIsStoreOpenSuccessState());
+      },
+    );
+  }
+
+  void changeIsStoreOpen() async {
+    emit(ChangeIsStoreOpenLoadingState());
+    (await _changeIsStoreOpenUsecase.start(Void)).fold(
+      (failure) {
+        print("change is store open error ${failure.message}");
+        emit(ChangeIsStoreOpenErrorState(failure.message));
+      },
+      (r) {
+        getIsStoreOpen();
+        emit(ChangeIsStoreOpenSuccessState());
+      },
+    );
+  }
 
   // home screen ::
 
@@ -397,18 +433,18 @@ class BaseCubit extends Cubit<BaseStates> {
 
   String? placeName;
   Future<void> getLocationName() async {
-    emit(GetLocationNameLoadingState());
+    // emit(GetLocationNameLoadingState());
 
     await geocoding.placemarkFromCoordinates(latitude!, longitude!).then(
       (List<Placemark> value) {
         placeName = value[0].name ?? 'kais';
         print("✅ GET LOCATION ✅");
-        emit(GetLocationNameSuccessState());
+        // emit(GetLocationNameSuccessState());
       },
     ).catchError(
       (error) {
         print("get place name Error $error");
-        emit(GetLocationNameErrorState(error));
+        // emit(GetLocationNameErrorState(error));
       },
     );
   }

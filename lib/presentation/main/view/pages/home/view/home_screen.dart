@@ -34,16 +34,34 @@ class HomeScreen extends StatelessWidget {
         // userData == null ? cubit.getUserData(userUid!, context) : null;
         List<ItemObject>? popularItems = cubit.popularItems;
         List<ItemObject>? items = cubit.items;
-        return state is BaseGetUserDataErrorState ||
-                state is BaseGetPopularItemsErrorState ||
-                state is BaseGetItemsErrorState
-            ? errorScreen(context)
-            : (state is BaseGetPopularItemsLoadingState ||
+        return (state is BaseGetUserDataLoadingState ||
+                state is GetLocationNameLoadingState ||
+                state is GetCurrentLocationLoadingState ||
+                state is BaseGetItemsLoadingState ||
+                state is BaseGetPopularItemsLoadingState ||
+                state is GetIsStoreOpenLoadingState)
+            ? loadingScreen()
+            : (state is BaseGetUserDataErrorState ||
+                    state is GetCurrentLocationErrorState ||
+                    state is BaseGetItemsErrorState ||
+                    state is BaseGetPopularItemsErrorState ||
+                    state is GetIsStoreOpenErrorState ||
                     items.isEmpty && popularItems.isEmpty ||
                     cubit.customerObject == null ||
-                    cubit.placeName == null
-                ? loadingScreen()
-                : homeScreen(context, popularItems, cubit));
+                    cubit.placeName == null)
+                ? errorScreen(context)
+                : cubit.isStoreOpen == false
+                    ? closedScreen()
+                    : homeScreen(context, popularItems, cubit);
+
+        // state is BaseGetUserDataErrorState || state is BaseGetPopularItemsErrorState || state is BaseGetItemsErrorState
+        //     ? errorScreen(context)
+        //     : (state is BaseGetPopularItemsLoadingState ||
+        //             items.isEmpty && popularItems.isEmpty ||
+        //             cubit.customerObject == null ||
+        //             cubit.placeName == null
+        //         ? loadingScreen()
+        //         : homeScreen(context, popularItems, cubit));
       }),
     );
   }

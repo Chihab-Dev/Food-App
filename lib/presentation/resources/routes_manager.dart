@@ -7,6 +7,7 @@ import 'package:food_app/presentation/admin/admin_all_items/admin_all_items.dart
 import 'package:food_app/presentation/admin/admin_all_orders/view/admin_orders_screen_view.dart';
 import 'package:food_app/presentation/admin/admin_meal_detail/meal_detail_view.dart';
 import 'package:food_app/presentation/admin/admin_order/view/admin_order_view.dart';
+import 'package:food_app/presentation/admin/admin_setting/admin_setting_screen.dart';
 import 'package:food_app/presentation/favorite/favorite_items_screen.dart';
 import 'package:food_app/presentation/meal_detail/view/meal_detail_view.dart';
 import 'package:food_app/presentation/meals_by_category/meals_by_category.dart';
@@ -32,6 +33,7 @@ class Routes {
   static const String adminAddNewMeal = "/addNewMeal";
   static const String adminMealDetail = "/adminAddNewMeal";
   static const String adminAllItems = "/adminAllItems";
+  static const String adminSetting = "/adminSetting";
   static const String mealsByCategory = "/mealsByCategory";
   static const String favorite = "/favorite";
 }
@@ -98,6 +100,9 @@ class RoutesGenerator {
 
       case Routes.favorite:
         return MaterialPageRoute(builder: ((context) => const FavoriteItemsScreen()));
+
+      case Routes.adminSetting:
+        return MaterialPageRoute(builder: (context) => const AdminSetting());
 
       default:
         return unDefindRoute();

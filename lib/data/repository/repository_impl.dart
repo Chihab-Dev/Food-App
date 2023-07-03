@@ -196,4 +196,33 @@ class RepositoryImpl implements Repository {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> getIsStoreOpen() async {
+    if (await _networkInfo.isConnected) {
+      try {
+        var isOpen = await _remoteDataSource.getIsStoreOpen();
+        return right(isOpen);
+      } catch (e) {
+        print("repository error ${e.toString()}");
+        return left(Failure(e.hashCode.toString(), e.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> changeIsStoreOpen() async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.changeIsStoreOpen();
+        return right(Void);
+      } on FirebaseException catch (error) {
+        return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

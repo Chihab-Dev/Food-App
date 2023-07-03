@@ -36,4 +36,6 @@ class LottieAsset {
   static const String pizzaBox = "$lottiePath/pizzaBox.json";
   static const String pizza = "$lottiePath/pizza.json";
   static const String offline = "$lottiePath/offline.json";
+  static const String closed = "$lottiePath/closed.json";
+  static const String setting = "$lottiePath/setting.json";
 }

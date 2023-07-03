@@ -240,4 +240,32 @@ class FirebaseStoreClient {
       },
     );
   }
+
+  Future<bool> getIsStoreOpen() async {
+    return await _firestore.collection(AppStrings.store).get().then(
+      (value) {
+        return value.docs.first.data()['isOpen'];
+      },
+    ).catchError((e) {
+      print("firebase store error ${e.toString()}");
+      throw e;
+    });
+  }
+
+  Future<void> changeIsStoreOpen() async {
+    CollectionReference collectionReference = _firestore.collection(AppStrings.store);
+
+    QuerySnapshot querySnapshot = await collectionReference.get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+      if (documentSnapshot.exists) {
+        
+        bool isOpen =( documentSnapshot.data() as Map<String, dynamic>)['isOpen'];
+
+        await collectionReference.doc(documentSnapshot.id).update({'isOpen': !isOpen});
+      }
+    }
+  }
 }

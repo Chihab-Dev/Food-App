@@ -16,6 +16,8 @@ abstract class RemoteDataSource {
   Stream<List<ClientAllOrdersResponse>> getRealtimeOrders();
   Future<void> addItemToFavoriteList(AddToFavoriteObject addToFavoriteObject);
   Future<void> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject);
+  Future<bool> getIsStoreOpen();
+  Future<void> changeIsStoreOpen();
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -85,5 +87,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<void> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject) async {
     return await _firebaseStoreClient.removeItemFromFavoriteList(addToFavoriteObject);
+  }
+
+  @override
+  Future<bool> getIsStoreOpen() async {
+    return await _firebaseStoreClient.getIsStoreOpen();
+  }
+
+  @override
+  Future<void> changeIsStoreOpen() async {
+    return await _firebaseStoreClient.changeIsStoreOpen();
   }
 }

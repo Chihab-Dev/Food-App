@@ -156,7 +156,18 @@ CherryToast successToast(String msg) {
   );
 }
 
-// Loading Screen ;:
+// Loading Screen ::
+
+Container closedScreen() {
+  return Container(
+    color: ColorManager.whiteGrey.withOpacity(0.7),
+    child: Center(
+      child: Lottie.asset(LottieAsset.closed),
+    ),
+  );
+}
+
+// Loading Screen ::
 
 Container loadingScreen() {
   return Container(
@@ -176,7 +187,7 @@ Container errorScreen(BuildContext context) {
     child: Center(
       child: LottieBuilder.asset(
         LottieAsset.offline,
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.sizeOf(context).width / 2,
         animate: true,
       ),
     ),

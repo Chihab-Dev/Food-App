@@ -24,10 +24,11 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
           create: (context) => BaseCubit()
-            ..getCurrentLocation()
             ..getUserData()
+            ..getCurrentLocation()
+            ..getItems()
             ..getPopularItems()
-            ..getItems(),
+            ..getIsStoreOpen(),
         ),
       ],
       child: MaterialApp(

@@ -18,33 +18,44 @@ class AdminScreenView extends StatelessWidget {
         appBar: AppBar(
           title: Text(AppStrings.adminScreen.toUpperCase()),
         ),
-        body: ListView(
-          children: [
-            item(
-              context,
-              AppStrings.orders,
-              LottieAsset.pizzaBox,
-              () {
-                Navigator.pushNamed(context, Routes.adminAllOrders);
-              },
-            ),
-            item(
-              context,
-              AppStrings.allItems,
-              LottieAsset.burger,
-              () {
-                Navigator.pushNamed(context, Routes.adminAllItems);
-              },
-            ),
-            item(
-              context,
-              AppStrings.addMeal,
-              LottieAsset.addItem,
-              () {
-                Navigator.pushNamed(context, Routes.adminAddNewMeal);
-              },
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(AppPadding.p8),
+          child: ListView(
+            children: [
+              item(
+                context,
+                AppStrings.orders,
+                LottieAsset.pizzaBox,
+                () {
+                  Navigator.pushNamed(context, Routes.adminAllOrders);
+                },
+              ),
+              item(
+                context,
+                AppStrings.allItems,
+                LottieAsset.burger,
+                () {
+                  Navigator.pushNamed(context, Routes.adminAllItems);
+                },
+              ),
+              item(
+                context,
+                AppStrings.addMeal,
+                LottieAsset.addItem,
+                () {
+                  Navigator.pushNamed(context, Routes.adminAddNewMeal);
+                },
+              ),
+              item(
+                context,
+                AppStrings.adminSettings,
+                LottieAsset.setting,
+                () {
+                  Navigator.pushNamed(context, Routes.adminSetting);
+                },
+              ),
+            ],
+          ),
         ));
   }
 

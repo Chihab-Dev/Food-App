@@ -67,6 +67,7 @@ class AppStrings {
   static const String addMeal = "Add a Meal";
   static const String mealCategory = "Meal category";
   static const String allItems = "All Items";
+  static const String adminSettings = "Admin settings";
 
   // add order to cart
 
@@ -89,6 +90,7 @@ class AppStrings {
   static const String users = "users";
   static const String items = "items";
   static const String orders = "orders";
+  static const String store = "store";
 
   // OnBoarding screen ::
   static const String onBoardingDone = "done";

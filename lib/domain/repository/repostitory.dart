@@ -16,4 +16,6 @@ abstract class Repository {
   Stream<List<ClientAllOrders>> getRealtimeOrders();
   Future<Either<Failure, void>> addItemToFavoriteList(AddToFavoriteObject addToFavoriteObject);
   Future<Either<Failure, void>> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject);
+  Future<Either<Failure, bool>> getIsStoreOpen();
+  Future<Either<Failure, void>> changeIsStoreOpen();
 }

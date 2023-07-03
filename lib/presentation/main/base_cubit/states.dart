@@ -143,3 +143,27 @@ class GetLocationNameErrorState extends BaseStates {
 
   GetLocationNameErrorState(this.error);
 }
+
+// is store open
+
+class GetIsStoreOpenLoadingState extends BaseStates {}
+
+class GetIsStoreOpenSuccessState extends BaseStates {}
+
+class GetIsStoreOpenErrorState extends BaseStates {
+  final String error;
+
+  GetIsStoreOpenErrorState(this.error);
+}
+
+// change is store open
+
+class ChangeIsStoreOpenLoadingState extends BaseStates {}
+
+class ChangeIsStoreOpenSuccessState extends BaseStates {}
+
+class ChangeIsStoreOpenErrorState extends BaseStates {
+  final String error;
+
+  ChangeIsStoreOpenErrorState(this.error);
+}
