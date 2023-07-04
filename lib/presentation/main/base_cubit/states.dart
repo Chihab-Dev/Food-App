@@ -167,3 +167,7 @@ class ChangeIsStoreOpenErrorState extends BaseStates {
 
   ChangeIsStoreOpenErrorState(this.error);
 }
+
+// timer
+
+class ChangeTimerState extends BaseStates {}

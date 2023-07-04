@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../domain/model/models.dart';
 import 'appsize.dart';
 import 'assets_manager.dart';
@@ -38,13 +40,54 @@ Widget itemContainer(BuildContext context, ItemObject item) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Expanded(
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(AppSize.s20),
+            //       image: DecorationImage(
+            //         image: NetworkImage(item.image),
+            //         fit: BoxFit.cover,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s20),
-                  image: DecorationImage(
-                    image: NetworkImage(item.image),
-                    fit: BoxFit.cover,
+              child: CachedNetworkImage(
+                imageUrl: item.image,
+                fit: BoxFit.cover,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    // height: AppSize.s150,
+                    // width: AppSize.s150,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    // height: AppSize.s150,
+                    // width: AppSize.s150,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
                   ),
                 ),
               ),
@@ -238,6 +281,18 @@ int calculateTotalPrice(List<Order> userOrders) {
     totalPrice += userOrders[i].itemObject.price * userOrders[i].quentity;
   }
   return totalPrice;
+}
+
+// total preparing itme calculator
+
+int calculateTotalPreparingTime(List<Order> orders) {
+  int time = 0;
+
+  for (var i = 0; i < orders.length; i++) {
+    time += orders[i].itemObject.preparationTime * orders[i].quentity;
+  }
+
+  return time;
 }
 
 // GET TIME ::

@@ -1,5 +1,6 @@
 // ignore_for_file: void_checks
 
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -171,6 +172,8 @@ class BaseCubit extends Cubit<BaseStates> {
   // Cart & Order
 
   List<Order> userOrders = [];
+  int totalPreparingTime = 0;
+  int totalTime = 100;
 
   String? orderID;
 
@@ -207,6 +210,8 @@ class BaseCubit extends Cubit<BaseStates> {
           emit(SentOrderToFirebaseErrorState(l.message));
         },
         (data) {
+          totalTime = calculateTotalPreparingTime(userOrders);
+          totalPreparingTime = calculateTotalPreparingTime(userOrders);
           userOrders = [];
           orderID = data;
           getRealTimeOrderState(orderID!);
@@ -224,6 +229,7 @@ class BaseCubit extends Cubit<BaseStates> {
 
   Widget getStateWidget(String state, BuildContext context) {
     if (OrderState.PREPARING.toString().split('.').last == state) {
+      // startTimer();
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -235,6 +241,7 @@ class BaseCubit extends Cubit<BaseStates> {
             LottieAsset.burgerMachine,
             width: MediaQuery.of(context).size.width * 0.7,
           ),
+          // buildTimer(),
         ],
       );
     }
@@ -295,6 +302,50 @@ class BaseCubit extends Cubit<BaseStates> {
       );
     }
   }
+
+  // Timer ::
+
+  // Timer? timer;
+
+  // startTimer() {
+  //   // initialize timer object
+  //   timer = Timer.periodic(
+  //     const Duration(seconds: 2),
+  //     (timer) {
+  //       if (totalPreparingTime > 0) {
+  //         totalPreparingTime--;
+  //         emit(ChangeTimerState());
+  //       }
+  //     },
+  //   );
+  // }
+
+  // buildTimer() {
+  //   return SizedBox(
+  //     width: 150,
+  //     height: 150,
+  //     child: Stack(
+  //       fit: StackFit.expand,
+  //       children: [
+  //         CircularProgressIndicator(
+  //           value: totalTime != 0 && totalTime.isFinite ? totalPreparingTime / totalTime : 0.5,
+  //           color: ColorManager.orange,
+  //           strokeWidth: AppSize.s12,
+  //           backgroundColor: ColorManager.whiteGrey,
+  //         ),
+  //         Center(
+  //           child: Text(
+  //             totalPreparingTime.toString(),
+  //             style: getlargeStyle(
+  //               color: ColorManager.orange,
+  //               fontSize: 50,
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   // Admin  delete item
 
