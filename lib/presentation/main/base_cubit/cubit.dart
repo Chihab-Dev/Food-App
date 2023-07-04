@@ -68,7 +68,7 @@ class BaseCubit extends Cubit<BaseStates> {
       },
       (data) {
         isStoreOpen = data;
-        print("IS STORE OPEN :: $isStoreOpen");
+        print("🌟 IS STORE OPEN :: $isStoreOpen");
         emit(GetIsStoreOpenSuccessState());
       },
     );
@@ -396,32 +396,38 @@ class BaseCubit extends Cubit<BaseStates> {
 
   Future<Position> getCurrentLocation() async {
     emit(GetCurrentLocationLoadingState());
-    // check is service location in user phone enabled or not
+
+    // check is service location in user phone enabled or not ::
+
     bool locationServiceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!locationServiceEnabled) {
       emit(GetCurrentLocationErrorState('location service disabled'));
-      return Future.error('location service disabled');
+      print('🛑 location service disabled');
+      // return Future.error('🛑 location service disabled');
     }
 
-    // check the permission to get user location
+    // check the permission to get user location ::
+
     LocationPermission permission = await Geolocator.checkPermission();
+    print('🌟 location permission :: $permission');
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         emit(GetCurrentLocationErrorState("Location permissions are denied"));
-        return Future.error("Location permissions are denied");
+        print("🛑 Location permissions are denied");
+        return Future.error("🛑 Location permissions are denied");
       }
     }
     if (permission == LocationPermission.deniedForever) {
       emit(GetCurrentLocationErrorState("Location permissions are permanently denied, we cannot request"));
-      return Future.error("Location permissions are permanently denied, we cannot request");
+      print("🛑 Location permissions are permanently denied, we cannot request");
+      return Future.error("🛑 Location permissions are permanently denied, we cannot request");
     }
 
     // after getting the permission we can get the current location ::
 
     return await Geolocator.getCurrentPosition().then(
       (value) async {
-        print('${value.latitude} + ${value.longitude} + ${value.accuracy} + ${value.heading} ');
         latitude = value.latitude;
         longitude = value.longitude;
         await getLocationName();

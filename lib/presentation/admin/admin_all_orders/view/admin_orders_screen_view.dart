@@ -129,7 +129,7 @@ class AdminAllOrdersView extends StatelessWidget {
                       ),
                       Text(
                         calculateNumOfItems(clientAllOrders.orders).toString(),
-                        style: getlargeStyle(color: ColorManager.orange),
+                        style: getRegularStyle(color: ColorManager.orange),
                       ),
                       Text(
                         AppStrings.orderDate,
@@ -137,7 +137,7 @@ class AdminAllOrdersView extends StatelessWidget {
                       ),
                       Text(
                         clientAllOrders.date,
-                        style: getlargeStyle(color: ColorManager.orange),
+                        style: getRegularStyle(color: ColorManager.orange),
                       ),
                     ],
                   ),

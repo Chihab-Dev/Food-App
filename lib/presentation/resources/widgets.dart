@@ -243,17 +243,12 @@ int calculateTotalPrice(List<Order> userOrders) {
 // GET TIME ::
 
 String getFormattedDateTime(DateTime dateTime) {
-  // PADLEFT ::
-  //  String string = '123';
-  // String paddedString = string.padLeft(5, '0');
-  // print(paddedString); // Output: 00123
-
   String month = getMonthName(dateTime.month);
   String day = dateTime.day.toString().padLeft(2, '0');
   String hour = dateTime.hour.toString().padLeft(2, '0');
   String minute = dateTime.minute.toString().padLeft(2, '0');
 
-  return '$month $day, $hour:$minute';
+  return '$hour:$minute, $day-$month';
 }
 
 String getMonthName(int month) {

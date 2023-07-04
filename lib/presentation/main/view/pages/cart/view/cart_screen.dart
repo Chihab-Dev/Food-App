@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
@@ -195,109 +194,147 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget cartOrderContainer(Order order, BuildContext context, BaseCubit cubit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10).copyWith(bottom: AppPadding.p10),
-      child: Slidable(
-        endActionPane: ActionPane(
-          motion: const StretchMotion(),
-          extentRatio: 0.25,
-          children: [
-            SlidableAction(
-              onPressed: (context) {
-                cubit.removeOrder(order);
-              },
-              icon: Icons.delete,
-              backgroundColor: ColorManager.red,
-              borderRadius: BorderRadius.circular(AppSize.s20),
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p12).copyWith(bottom: AppPadding.p10),
+      child: Container(
+        width: double.infinity,
+        height: AppSize.s100,
+        decoration: BoxDecoration(
+          color: ColorManager.white,
+          boxShadow: [
+            BoxShadow(
+              color: ColorManager.ligthGrey.withOpacity(0.1),
+              blurRadius: 5,
+              spreadRadius: 4,
+              offset: const Offset(4, 8),
             ),
           ],
+          borderRadius: BorderRadius.circular(AppSize.s20),
         ),
-        child: Container(
-          width: double.infinity,
-          height: AppSize.s100,
-          decoration: BoxDecoration(
-            color: ColorManager.white,
-            boxShadow: [
-              BoxShadow(
-                color: ColorManager.ligthGrey.withOpacity(0.1),
-                blurRadius: 5,
-                spreadRadius: 4,
-                offset: const Offset(4, 8),
-              ),
-            ],
-            borderRadius: BorderRadius.circular(AppSize.s20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s20),
-                    image: DecorationImage(
-                      image: NetworkImage(order.itemObject.image),
-                      fit: BoxFit.cover,
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.all(AppPadding.p8).copyWith(right: AppPadding.p16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s20),
+                  image: DecorationImage(
+                    image: NetworkImage(order.itemObject.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(width: AppSize.s15),
-                Column(
+              ),
+              const SizedBox(width: AppSize.s15),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      order.itemObject.title,
-                      style: getMeduimStyle(color: ColorManager.black),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          order.itemObject.title,
+                          style: getMeduimStyle(color: ColorManager.black),
+                        ),
+                        InkWell(
+                          onTap: () => cubit.removeOrder(order),
+                          child: Icon(
+                            Icons.close,
+                            color: ColorManager.red,
+                          ),
+                        ),
+                        // IconButton(
+                        //   padding: EdgeInsets.zero,
+                        //   onPressed: () {
+                        //     cubit.removeOrder(order);
+                        //   },
+                        //   icon: Icon(
+                        //     Icons.close,
+                        //     color: ColorManager.red,
+                        //   ),
+                        // ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () {
+                            InkWell(
+                              onTap: () {
                                 setState(() {
                                   if (order.quentity > 1) {
                                     order.quentity--;
                                   }
                                 });
                               },
-                              icon: Icon(
+                              child: Icon(
                                 Icons.remove,
                                 color: ColorManager.black,
                                 size: AppSize.s25,
                               ),
                             ),
+                            // IconButton(
+                            //   padding: EdgeInsets.zero,
+                            //   constraints: const BoxConstraints(),
+                            //   splashColor: Colors.transparent,
+                            //   highlightColor: Colors.transparent,
+                            //   onPressed: () {
+                            //     setState(() {
+                            //       if (order.quentity > 1) {
+                            //         order.quentity--;
+                            //       }
+                            //     });
+                            //   },
+                            //   icon: Icon(
+                            //     Icons.remove,
+                            //     color: ColorManager.black,
+                            //     size: AppSize.s25,
+                            //   ),
+                            // ),
                             // const SizedBox(width: AppSize.s4),
+                            const SizedBox(width: AppSize.s10),
                             Text(
                               order.quentity.toString(),
                               style: getMeduimStyle(color: ColorManager.black),
                             ),
                             // const SizedBox(width: AppSize.s4),
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () {
+                            const SizedBox(width: AppSize.s10),
+
+                            InkWell(
+                              onTap: () {
                                 setState(() {
                                   if (order.quentity < 10) {
                                     order.quentity++;
                                   }
                                 });
                               },
-                              icon: Icon(
+                              child: Icon(
                                 Icons.add,
                                 color: ColorManager.black,
                                 size: AppSize.s25,
                               ),
                             ),
+                            // IconButton(
+                            //   padding: EdgeInsets.zero,
+                            //   constraints: const BoxConstraints(),
+                            //   splashColor: Colors.transparent,
+                            //   highlightColor: Colors.transparent,
+                            //   onPressed: () {
+                            //     setState(() {
+                            //       if (order.quentity < 10) {
+                            //         order.quentity++;
+                            //       }
+                            //     });
+                            //   },
+                            //   icon: Icon(
+                            //     Icons.add,
+                            //     color: ColorManager.black,
+                            //     size: AppSize.s25,
+                            //   ),
+                            // ),
                           ],
                         ),
                         // SizedBox(width: MediaQuery.of(context).size.width / 4),
@@ -311,8 +348,8 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
