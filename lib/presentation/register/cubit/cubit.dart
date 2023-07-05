@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/data/response/responses.dart';
 import 'package:food_app/presentation/register/cubit/states.dart';
@@ -15,6 +16,10 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   final AppPrefrences _appPrefrences = AppPrefrences(instance());
+
+  TextEditingController nameController = TextEditingController();
+  bool isNameValid = false;
+  String? nameError;
 
   void userRegister({
     required String phoneNumber,
@@ -67,8 +72,8 @@ class RegisterCubit extends Cubit<RegisterStates> {
     });
   }
 
-  bool isNameValid(String name) {
-    if (name.length >= 8 &&
+  bool isNameValidFun(String name) {
+    if (name.length >= 7 &&
         name.length <= 15 &&
         name.startsWith(" ") == false &&
         name.endsWith(" ") == false &&

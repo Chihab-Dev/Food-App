@@ -14,6 +14,10 @@ class SigninCubit extends Cubit<SigninStates> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  TextEditingController phoneController = TextEditingController();
+  bool isPhoneValid = false;
+  String? phoneError;
+
   void verifyPhoneNumber(BuildContext context, String phoneNumber) async {
     try {
       emit(SigninVerifyPhoneNumberLoadingState());

@@ -18,10 +18,6 @@ class SigninView extends StatefulWidget {
 }
 
 class _SigninViewState extends State<SigninView> {
-  TextEditingController phoneController = TextEditingController();
-  bool isPhoneValid = false;
-  String? phoneError;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,13 +42,13 @@ class _SigninViewState extends State<SigninView> {
                       customFormField(
                         context,
                         (value) {
-                          isPhoneValid = cubit.isPhoneNumberValid(value, context);
-                          phoneError = cubit.phoneErrorMessage(value);
+                          cubit.isPhoneValid = cubit.isPhoneNumberValid(value, context);
+                          cubit.phoneError = cubit.phoneErrorMessage(value);
                         },
                         Icons.phone,
                         TextInputType.phone,
-                        phoneController,
-                        phoneError,
+                        cubit.phoneController,
+                        cubit.phoneError,
                         label: AppStrings.phoneNumber,
                       ),
                       const SizedBox(height: AppSize.s25),
@@ -62,9 +58,9 @@ class _SigninViewState extends State<SigninView> {
                               height: AppSize.s50,
                               width: AppSize.s300,
                               child: ElevatedButton(
-                                onPressed: isPhoneValid
+                                onPressed: cubit.isPhoneValid
                                     ? () {
-                                        cubit.verifyPhoneNumber(context, phoneController.text);
+                                        cubit.verifyPhoneNumber(context, cubit.phoneController.text);
                                       }
                                     : null,
                                 child: Text(

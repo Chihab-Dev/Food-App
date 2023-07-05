@@ -19,6 +19,9 @@ class OtpCubit extends Cubit<OtpStates> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final AppPrefrences _appPrefrences = AppPrefrences(instance());
 
+  TextEditingController codeController = TextEditingController();
+  bool isSmsCodeValid = false;
+
   void otpCheck({
     required BuildContext context,
     required String verificationId,
@@ -67,7 +70,7 @@ class OtpCubit extends Cubit<OtpStates> {
 
   // functions ::
 
-  bool isSmsCodeValid(String smsCode) {
+  bool isSmsCodeValidFun(String smsCode) {
     if (smsCode.length == 6) {
       emit(OtpSmsCodeValidState());
       return true;

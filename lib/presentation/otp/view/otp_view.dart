@@ -22,12 +22,9 @@ class OtpView extends StatefulWidget {
 }
 
 class _OtpViewState extends State<OtpView> {
-  TextEditingController codeController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     // FirebaseAuth auth = FirebaseAuth.instance;
-    bool isSmsCodeValid = false;
 
     return BlocProvider(
       create: (context) => OtpCubit(),
@@ -57,13 +54,13 @@ class _OtpViewState extends State<OtpView> {
                           SizedBox(
                             width: AppSize.s300,
                             child: PinCodeTextField(
-                              controller: codeController,
+                              controller: cubit.codeController,
                               appContext: context,
                               autoDismissKeyboard: true,
                               cursorColor: ColorManager.orange,
                               length: 6,
                               onChanged: (e) {
-                                isSmsCodeValid = cubit.isSmsCodeValid(e);
+                                cubit.isSmsCodeValid = cubit.isSmsCodeValidFun(e);
                               },
                             ),
                           ),
@@ -89,12 +86,12 @@ class _OtpViewState extends State<OtpView> {
                                   height: AppSize.s50,
                                   width: AppSize.s300,
                                   child: ElevatedButton(
-                                    onPressed: isSmsCodeValid == true
+                                    onPressed: cubit.isSmsCodeValid == true
                                         ? () {
                                             cubit.otpCheck(
                                               context: context,
                                               verificationId: widget.verificationId,
-                                              smsCode: codeController.text,
+                                              smsCode: cubit.codeController.text,
                                             );
                                           }
                                         : null,

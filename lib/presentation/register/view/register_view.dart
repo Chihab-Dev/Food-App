@@ -22,10 +22,6 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  TextEditingController nameController = TextEditingController();
-  bool isNameValid = false;
-  String? nameError;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -60,13 +56,13 @@ class _RegisterViewState extends State<RegisterView> {
                           customFormField(
                             context,
                             (value) {
-                              isNameValid = cubit.isNameValid(value);
-                              nameError = cubit.nameErrorMessage(value);
+                              cubit.isNameValid = cubit.isNameValidFun(value);
+                              cubit.nameError = cubit.nameErrorMessage(value);
                             },
                             Icons.person,
                             TextInputType.name,
-                            nameController,
-                            nameError,
+                            cubit.nameController,
+                            cubit.nameError,
                             label: AppStrings.fullName,
                           ),
                           const SizedBox(height: AppSize.s25),
@@ -76,12 +72,12 @@ class _RegisterViewState extends State<RegisterView> {
                                   height: AppSize.s50,
                                   width: AppSize.s300,
                                   child: ElevatedButton(
-                                    onPressed: isNameValid
+                                    onPressed: cubit.isNameValid
                                         ? () {
                                             cubit.userRegister(
                                                 phoneNumber: widget.phoneNumber,
                                                 uid: widget.uid,
-                                                fullName: nameController.text);
+                                                fullName: cubit.nameController.text);
                                           }
                                         : null,
                                     child: Text(

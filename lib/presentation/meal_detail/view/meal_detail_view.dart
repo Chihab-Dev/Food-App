@@ -96,6 +96,13 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           iconTheme: IconThemeData(
             color: ColorManager.orange,
             size: AppSize.s30,
+            shadows: [
+              BoxShadow(
+                color: ColorManager.black.withOpacity(1),
+                spreadRadius: 15,
+                blurRadius: 10,
+              ),
+            ],
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
