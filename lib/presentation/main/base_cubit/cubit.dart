@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/domain/usecases/add_item_to_favorite_list_usecase.dart';
 import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
+import 'package:food_app/domain/usecases/delete_ordere_usecase.dart';
 import 'package:food_app/domain/usecases/get_is_store_open_usecase.dart';
 import 'package:food_app/domain/usecases/get_user_data.dart';
 import 'package:food_app/domain/usecases/get_items_usecase.dart';
@@ -54,6 +55,7 @@ class BaseCubit extends Cubit<BaseStates> {
       RemoveItemFromFavoriteListUsecase(instance());
   final GetIsStoreOpenUsecase _getIsStoreOpenUsecase = GetIsStoreOpenUsecase(instance());
   final ChangeIsStoreOpenUsecase _changeIsStoreOpenUsecase = ChangeIsStoreOpenUsecase(instance());
+  final DeleteOrderUseCase _deleteOrderUseCase = DeleteOrderUseCase(instance());
 
   CustomerObject? customerObject;
 
@@ -192,6 +194,20 @@ class BaseCubit extends Cubit<BaseStates> {
     emit(BaseRemoveOrderSuccessState());
   }
 
+  void deleteOrder(String id) async {
+    emit(DeleteOrderFromFirebaseLoadingState());
+    (await _deleteOrderUseCase.start(id)).fold(
+      (failure) {
+        print("delete error");
+        emit(DeleteOrderFromFirebaseErrorState(failure.message));
+      },
+      (data) {
+        print("delete sucess");
+        emit(DeleteOrderFromFirebaseSuccessState());
+      },
+    );
+  }
+
   void sentOrderToFirebase() async {
     emit(SentOrderToFirebaseLoadingState());
     if (userOrders.isNotEmpty) {
@@ -214,11 +230,17 @@ class BaseCubit extends Cubit<BaseStates> {
           totalPreparingTime = calculateTotalPreparingTime(userOrders);
           userOrders = [];
           orderID = data;
+          _appPrefrences.setOrderId(orderID!);
           getRealTimeOrderState(orderID!);
           emit(SentOrderToFirebaseSuccessState());
         },
       );
     }
+  }
+
+  getOrderId() async {
+    orderID = await _appPrefrences.getOrderId();
+    print("order id :: $orderID");
   }
 
   // get order State live ::
@@ -273,7 +295,9 @@ class BaseCubit extends Cubit<BaseStates> {
             width: MediaQuery.of(context).size.width * 0.7,
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              deleteOrder(orderID!);
+              _appPrefrences.removeOrderId();
               orderID = null;
               emit(OrderDoneState());
             },

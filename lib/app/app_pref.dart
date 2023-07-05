@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String PREFS_KEY_ONBOARDING_SCREEN_VIEWED = "PREFS_KEY_ONBOARDING_SCREEN_VIEWED";
 const String PREFS_KEY_USER_LOGGED_IN = "PREFS_KEY_USER_LOGGED_IN";
 const String PREFS_KEY_USER_ID = "PREFS_KEY_USER_ID";
+const String PREFS_KEY_ORDER_ID = "PREFS_KEY_ORDER_ID";
 
 class AppPrefrences {
   final SharedPreferences _sharedPreferences;
@@ -30,11 +31,26 @@ class AppPrefrences {
   }
 
   // OnBoarding Viewd
+
   Future<void> setOnBoardingScreenViewed() async {
     _sharedPreferences.setBool(PREFS_KEY_ONBOARDING_SCREEN_VIEWED, true);
   }
 
   Future<bool> isOnBoardingScreenViewed() async {
     return _sharedPreferences.getBool(PREFS_KEY_ONBOARDING_SCREEN_VIEWED) ?? false;
+  }
+
+  // User Order ID
+
+  Future<void> setOrderId(String orderId) async {
+    await _sharedPreferences.setString(PREFS_KEY_ORDER_ID, orderId);
+  }
+
+  Future<String?> getOrderId() async {
+    return _sharedPreferences.getString(PREFS_KEY_ORDER_ID);
+  }
+
+  Future<void> removeOrderId() async {
+    _sharedPreferences.remove(PREFS_KEY_ORDER_ID);
   }
 }

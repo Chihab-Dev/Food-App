@@ -171,3 +171,15 @@ class ChangeIsStoreOpenErrorState extends BaseStates {
 // timer
 
 class ChangeTimerState extends BaseStates {}
+
+// delete order from firebase
+
+class DeleteOrderFromFirebaseLoadingState extends BaseStates {}
+
+class DeleteOrderFromFirebaseSuccessState extends BaseStates {}
+
+class DeleteOrderFromFirebaseErrorState extends BaseStates {
+  final String error;
+
+  DeleteOrderFromFirebaseErrorState(this.error);
+}

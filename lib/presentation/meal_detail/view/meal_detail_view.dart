@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
@@ -12,6 +13,7 @@ import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MealDetailScreen extends StatefulWidget {
   MealDetailScreen(this.item, {super.key});
@@ -88,6 +90,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
 
   Widget customScrollViewSliver(BuildContext context, BaseCubit cubit, BaseStates state) {
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
           iconTheme: IconThemeData(
@@ -102,6 +105,8 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           stretch: true,
           floating: true,
           flexibleSpace: FlexibleSpaceBar(
+            // title: text(widget.item.title),
+
             stretchModes: const [
               StretchMode.zoomBackground,
             ],
@@ -123,14 +128,43 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     );
   }
 
-  Container showImageContainer() {
-    return Container(
-      // width: double.infinity,
-      // height: 350,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(widget.item.image),
-          fit: BoxFit.cover,
+  Widget showImageContainer() {
+    return CachedNetworkImage(
+      imageUrl: widget.item.image,
+      fit: BoxFit.cover,
+      // imageBuilder: (context, imageProvider) {
+      //   return Container(
+      //     decoration: BoxDecoration(
+      //       borderRadius: BorderRadius.circular(AppSize.s20),
+      //       image: DecorationImage(
+      //         image: imageProvider,
+      //         fit: BoxFit.cover,
+      //       ),
+      //     ),
+      //   );
+      // },
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          // height: AppSize.s150,
+          // width: AppSize.s150,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(AppSize.s20),
+          ),
+        ),
+      ),
+      errorWidget: (context, url, error) => Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          // height: AppSize.s150,
+          // width: AppSize.s150,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(AppSize.s20),
+          ),
         ),
       ),
     );

@@ -298,12 +298,13 @@ int calculateTotalPreparingTime(List<Order> orders) {
 // GET TIME ::
 
 String getFormattedDateTime(DateTime dateTime) {
-  String month = getMonthName(dateTime.month);
-  String day = dateTime.day.toString().padLeft(2, '0');
+  // String month = getMonthName(dateTime.month);
+  // String day = dateTime.day.toString().padLeft(2, '0');
   String hour = dateTime.hour.toString().padLeft(2, '0');
   String minute = dateTime.minute.toString().padLeft(2, '0');
 
-  return '$hour:$minute, $day-$month';
+  // return '$hour:$minute, $day-$month';
+  return '$hour:$minute';
 }
 
 String getMonthName(int month) {
