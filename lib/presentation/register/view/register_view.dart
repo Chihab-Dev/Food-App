@@ -84,7 +84,10 @@ class _RegisterViewState extends State<RegisterView> {
                                                 fullName: nameController.text);
                                           }
                                         : null,
-                                    child: const Text(AppStrings.register),
+                                    child: Text(
+                                      AppStrings.register,
+                                      style: TextStyle(color: ColorManager.white),
+                                    ),
                                   ),
                                 ),
                         ],

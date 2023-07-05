@@ -67,7 +67,10 @@ class _SigninViewState extends State<SigninView> {
                                         cubit.verifyPhoneNumber(context, phoneController.text);
                                       }
                                     : null,
-                                child: const Text(AppStrings.login),
+                                child: Text(
+                                  AppStrings.login,
+                                  style: TextStyle(color: ColorManager.white),
+                                ),
                               ),
                             ),
                     ],

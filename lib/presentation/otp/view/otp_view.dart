@@ -98,7 +98,10 @@ class _OtpViewState extends State<OtpView> {
                                             );
                                           }
                                         : null,
-                                    child: const Text(AppStrings.otpVerify),
+                                    child: Text(
+                                      AppStrings.otpVerify,
+                                      style: TextStyle(color: ColorManager.white),
+                                    ),
                                   ),
                                 ),
                         ],

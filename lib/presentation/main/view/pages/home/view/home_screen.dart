@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<BaseCubit, BaseStates>(
       listener: (context, state) {
+        print(" 🌟🌟 STATE IS : $state");
         if (state is BaseGetUserDataErrorState) {
           errorToast(state.error).show(context);
         }
@@ -41,16 +42,16 @@ class HomeScreen extends StatelessWidget {
                 state is GetCurrentLocationLoadingState ||
                 state is BaseGetItemsLoadingState ||
                 state is BaseGetPopularItemsLoadingState ||
-                state is GetIsStoreOpenLoadingState)
+                state is GetIsStoreOpenLoadingState ||
+                items.isEmpty && popularItems.isEmpty ||
+                cubit.customerObject == null ||
+                cubit.placeName == null)
             ? loadingScreen()
             : (state is BaseGetUserDataErrorState ||
                     state is GetCurrentLocationErrorState ||
                     state is BaseGetItemsErrorState ||
                     state is BaseGetPopularItemsErrorState ||
-                    state is GetIsStoreOpenErrorState ||
-                    items.isEmpty && popularItems.isEmpty ||
-                    cubit.customerObject == null ||
-                    cubit.placeName == null)
+                    state is GetIsStoreOpenErrorState)
                 ? errorScreen(context)
                 : cubit.isStoreOpen == false
                     ? closedScreen()
