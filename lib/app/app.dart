@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
             ..getPopularItems()
             ..getIsStoreOpen()
             ..getOrderId(),
+          // ..requestPermission(),
         ),
       ],
       child: MaterialApp(

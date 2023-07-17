@@ -261,11 +261,18 @@ class FirebaseStoreClient {
       DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
 
       if (documentSnapshot.exists) {
-        
-        bool isOpen =( documentSnapshot.data() as Map<String, dynamic>)['isOpen'];
+        bool isOpen = (documentSnapshot.data() as Map<String, dynamic>)['isOpen'];
 
         await collectionReference.doc(documentSnapshot.id).update({'isOpen': !isOpen});
       }
     }
+  }
+
+  Future<void> saveToken(String token) async {
+    await _firestore.collection("userToken").doc('user1').set(
+      {
+        "token": token,
+      },
+    );
   }
 }

@@ -18,4 +18,5 @@ abstract class Repository {
   Future<Either<Failure, void>> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject);
   Future<Either<Failure, bool>> getIsStoreOpen();
   Future<Either<Failure, void>> changeIsStoreOpen();
+  Future<Either<Failure, void>> saveToken(String token);
 }

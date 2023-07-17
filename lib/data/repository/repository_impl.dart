@@ -3,6 +3,7 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:food_app/data/data_source/remote_data_source.dart';
 import 'package:food_app/data/mapper/mapper.dart';
 import 'package:food_app/data/network/error_handler.dart';
@@ -217,6 +218,20 @@ class RepositoryImpl implements Repository {
     if (await _networkInfo.isConnected) {
       try {
         await _remoteDataSource.changeIsStoreOpen();
+        return right(Void);
+      } on FirebaseException catch (error) {
+        return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> saveToken(String token) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        await _remoteDataSource.saveToken(token);
         return right(Void);
       } on FirebaseException catch (error) {
         return left(Failure(error.code, error.message.toString()));

@@ -3,8 +3,10 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/domain/usecases/add_item_to_favorite_list_usecase.dart';
 import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
@@ -15,6 +17,7 @@ import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_real_time_order_state_usecase.dart';
 import 'package:food_app/domain/usecases/remove_item_from_favorite_list_usecase.dart';
+import 'package:food_app/domain/usecases/save_token_usecase.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
@@ -24,6 +27,7 @@ import 'package:food_app/presentation/resources/widgets.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 // import 'package:url_launcher/url_launcher_string.dart';
 
@@ -31,6 +35,7 @@ import '../../../app/app_pref.dart';
 import '../../../app/di.dart';
 import '../../../domain/usecases/change_is_store_open_usecase.dart';
 import '../../../domain/usecases/sent_orders_tofirebase_ucecase.dart';
+import '../../resources/appsize.dart';
 import '../view/pages/home/view/home_screen.dart';
 import '../view/pages/profile/view/profile_screen.dart';
 import '../view/pages/search/view/search_screen.dart';
@@ -56,6 +61,7 @@ class BaseCubit extends Cubit<BaseStates> {
   final GetIsStoreOpenUsecase _getIsStoreOpenUsecase = GetIsStoreOpenUsecase(instance());
   final ChangeIsStoreOpenUsecase _changeIsStoreOpenUsecase = ChangeIsStoreOpenUsecase(instance());
   final DeleteOrderUseCase _deleteOrderUseCase = DeleteOrderUseCase(instance());
+  final SaveTokenUsecase _saveTokenUsecase = SaveTokenUsecase(instance());
 
   CustomerObject? customerObject;
 
@@ -257,7 +263,7 @@ class BaseCubit extends Cubit<BaseStates> {
         children: [
           Text(
             AppStrings.preparingYourOrder,
-            style: getlargeStyle(color: ColorManager.orange),
+            style: getlargeStyle(color: ColorManager.orange).copyWith(fontWeight: FontWeight.bold),
           ),
           LottieBuilder.asset(
             LottieAsset.burgerMachine,
@@ -273,12 +279,103 @@ class BaseCubit extends Cubit<BaseStates> {
         children: [
           Text(
             AppStrings.deliveringYourOrder,
-            style: getlargeStyle(color: ColorManager.orange),
+            style: getlargeStyle(color: ColorManager.orange).copyWith(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: AppSize.s40),
           LottieBuilder.asset(
             LottieAsset.delivery,
             width: MediaQuery.of(context).size.width * 0.7,
           ),
+          const SizedBox(height: AppSize.s80),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () => openMap(),
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppSize.s25),
+                    color: ColorManager.orange,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorManager.orange.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: ColorManager.white,
+                        ),
+                        const SizedBox(width: AppSize.s10),
+                        Expanded(
+                          child: Text(
+                            "See Location",
+                            style: getMeduimStyle(color: ColorManager.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  final Uri call = Uri(
+                    scheme: 'tel',
+                    path: '+213656933390',
+                  );
+                  if (await canLaunchUrl(call)) {
+                    await launchUrl(call);
+                  } else {
+                    throw 'Could not launch $call';
+                  }
+                },
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppSize.s25),
+                    color: ColorManager.orange,
+                    boxShadow: [
+                      BoxShadow(
+                        color: ColorManager.orange.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 6,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.phone,
+                          color: ColorManager.white,
+                        ),
+                        const SizedBox(width: AppSize.s10),
+                        Expanded(
+                          child: Text(
+                            "Call delivery",
+                            style: getMeduimStyle(color: ColorManager.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       );
     }
@@ -288,7 +385,7 @@ class BaseCubit extends Cubit<BaseStates> {
         children: [
           Text(
             AppStrings.yourOrderHasBeenDelivered,
-            style: getlargeStyle(color: ColorManager.orange),
+            style: getlargeStyle(color: ColorManager.orange).copyWith(fontWeight: FontWeight.bold),
           ),
           LottieBuilder.asset(
             LottieAsset.orderRecived,
@@ -316,7 +413,7 @@ class BaseCubit extends Cubit<BaseStates> {
         children: [
           Text(
             AppStrings.waitingForYourTurn,
-            style: getlargeStyle(color: ColorManager.orange),
+            style: getlargeStyle(color: ColorManager.orange).copyWith(fontWeight: FontWeight.bold),
           ),
           LottieBuilder.asset(
             LottieAsset.blueBirdWaiting,
@@ -547,4 +644,87 @@ class BaseCubit extends Cubit<BaseStates> {
 //     throw "Couldn't launch URL: $googleUrl";
 //   }
 //   }
+
+  // NOTIFICATION ::
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  requestPermission() async {
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print(' 🛠️ User granted permission');
+      getToken();
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+      print(' 🛠️ User granted provisional permission');
+    } else {
+      print(' 🛠️ User declined or has not accepted permission');
+    }
+  }
+
+  getToken() async {
+    await FirebaseMessaging.instance.getToken().then((value) {
+      print(" 🧢 phone Token is :: $value");
+      saveToken(value!);
+    });
+  }
+
+  saveToken(String token) async {
+    emit(SaveTokenLoadingState());
+    (await _saveTokenUsecase.start(token)).fold(
+      (failure) {
+        emit(SaveTokenErrorState(failure.message));
+        print("error save token  to db");
+      },
+      (data) {
+        emit(SaveTokenSuccessState());
+        print("Token saved to db");
+      },
+    );
+  }
+
+  // initInfo() {
+  //   AndroidInitializationSettings? androidInitialize = const AndroidInitializationSettings('@mipmap/ic_launcher ');
+  //   DarwinInitializationSettings? iOSInitialize = const DarwinInitializationSettings();
+  //   var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
+  //   flutterLocalNotificationsPlugin.initialize(initializationsSettings,notificatoin,);
+  // }
+
+// // Function to send a notification to a specific device token
+// Future<void> sendNotificationToToken(String deviceToken, String message) async {
+//   try {
+//     // Create an instance of FirebaseMessaging
+//     final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+//     // Configure FirebaseMessaging
+//     await firebaseMessaging.requestPermission(
+//       sound: true,
+//       badge: true,
+//       alert: true,
+//       provisional: false,
+//     );
+
+//     // Send the notification to the device token
+//     await firebaseMessaging.sendMessage(
+
+//       data: {
+//         'message': message,
+//       },
+//       token: deviceToken,
+//     );
+
+//     print('Notification sent successfully!');
+//   } catch (e) {
+//     print('Failed to send notification: $e');
+//   }
+// }
 }

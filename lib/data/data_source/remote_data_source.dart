@@ -18,6 +18,7 @@ abstract class RemoteDataSource {
   Future<void> removeItemFromFavoriteList(AddToFavoriteObject addToFavoriteObject);
   Future<bool> getIsStoreOpen();
   Future<void> changeIsStoreOpen();
+  Future<void> saveToken(String token);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -97,5 +98,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<void> changeIsStoreOpen() async {
     return await _firebaseStoreClient.changeIsStoreOpen();
+  }
+
+  @override
+  Future<void> saveToken(String token) async {
+    return await _firebaseStoreClient.saveToken(token);
   }
 }
