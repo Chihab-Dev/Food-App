@@ -30,7 +30,7 @@ class AppStrings {
   // Admin add new meal
 
   static const String addNewMealScreen = "Add New Meal Screen";
-  static const String mealTitle = "meal title";
+  static const String mealTitle = "meal title :";
   static const String mealDescription = "meal description";
   static const String mealPrice = "meal price :";
   static const String mealStars = "meal stars :";

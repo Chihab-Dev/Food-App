@@ -75,19 +75,19 @@ class AdminAllItems extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSize.s20),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s20),
-                    image: DecorationImage(
-                      image: NetworkImage(item.image),
-                      fit: BoxFit.cover,
-                    ),
+              Container(
+                width: MediaQuery.sizeOf(context).width / 2.5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s20),
+                  image: DecorationImage(
+                    image: NetworkImage(item.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
+              const SizedBox(width: AppSize.s15),
               Flexible(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
