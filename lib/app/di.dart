@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/data/data_source/remote_data_source.dart';
+import 'package:food_app/data/network/fcm.dart';
 import 'package:food_app/data/network/firebase_store.dart';
 import 'package:food_app/data/network/network_info.dart';
 import 'package:food_app/data/repository/repository_impl.dart';
@@ -25,7 +26,9 @@ Future<void> initAppModule() async {
 
   instance.registerLazySingleton<FirebaseStoreClient>(() => FirebaseStoreClient(firestore));
 
-  instance.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(instance()));
+  instance.registerLazySingleton<Fcm>(() => Fcm());
+
+  instance.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(instance(), instance()));
 
   instance.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(InternetConnectionChecker()));
 

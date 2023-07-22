@@ -82,6 +82,7 @@ ClientAllOrdersResponse _$ClientAllOrdersResponseFromJson(
       json['phoneNumber'] as String?,
       json['location'] as String?,
       json['orderId'] as String?,
+      json['orderToken'] as String?,
       $enumDecodeNullable(_$OrderStateEnumMap, json['state']),
     )..date = json['date'] as String?;
 
@@ -93,6 +94,7 @@ Map<String, dynamic> _$ClientAllOrdersResponseToJson(
       'location': instance.location,
       'orderId': instance.orderId,
       'date': instance.date,
+      'orderToken': instance.orderToken,
       'state': _$OrderStateEnumMap[instance.state],
     };
 

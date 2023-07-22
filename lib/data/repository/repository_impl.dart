@@ -12,6 +12,7 @@ import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/data/network/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:food_app/domain/repository/repostitory.dart';
+import 'package:http/src/response.dart';
 
 import '../network/network_info.dart';
 
@@ -235,6 +236,20 @@ class RepositoryImpl implements Repository {
         return right(Void);
       } on FirebaseException catch (error) {
         return left(Failure(error.code, error.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Response>> sentPushNotification(String token, String notificationBody) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        Response res = await _remoteDataSource.sentPushNotification(token, notificationBody);
+        return right(res);
+      } catch (e) {
+        return left(Failure('0', 'push notification error : $e'));
       }
     } else {
       return left(DataSource.NO_INTERNET_CONNECTION.getFailure());

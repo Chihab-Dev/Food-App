@@ -1,6 +1,8 @@
+import 'package:food_app/data/network/fcm.dart';
 import 'package:food_app/data/network/firebase_store.dart';
 import 'package:food_app/data/response/responses.dart';
 import 'package:food_app/domain/model/models.dart';
+import 'package:http/http.dart';
 
 abstract class RemoteDataSource {
   Future<CustomerResponse> getUserData(String uid);
@@ -19,11 +21,13 @@ abstract class RemoteDataSource {
   Future<bool> getIsStoreOpen();
   Future<void> changeIsStoreOpen();
   Future<void> saveToken(String token);
+  Future<Response> sentPushNotification(String token, String notificationBody);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   final FirebaseStoreClient _firebaseStoreClient;
-  RemoteDataSourceImpl(this._firebaseStoreClient);
+  final Fcm _fcm;
+  RemoteDataSourceImpl(this._firebaseStoreClient, this._fcm);
 
   @override
   Future<CustomerResponse> getUserData(String uid) async {
@@ -103,5 +107,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<void> saveToken(String token) async {
     return await _firebaseStoreClient.saveToken(token);
+  }
+
+  @override
+  Future<Response> sentPushNotification(String token, String notificationBody) async {
+    return _fcm.sentPushNotification(token, notificationBody);
   }
 }

@@ -17,7 +17,6 @@ import 'package:food_app/domain/usecases/get_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_popular_items_usecase.dart';
 import 'package:food_app/domain/usecases/get_real_time_order_state_usecase.dart';
 import 'package:food_app/domain/usecases/remove_item_from_favorite_list_usecase.dart';
-import 'package:food_app/domain/usecases/save_token_usecase.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
@@ -61,7 +60,6 @@ class BaseCubit extends Cubit<BaseStates> {
   final GetIsStoreOpenUsecase _getIsStoreOpenUsecase = GetIsStoreOpenUsecase(instance());
   final ChangeIsStoreOpenUsecase _changeIsStoreOpenUsecase = ChangeIsStoreOpenUsecase(instance());
   final DeleteOrderUseCase _deleteOrderUseCase = DeleteOrderUseCase(instance());
-  final SaveTokenUsecase _saveTokenUsecase = SaveTokenUsecase(instance());
 
   CustomerObject? customerObject;
 
@@ -224,6 +222,7 @@ class BaseCubit extends Cubit<BaseStates> {
           placeName!,
           "",
           getFormattedDateTime(DateTime.now()),
+          deviceToken,
           OrderState.WAITING,
         ),
       ))
@@ -646,6 +645,9 @@ class BaseCubit extends Cubit<BaseStates> {
 //   }
 
   // NOTIFICATION ::
+
+  String deviceToken = '';
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   requestPermission() async {
@@ -663,7 +665,7 @@ class BaseCubit extends Cubit<BaseStates> {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print(' 🛠️ User granted permission');
-      getToken();
+      getDeviceToken();
     } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       print(' 🛠️ User granted provisional permission');
     } else {
@@ -671,60 +673,29 @@ class BaseCubit extends Cubit<BaseStates> {
     }
   }
 
-  getToken() async {
+  Future getDeviceToken() async {
+    emit(GetTokenLoadingState());
     await FirebaseMessaging.instance.getToken().then((value) {
       print(" 🧢 phone Token is :: $value");
-      saveToken(value!);
+      deviceToken = value!;
+      emit(GetTokenSuccessState());
+    }).catchError((e) {
+      print("Get device token error");
+      emit(GetTokenErrorState(e));
     });
   }
 
-  saveToken(String token) async {
-    emit(SaveTokenLoadingState());
-    (await _saveTokenUsecase.start(token)).fold(
-      (failure) {
-        emit(SaveTokenErrorState(failure.message));
-        print("error save token  to db");
-      },
-      (data) {
-        emit(SaveTokenSuccessState());
-        print("Token saved to db");
-      },
-    );
-  }
-
-  // initInfo() {
-  //   AndroidInitializationSettings? androidInitialize = const AndroidInitializationSettings('@mipmap/ic_launcher ');
-  //   DarwinInitializationSettings? iOSInitialize = const DarwinInitializationSettings();
-  //   var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
-  //   flutterLocalNotificationsPlugin.initialize(initializationsSettings,notificatoin,);
+  // saveDeviceToken(String token) async {
+  //   emit(SaveTokenLoadingState());
+  //   (await _saveTokenUsecase.start(token)).fold(
+  //     (failure) {
+  //       emit(SaveTokenErrorState(failure.message));
+  //       print("error save token  to db");
+  //     },
+  //     (data) {
+  //       emit(SaveTokenSuccessState());
+  //       print("Token saved to db");
+  //     },
+  //   );
   // }
-
-// // Function to send a notification to a specific device token
-// Future<void> sendNotificationToToken(String deviceToken, String message) async {
-//   try {
-//     // Create an instance of FirebaseMessaging
-//     final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-
-//     // Configure FirebaseMessaging
-//     await firebaseMessaging.requestPermission(
-//       sound: true,
-//       badge: true,
-//       alert: true,
-//       provisional: false,
-//     );
-
-//     // Send the notification to the device token
-//     await firebaseMessaging.sendMessage(
-
-//       data: {
-//         'message': message,
-//       },
-//       token: deviceToken,
-//     );
-
-//     print('Notification sent successfully!');
-//   } catch (e) {
-//     print('Failed to send notification: $e');
-//   }
-// }
 }

@@ -61,6 +61,7 @@ extension OrdersResponseMapper on ClientAllOrdersResponse? {
       this?.location.orEmpty() ?? Constants.empty,
       this?.orderId.orEmpty() ?? Constants.empty,
       this?.date.orEmpty() ?? Constants.empty,
+      this?.orderToken.orEmpty() ?? Constants.empty,
       this?.state.orDefaultState() ?? OrderState.WAITING,
     );
   }

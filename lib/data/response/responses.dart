@@ -79,10 +79,12 @@ class ClientAllOrdersResponse {
   late String? orderId;
   @JsonKey(name: 'date')
   late String? date;
+  @JsonKey(name: 'orderToken')
+  late String? orderToken;
   @JsonKey(name: 'state')
   late OrderState? state;
 
-  ClientAllOrdersResponse(this.orders, this.phoneNumber, this.location, this.orderId, this.state);
+  ClientAllOrdersResponse(this.orders, this.phoneNumber, this.location, this.orderId, this.orderToken, this.state);
 
   // doesn't handle the list ::
   // factory ClientAllOrdersResponse.fromJson(Map<String, dynamic> json) => _$ClientAllOrdersResponseFromJson(json);
@@ -114,6 +116,7 @@ class ClientAllOrdersResponse {
     location = json["location"];
     orderId = json["orderId"];
     date = json["date"];
+    orderToken = json["orderToken"];
     state = OrderState.values.firstWhere(
       (element) => element.toString() == 'OrderState.${json["state"]}',
       orElse: () => OrderState.WAITING, // Provide a default value if the state value is invalid

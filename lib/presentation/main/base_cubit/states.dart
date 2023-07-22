@@ -184,14 +184,14 @@ class DeleteOrderFromFirebaseErrorState extends BaseStates {
   DeleteOrderFromFirebaseErrorState(this.error);
 }
 
-// Save token
+// Get token
 
-class SaveTokenLoadingState extends BaseStates {}
+class GetTokenLoadingState extends BaseStates {}
 
-class SaveTokenSuccessState extends BaseStates {}
+class GetTokenSuccessState extends BaseStates {}
 
-class SaveTokenErrorState extends BaseStates {
+class GetTokenErrorState extends BaseStates {
   final String error;
 
-  SaveTokenErrorState(this.error);
+  GetTokenErrorState(this.error);
 }

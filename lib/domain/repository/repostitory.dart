@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:food_app/data/network/failure.dart';
 import 'package:food_app/domain/model/models.dart';
+import 'package:http/http.dart';
 
 abstract class Repository {
   Future<Either<Failure, CustomerObject>> getUserData(String uid);
@@ -19,4 +20,5 @@ abstract class Repository {
   Future<Either<Failure, bool>> getIsStoreOpen();
   Future<Either<Failure, void>> changeIsStoreOpen();
   Future<Either<Failure, void>> saveToken(String token);
+  Future<Either<Failure, Response>> sentPushNotification(String token, String notificationBody);
 }

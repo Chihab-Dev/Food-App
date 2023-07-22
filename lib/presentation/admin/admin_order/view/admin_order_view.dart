@@ -82,13 +82,13 @@ class AdminOrderView extends StatelessWidget {
           child: Row(
             children: [
               orderStateContainer(AppStrings.startPreparring, () {
-                cubit.changeOrderState(clientAllOrders.orderId, OrderState.PREPARING);
+                cubit.changeOrderState(clientAllOrders.orderId, clientAllOrders.orderToken, OrderState.PREPARING);
               }),
               orderStateContainer(AppStrings.startDelivering, () {
-                cubit.changeOrderState(clientAllOrders.orderId, OrderState.DELIVERING);
+                cubit.changeOrderState(clientAllOrders.orderId, clientAllOrders.orderToken, OrderState.DELIVERING);
               }),
               orderStateContainer(AppStrings.orderDelivered, () {
-                cubit.changeOrderState(clientAllOrders.orderId, OrderState.FINISHED);
+                cubit.changeOrderState(clientAllOrders.orderId, clientAllOrders.orderToken, OrderState.FINISHED);
               }),
             ],
           ),

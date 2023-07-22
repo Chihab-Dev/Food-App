@@ -37,3 +37,15 @@ class ChangeOrderStateErrorState extends AdminStates {
 
   ChangeOrderStateErrorState(this.error);
 }
+
+// sent push notification ::
+
+class SentPushNotificationLoadingState extends AdminStates {}
+
+class SentPushNotificationSuccessState extends AdminStates {}
+
+class SentPushNotificationErrorState extends AdminStates {
+  final String error;
+
+  SentPushNotificationErrorState(this.error);
+}

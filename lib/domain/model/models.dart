@@ -79,6 +79,7 @@ class ClientAllOrders {
   late String location;
   late String orderId;
   late String date;
+  String orderToken;
   OrderState state;
 
   ClientAllOrders(
@@ -87,6 +88,7 @@ class ClientAllOrders {
     this.location,
     this.orderId,
     this.date,
+    this.orderToken,
     this.state,
   );
 
@@ -110,6 +112,7 @@ class ClientAllOrders {
       'location': location,
       'orderId': orderId,
       'date': date,
+      'orderToken': orderToken,
       'state': state.toString().split('.').last,
     };
   }
