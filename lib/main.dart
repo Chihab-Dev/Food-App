@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/app/app.dart';
 import 'package:food_app/app/di.dart';
 import 'package:food_app/firebase_options.dart';
+import 'package:food_app/presentation/resources/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,7 @@ void main() async {
   );
 
   await FirebaseMessaging.instance.getInitialMessage();
+  LocalNotificationService().initNotification();
 
   await initAppModule();
 

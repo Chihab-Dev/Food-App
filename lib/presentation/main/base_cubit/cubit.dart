@@ -20,6 +20,7 @@ import 'package:food_app/domain/usecases/remove_item_from_favorite_list_usecase.
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
+import 'package:food_app/presentation/resources/notification_service.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
@@ -243,7 +244,7 @@ class BaseCubit extends Cubit<BaseStates> {
     }
   }
 
-  getOrderId() async {
+  void getOrderId() async {
     orderID = await _appPrefrences.getOrderId();
     print("order id :: $orderID");
   }
@@ -255,8 +256,9 @@ class BaseCubit extends Cubit<BaseStates> {
   }
 
   Widget getStateWidget(String state, BuildContext context) {
+    LocalNotificationService localNotificationService = LocalNotificationService();
     if (OrderState.PREPARING.toString().split('.').last == state) {
-      // startTimer();
+      pushLocalNotification(localNotificationService, 'Order', 'Your order is preparing');
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -273,6 +275,7 @@ class BaseCubit extends Cubit<BaseStates> {
       );
     }
     if (OrderState.DELIVERING.toString().split('.').last == state) {
+      pushLocalNotification(localNotificationService, 'Order', 'Your order is delivering');
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -379,6 +382,7 @@ class BaseCubit extends Cubit<BaseStates> {
       );
     }
     if (OrderState.FINISHED.toString().split('.').last == state) {
+      pushLocalNotification(localNotificationService, 'Order', 'Your order is finished');
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -404,9 +408,7 @@ class BaseCubit extends Cubit<BaseStates> {
           )
         ],
       );
-    } else
-    // (OrderState.WAITING.toString().split('.').last == state)
-    {
+    } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -421,6 +423,14 @@ class BaseCubit extends Cubit<BaseStates> {
         ],
       );
     }
+  }
+
+  pushLocalNotification(LocalNotificationService localNotificationService, String title, String body) async {
+    localNotificationService.showNotification(title, body, null).then((value) {
+      print("🌟 Local Notification Success");
+    }).catchError((error) {
+      print("🌟 Local Notification error  ${error.toString()}");
+    });
   }
 
   // Timer ::

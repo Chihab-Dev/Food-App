@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Row(
             children: [
-              if (cubit.customerObject!.uid == "VthqCWpwcZMBBzRW2vGWo3STdWA3")
+              if (cubit.customerObject!.uid == AppStrings.adminID)
                 IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, Routes.admin);

@@ -1,4 +1,6 @@
 class AppStrings {
+  // admin
+  static const String adminID = "VthqCWpwcZMBBzRW2vGWo3STdWA3";
   // favorite screen
   static const String favorite = "Favorite";
   // profile screen
