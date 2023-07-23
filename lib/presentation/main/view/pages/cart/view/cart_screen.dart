@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
@@ -8,6 +9,7 @@ import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -216,13 +218,43 @@ class _CartScreenState extends State<CartScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s20),
-                  image: DecorationImage(
-                    image: NetworkImage(order.itemObject.image),
-                    fit: BoxFit.cover,
+              CachedNetworkImage(
+                imageUrl: order.itemObject.image,
+                fit: BoxFit.cover,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    width: AppSize.s100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    // height: AppSize.s150,
+                    width: AppSize.s100,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    // height: AppSize.s150,
+                    width: AppSize.s100,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(AppSize.s20),
+                    ),
                   ),
                 ),
               ),
