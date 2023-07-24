@@ -37,6 +37,20 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, void>> verifyPhoneNumber(VerifyPhoneNumberModel varifyPhoneNumberModel) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        _remoteDataSource.verifyPhoneNumber(varifyPhoneNumberModel);
+        return right(Void);
+      } on FirebaseAuthException catch (e) {
+        return left(Failure(e.code, e.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, CustomerObject>> getUserData(String uid) async {
     if (await _networkInfo.isConnected) {
       try {

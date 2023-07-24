@@ -33,6 +33,35 @@ class FirebaseAuthentication {
 
     return OtpCheckModel(documentSnapshot, credentials);
   }
+
+  Future<void> verifyPhoneNumber(VerifyPhoneNumberModel parameter) async {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: parameter.phoneNumber,
+      verificationCompleted: parameter.verificationCompleted,
+      verificationFailed: parameter.verificationFailed,
+      codeSent: parameter.codeSent,
+      codeAutoRetrievalTimeout: parameter.codeAutoRetrievalTimeout,
+      timeout: parameter.timeout,
+    );
+  }
+}
+
+class VerifyPhoneNumberModel {
+  String phoneNumber;
+  Function(PhoneAuthCredential) verificationCompleted;
+  Function(FirebaseAuthException) verificationFailed;
+  Function(String, int?) codeSent;
+  Function(String) codeAutoRetrievalTimeout;
+  Duration timeout = const Duration(seconds: 30);
+
+  VerifyPhoneNumberModel(
+    this.phoneNumber,
+    this.verificationCompleted,
+    this.verificationFailed,
+    this.codeSent,
+    this.codeAutoRetrievalTimeout,
+    this.timeout,
+  );
 }
 
 class OtpCheckModel {

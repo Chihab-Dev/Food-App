@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/app/di.dart';
+import 'package:food_app/data/network/firebase_auth.dart';
+import 'package:food_app/domain/usecases/verify_phone_number_usecase.dart';
 import 'package:food_app/presentation/signin/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
@@ -12,43 +15,43 @@ class SigninCubit extends Cubit<SigninStates> {
 
   static SigninCubit get(context) => BlocProvider.of(context);
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  VerifyPhoneNumberUsecase verifyPhoneNumberUsecase = VerifyPhoneNumberUsecase(instance());
 
   TextEditingController phoneController = TextEditingController();
   bool isPhoneValid = false;
   String? phoneError;
 
   void verifyPhoneNumber(BuildContext context, String phoneNumber) async {
-    try {
-      emit(SigninVerifyPhoneNumberLoadingState());
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+213$phoneNumber',
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // print("✅ verification Completed ${credential.verificationId}");
-          // await auth.signInWithCredential(credential);
-          // if (auth.currentUser != null) {
-          //   Navigator.pushReplacementNamed(context, Routes.main);
-          // }
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          emit(SigninVerifyPhoneNumberErrorState());
-          print("🛑 verification Failed ${e.code}  ${e.message}");
-          errorToast(e.message ?? AppStrings.verificationFailed).show(context);
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          emit(SigninVerifyPhoneNumberSuccessState());
-          Navigator.pushNamed(context, Routes.otp, arguments: verificationId);
-        },
-
-        timeout: const Duration(seconds: 60),
-        // ki y5las timeOut li 7tito (ex: 10s) t5fm function hadi
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
-    } catch (e) {
-      emit(SigninVerifyPhoneNumberErrorState());
-      errorToast(e.toString()).show(context);
-      print("🔥 verifyPhoneNumber error : $e");
-    }
+    emit(SigninVerifyPhoneNumberLoadingState());
+    (await verifyPhoneNumberUsecase.start(VerifyPhoneNumberModel(
+      '+213$phoneNumber',
+      (PhoneAuthCredential credential) async {
+        // print("✅ verification Completed ${credential.verificationId}");
+        // await auth.signInWithCredential(credential);
+        // if (auth.currentUser != null) {
+        //   Navigator.pushReplacementNamed(context, Routes.main);
+        // }
+      },
+      (FirebaseAuthException e) {
+        emit(SigninVerifyPhoneNumberErrorState());
+        print("🛑 verification Failed ${e.code}  ${e.message}");
+        errorToast(e.message ?? AppStrings.verificationFailed).show(context);
+      },
+      (String verificationId, int? resendToken) {
+        emit(SigninVerifyPhoneNumberSuccessState());
+        Navigator.pushNamed(context, Routes.otp, arguments: verificationId);
+      },
+      (String verificationId) {},
+      const Duration(seconds: 60),
+    )))
+        .fold(
+      (failure) {
+        emit(SigninVerifyPhoneNumberErrorState());
+        errorToast(failure.message.toString()).show(context);
+        print("🔥 verifyPhoneNumber error : ${failure.message}");
+      },
+      (data) {},
+    );
   }
 
   bool isPhoneNumberValid(String phoneNumber, BuildContext context) {

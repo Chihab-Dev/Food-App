@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 
 abstract class RemoteDataSource {
   Future<OtpCheckModel> otpCheck(String verificationId, String smsCode);
+  Future<void> verifyPhoneNumber(VerifyPhoneNumberModel varifyPhoneNumberModel);
   Future<CustomerResponse> getUserData(String uid);
   Future<List<ItemResponse>> getPopularItems();
   Future<List<ItemResponse>> getItems();
@@ -35,6 +36,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<OtpCheckModel> otpCheck(String verificationId, String smsCode) async {
     return await _firebaseAuthentication.otpCheck(verificationId, smsCode);
+  }
+
+  @override
+  Future<void> verifyPhoneNumber(VerifyPhoneNumberModel varifyPhoneNumberModel) async {
+    return await _firebaseAuthentication.verifyPhoneNumber(varifyPhoneNumberModel);
   }
 
   @override
