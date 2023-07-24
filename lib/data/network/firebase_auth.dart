@@ -44,6 +44,18 @@ class FirebaseAuthentication {
       timeout: parameter.timeout,
     );
   }
+
+  Future<void> userRegister(UserRegister userRegister) async {
+    await _auth.currentUser!.updateDisplayName(userRegister.fullName);
+  }
+}
+
+class UserRegister {
+  String phoneNumber;
+  String uid;
+  String fullName;
+
+  UserRegister(this.fullName, this.phoneNumber, this.uid);
 }
 
 class VerifyPhoneNumberModel {

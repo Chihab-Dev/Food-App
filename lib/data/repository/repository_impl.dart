@@ -23,6 +23,34 @@ class RepositoryImpl implements Repository {
   RepositoryImpl(this._remoteDataSource, this._networkInfo);
 
   @override
+  Future<Either<Failure, void>> userCreate(UserRegister userRegister) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        _remoteDataSource.userCreate(userRegister);
+        return right(Void);
+      } catch (e) {
+        return left(Failure(e.hashCode.toString(), e.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> userRegister(UserRegister userRegister) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        _remoteDataSource.userRegister(userRegister);
+        return right(Void);
+      } catch (e) {
+        return left(Failure(e.hashCode.toString(), e.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, OtpCheckModel>> otpCheck(String verificationId, String smsCode) async {
     if (await _networkInfo.isConnected) {
       try {

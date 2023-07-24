@@ -6,6 +6,8 @@ import 'package:food_app/domain/model/models.dart';
 import 'package:http/http.dart';
 
 abstract class RemoteDataSource {
+  Future<void> userCreate(UserRegister userRegister);
+  Future<void> userRegister(UserRegister userRegister);
   Future<OtpCheckModel> otpCheck(String verificationId, String smsCode);
   Future<void> verifyPhoneNumber(VerifyPhoneNumberModel varifyPhoneNumberModel);
   Future<CustomerResponse> getUserData(String uid);
@@ -32,6 +34,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   final FirebaseAuthentication _firebaseAuthentication;
   final Fcm _fcm;
   RemoteDataSourceImpl(this._firebaseStoreClient, this._firebaseAuthentication, this._fcm);
+
+  @override
+  Future<void> userCreate(UserRegister userRegister) async {
+    await _firebaseStoreClient.userCreate(userRegister);
+  }
+
+  @override
+  Future<void> userRegister(UserRegister userRegister) async {
+    await _firebaseAuthentication.userRegister(userRegister);
+  }
 
   @override
   Future<OtpCheckModel> otpCheck(String verificationId, String smsCode) async {

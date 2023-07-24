@@ -6,6 +6,8 @@ import 'package:http/http.dart';
 import '../../data/network/firebase_auth.dart';
 
 abstract class Repository {
+  Future<Either<Failure, void>> userCreate(UserRegister userRegister);
+  Future<Either<Failure, void>> userRegister(UserRegister userRegister);
   Future<Either<Failure, OtpCheckModel>> otpCheck(String verificationId, String smsCode);
   Future<Either<Failure, void>> verifyPhoneNumber(VerifyPhoneNumberModel varifyPhoneNumberModel);
   Future<Either<Failure, CustomerObject>> getUserData(String uid);

@@ -8,10 +8,23 @@ import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import 'firebase_auth.dart';
+
 class FirebaseStoreClient {
   final FirebaseFirestore _firestore;
 
   FirebaseStoreClient(this._firestore);
+
+  Future<void> userCreate(UserRegister userRegister) async {
+    CustomerResponse model = CustomerResponse(
+      userRegister.fullName,
+      userRegister.phoneNumber,
+      userRegister.uid,
+      [],
+    );
+
+    await _firestore.collection(AppStrings.users).doc(userRegister.uid).set(model.toJson());
+  }
 
   Future<CustomerResponse> getUserData(String uid) async {
     return await _firestore.collection(AppStrings.users).doc(uid).get().then(
