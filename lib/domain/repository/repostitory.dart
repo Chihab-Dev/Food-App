@@ -3,7 +3,10 @@ import 'package:food_app/data/network/failure.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:http/http.dart';
 
+import '../../data/network/firebase_auth.dart';
+
 abstract class Repository {
+  Future<Either<Failure, OtpCheckModel>> otpCheck(String verificationId, String smsCode);
   Future<Either<Failure, CustomerObject>> getUserData(String uid);
   Future<Either<Failure, List<ItemObject>>> getPopularItems();
   Future<Either<Failure, List<ItemObject>>> getItems();

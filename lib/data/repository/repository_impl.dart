@@ -2,8 +2,7 @@
 
 import 'dart:ffi';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_app/data/data_source/remote_data_source.dart';
 import 'package:food_app/data/mapper/mapper.dart';
 import 'package:food_app/data/network/error_handler.dart';
@@ -14,6 +13,7 @@ import 'package:dartz/dartz.dart';
 import 'package:food_app/domain/repository/repostitory.dart';
 import 'package:http/src/response.dart';
 
+import '../network/firebase_auth.dart';
 import '../network/network_info.dart';
 
 class RepositoryImpl implements Repository {
@@ -21,6 +21,20 @@ class RepositoryImpl implements Repository {
   final NetworkInfo _networkInfo;
 
   RepositoryImpl(this._remoteDataSource, this._networkInfo);
+
+  @override
+  Future<Either<Failure, OtpCheckModel>> otpCheck(String verificationId, String smsCode) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        var document = await _remoteDataSource.otpCheck(verificationId, smsCode);
+        return right(document);
+      } on FirebaseAuthException catch (e) {
+        return left(Failure(e.code, e.message.toString()));
+      }
+    } else {
+      return left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 
   @override
   Future<Either<Failure, CustomerObject>> getUserData(String uid) async {

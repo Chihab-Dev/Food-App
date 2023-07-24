@@ -1,10 +1,12 @@
 import 'package:food_app/data/network/fcm.dart';
+import 'package:food_app/data/network/firebase_auth.dart';
 import 'package:food_app/data/network/firebase_store.dart';
 import 'package:food_app/data/response/responses.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:http/http.dart';
 
 abstract class RemoteDataSource {
+  Future<OtpCheckModel> otpCheck(String verificationId, String smsCode);
   Future<CustomerResponse> getUserData(String uid);
   Future<List<ItemResponse>> getPopularItems();
   Future<List<ItemResponse>> getItems();
@@ -26,8 +28,14 @@ abstract class RemoteDataSource {
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   final FirebaseStoreClient _firebaseStoreClient;
+  final FirebaseAuthentication _firebaseAuthentication;
   final Fcm _fcm;
-  RemoteDataSourceImpl(this._firebaseStoreClient, this._fcm);
+  RemoteDataSourceImpl(this._firebaseStoreClient, this._firebaseAuthentication, this._fcm);
+
+  @override
+  Future<OtpCheckModel> otpCheck(String verificationId, String smsCode) async {
+    return await _firebaseAuthentication.otpCheck(verificationId, smsCode);
+  }
 
   @override
   Future<CustomerResponse> getUserData(String uid) async {
