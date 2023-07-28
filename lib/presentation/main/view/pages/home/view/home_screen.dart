@@ -70,7 +70,8 @@ class HomeScreen extends StatelessWidget {
 
   Container homeScreen(BuildContext context, List<ItemObject> popularItems, BaseCubit cubit) {
     return Container(
-      color: ColorManager.whiteGrey.withOpacity(0.7),
+      // color: ColorManager.whiteGrey.withOpacity(0.7),
+      color: Theme.of(context).primaryColor,
       height: double.infinity,
       child: SingleChildScrollView(
         child: Column(

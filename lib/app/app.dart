@@ -41,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: RoutesGenerator.getRoute,
         initialRoute: Routes.splashRoute,
         theme: getApplicationTheme(),
+        darkTheme: getApplicationDarkTheme(),
       ),
     );
   }

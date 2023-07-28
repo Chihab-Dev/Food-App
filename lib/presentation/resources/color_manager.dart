@@ -13,4 +13,6 @@ class ColorManager {
   static Color black = const Color(0xff121212);
   static Color red = const Color(0xffe61f34);
   static Color green = const Color.fromARGB(255, 31, 230, 131);
+  static Color dark = const Color.fromARGB(255, 24, 24, 24);
+  static Color blackBlue = const Color(0xff1E1E29);
 }
