@@ -18,21 +18,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 final instance = GetIt.instance;
 
 Future<void> initAppModule() async {
+  // app module, its a module where we put all generic dependencies :
+
   final sharedPrefs = await SharedPreferences.getInstance();
+
+  // singleton : one instance every time i call it , it return the same instance
+  // lazy singleton better for memory
 
   instance.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
 
   instance.registerLazySingleton<AppPrefrences>(() => AppPrefrences(instance()));
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  FirebaseAuth auth = FirebaseAuth.instance;
-
-  instance.registerLazySingleton<FirebaseStoreClient>(() => FirebaseStoreClient(firestore));
+  instance.registerLazySingleton<FirebaseStoreClient>(() => FirebaseStoreClient(FirebaseFirestore.instance));
 
   instance.registerLazySingleton<Fcm>(() => Fcm());
 
-  instance.registerLazySingleton<FirebaseAuthentication>(() => FirebaseAuthentication(auth));
+  instance.registerLazySingleton<FirebaseAuthentication>(() => FirebaseAuthentication(FirebaseAuth.instance));
 
   instance.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(instance(), instance(), instance()));
 
@@ -43,6 +44,7 @@ Future<void> initAppModule() async {
 
 initHomeData() {
   if (!GetIt.I.isRegistered<GetUserDataUsecase>()) {
+    // factory : every time you call it , it creates a new instance :
     instance.registerFactory<GetUserDataUsecase>(() => GetUserDataUsecase(instance()));
 
     // instance.registerFactory<HomeCubit>(() => HomeCubit(instance(), instance()));
@@ -51,3 +53,12 @@ initHomeData() {
     instance.registerFactory<GetItemsUsecase>(() => GetItemsUsecase(instance()));
   }
 }
+
+// initLoginModule() {
+//   if (!GetIt.I.isRegistered<VerifyPhoneNumberUsecase>()) {
+//     instance.registerFactory<VerifyPhoneNumberUsecase>(() => VerifyPhoneNumberUsecase(instance()));
+//     instance.registerFactory<OtpCheckUsecase>(() => OtpCheckUsecase(instance()));
+//     instance.registerFactory<UserRegisterUsecase>(() => UserRegisterUsecase(instance()));
+//     instance.registerFactory<UserCreateUsecase>(() => UserCreateUsecase(instance()));
+//   }
+// }
