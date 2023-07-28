@@ -20,6 +20,10 @@ class AppPrefrences {
     return _sharedPreferences.getString(PREFS_KEY_USER_ID) ?? "chihab";
   }
 
+  Future<void> removeUserId() async {
+    await _sharedPreferences.remove(PREFS_KEY_USER_ID);
+  }
+
   // User logged in
 
   Future<void> setUserLoggedIn() async {
@@ -28,6 +32,10 @@ class AppPrefrences {
 
   Future<bool> isUserLoggedIn() async {
     return _sharedPreferences.getBool(PREFS_KEY_USER_LOGGED_IN) ?? false;
+  }
+
+  Future<void> removeUserLoggedIn() async {
+    await _sharedPreferences.remove(PREFS_KEY_USER_LOGGED_IN);
   }
 
   // OnBoarding Viewd

@@ -21,6 +21,7 @@ import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/notification_service.dart';
+import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
 import 'package:food_app/presentation/resources/widgets.dart';
@@ -708,4 +709,15 @@ class BaseCubit extends Cubit<BaseStates> {
   //     },
   //   );
   // }
+
+  // logout fun
+
+  Future<void> logout(BuildContext context) async {
+    _appPrefrences.removeUserId();
+    _appPrefrences.removeUserLoggedIn();
+    _appPrefrences.removeOrderId();
+    Navigator.pushReplacementNamed(context, Routes.login);
+    currentIndex = 0;
+    userOrders = [];
+  }
 }

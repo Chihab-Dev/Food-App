@@ -1,4 +1,7 @@
 class AppStrings {
+  // dialog
+  static const String warning = 'WARNING';
+  static const String warningMsg = 'Are you sure you want to log out?';
   // admin
   static const String adminID = "VthqCWpwcZMBBzRW2vGWo3STdWA3";
   // favorite screen

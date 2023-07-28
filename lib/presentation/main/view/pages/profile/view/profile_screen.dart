@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_app/domain/model/models.dart';
@@ -32,13 +33,19 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: cubit.customerObject == null ? emptyScreen() : profileView(customerObject!, context),
+          body: cubit.customerObject == null
+              ? emptyScreen()
+              : profileView(
+                  customerObject!,
+                  context,
+                  cubit,
+                ),
         );
       },
     );
   }
 
-  Widget profileView(CustomerObject customerObject, BuildContext context) {
+  Widget profileView(CustomerObject customerObject, BuildContext context, BaseCubit cubit) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10).copyWith(bottom: 0),
       child: SingleChildScrollView(
@@ -57,7 +64,23 @@ class ProfileScreen extends StatelessWidget {
             divider(),
             listTile(AppStrings.settings, Icons.settings, () {}),
             divider(),
-            listTile(AppStrings.logout, Icons.logout_rounded, () {}),
+            listTile(AppStrings.logout, Icons.logout_rounded, () {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.warning,
+                animType: AnimType.rightSlide,
+                title: AppStrings.warning,
+                desc: AppStrings.warningMsg,
+                btnCancelOnPress: () {},
+                btnOkOnPress: () {
+                  cubit.logout(context);
+                },
+                autoHide: const Duration(seconds: 5),
+                btnOkText: AppStrings.logout,
+                btnOkColor: ColorManager.green,
+                btnCancelColor: ColorManager.red,
+              ).show();
+            }),
             // const SizedBox(height: AppSize.s50),
           ],
         ),
