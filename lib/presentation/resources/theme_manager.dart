@@ -11,7 +11,6 @@ ThemeData getApplicationTheme() {
     primaryColor: ColorManager.whiteGrey.withOpacity(0.7),
     splashColor: ColorManager.orange,
     useMaterial3: true,
-    brightness: Brightness.light,
     iconTheme: IconThemeData(
       color: ColorManager.orange,
       size: AppSize.s25,
@@ -137,7 +136,6 @@ ThemeData getApplicationTheme() {
 //       color: ColorManager.orange,
 //       size: AppSize.s25,
 //     ),
-
 //     // app bar theme
 //     appBarTheme: AppBarTheme(
 //       centerTitle: true,
@@ -148,13 +146,11 @@ ThemeData getApplicationTheme() {
 //       systemOverlayStyle: const SystemUiOverlayStyle(
 //         // Status bar color
 //         statusBarColor: Colors.red,
-
 //         // Status bar brightness (optional)
 //         statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
 //         statusBarBrightness: Brightness.light, // For iOS (dark icons)
 //       ),
 //     ),
-
 //     // bottom theme
 //     buttonTheme: ButtonThemeData(
 //       shape: const StadiumBorder(),
@@ -162,7 +158,6 @@ ThemeData getApplicationTheme() {
 //       buttonColor: ColorManager.whiteGrey,
 //       splashColor: ColorManager.orange,
 //     ),
-
 //     // elevated button theme
 //     elevatedButtonTheme: ElevatedButtonThemeData(
 //       style: ElevatedButton.styleFrom(
@@ -173,7 +168,6 @@ ThemeData getApplicationTheme() {
 //         ),
 //       ),
 //     ),
-
 //     // text theme
 //     textTheme: TextTheme(
 //       // displayLarge: getSemiBoldStyle(color: ColorManager.darkGrey, fontSize: FontSize.s16),
@@ -198,47 +192,37 @@ ThemeData getApplicationTheme() {
 //         color: ColorManager.grey,
 //         fontSize: FontSize.s12,
 //       ),
-
 //       bodyLarge: getlargeStyle(
 //         color: ColorManager.whiteGrey,
 //       ),
 //     ),
-
 //     // input decoration theme ( text form field )
 //     inputDecorationTheme: InputDecorationTheme(
 //       // icon color
-//       iconColor: ColorManager.orange,
-
+//      iconColor: ColorManager.orange,
 //       // content padding
-//       contentPadding: const EdgeInsets.all(AppPadding.p8),
-
+//       contentPadding: const EdgeInsets.all(AppPadding.p8)
 //       // hint style
 //       hintStyle: getMeduimStyle(color: ColorManager.grey, fontSize: FontSize.s14),
-
 //       // label style
 //       labelStyle: getMeduimStyle(color: ColorManager.grey, fontSize: FontSize.s14),
-
 //       // error style
 //       errorStyle: getMeduimStyle(color: ColorManager.red, fontSize: FontSize.s14),
-
 //       // enabled border style
 //       enabledBorder: OutlineInputBorder(
 //         borderSide: BorderSide(color: ColorManager.ligthGrey, width: AppSize.s1_5),
 //         borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)),
 //       ),
-
 //       // focused border
 //       focusedBorder: OutlineInputBorder(
 //         borderSide: BorderSide(color: ColorManager.orange, width: AppSize.s1_5),
 //         borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)),
 //       ),
-
 //       // error border style
 //       errorBorder: OutlineInputBorder(
 //         borderSide: BorderSide(color: ColorManager.red, width: AppSize.s1_5),
 //         borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)),
 //       ),
-
 //       // focused error border
 //       focusedErrorBorder: OutlineInputBorder(
 //         borderSide: BorderSide(color: ColorManager.red, width: AppSize.s1_5),

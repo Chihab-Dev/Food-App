@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
-import 'package:food_app/presentation/resources/constants_manager.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:lottie/lottie.dart';
 
@@ -25,12 +22,12 @@ class _SplashViewState extends State<SplashView> {
     super.initState();
   }
 
-  Timer? _timer;
+  // Timer? _timer;
 
   startDelay() {
-    _timer = Timer(const Duration(seconds: AppConstants.splashDelay), () {
-      _goNext();
-    });
+    // _timer = Timer(const Duration(seconds: AppConstants.splashDelay), () {
+    _goNext();
+    // });
   }
 
   _goNext() async {
@@ -57,14 +54,14 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Lottie.asset(LottieAsset.burger),
+        child: Lottie.asset(LottieAsset.loading),
       ),
     );
   }
 
   @override
   void dispose() {
-    _timer!.cancel();
+    // _timer!.cancel();
     super.dispose();
   }
 }
