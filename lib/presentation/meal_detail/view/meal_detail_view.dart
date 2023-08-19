@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
@@ -95,7 +96,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
         SliverAppBar(
           iconTheme: IconThemeData(
             color: ColorManager.orange,
-            size: AppSize.s30,
+            size: AppSize.s30.sp,
             shadows: [
               BoxShadow(
                 color: ColorManager.black.withOpacity(1),
@@ -130,7 +131,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
             return itemContainer(context, cubit.getItemsByCategoryWithoutItemItSelf(widget.item)[index]);
           },
         ),
-        const SliverPadding(padding: EdgeInsets.only(bottom: AppSize.s80)),
+        SliverPadding(padding: EdgeInsets.only(bottom: AppSize.s80.sp)),
       ],
     );
   }
@@ -142,7 +143,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
       // imageBuilder: (context, imageProvider) {
       //   return Container(
       //     decoration: BoxDecoration(
-      //       borderRadius: BorderRadius.circular(AppSize.s20),
+      //       borderRadius: BorderRadius.circular(AppSize.s20.sp),
       //       image: DecorationImage(
       //         image: imageProvider,
       //         fit: BoxFit.cover,
@@ -158,7 +159,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           // width: AppSize.s150,
           decoration: BoxDecoration(
             color: Colors.black,
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp.sp),
           ),
         ),
       ),
@@ -170,7 +171,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           // width: AppSize.s150,
           decoration: BoxDecoration(
             color: Colors.black,
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
         ),
       ),
@@ -179,11 +180,11 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
 
   Widget showMealDetails(ItemObject item, BaseCubit cubit, BaseStates state) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p14),
+      padding:  EdgeInsets.symmetric(vertical: AppPadding.p4.sp, horizontal: AppPadding.p14.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           titleText(
             item.title,
             () {
@@ -195,15 +196,15 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
             cubit.customerObject!.favoriteItems.contains(item.id),
             state,
           ),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           itemDetails(item),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           descriptionText(),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           quantityContainer(),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           text("Ingredinats"),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           SizedBox(
             height: 60,
             width: double.infinity,
@@ -218,7 +219,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
               ],
             ),
           ),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           if (cubit.getItemsByCategoryWithoutItemItSelf(item).isNotEmpty) ...[
             text("More"),
           ]
@@ -230,10 +231,10 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
   Container addToCartBottomContainer(BaseCubit cubit) {
     return Container(
       width: double.infinity,
-      height: AppSize.s100,
+      height: AppSize.s100.sp,
       color: ColorManager.white.withOpacity(0.7),
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p20),
+        padding: EdgeInsets.all(AppPadding.p20.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -255,7 +256,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s25),
+                  borderRadius: BorderRadius.circular(AppSize.s25.sp),
                   color: ColorManager.orange,
                   boxShadow: [
                     BoxShadow(
@@ -266,7 +267,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p20),
+                  padding: EdgeInsets.all(AppPadding.p20.sp),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -275,7 +276,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
                         Icons.shopping_bag_outlined,
                         color: ColorManager.white,
                       ),
-                      const SizedBox(width: AppSize.s15),
+                      SizedBox(width: AppSize.s15.sp),
                       Text(
                         "Add to Cart",
                         style: getRegularStyle(color: ColorManager.white),
@@ -295,18 +296,18 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
     String image,
   ) {
     return Padding(
-      padding: const EdgeInsets.all(AppPadding.p6),
+      padding: EdgeInsets.all(AppPadding.p6.sp),
       child: InkWell(
         onTap: () {},
         child: Container(
-          height: AppSize.s60,
-          width: AppSize.s60,
+          height: AppSize.s60.sp,
+          width: AppSize.s60.sp,
           decoration: BoxDecoration(
             color: ColorManager.whiteGrey.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p2),
+            padding: EdgeInsets.all(AppPadding.p2.sp),
             child: Column(
               children: [
                 Expanded(
@@ -404,14 +405,14 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           overflow: TextOverflow.ellipsis,
           style: getRegularStyle(color: ColorManager.black),
         ),
-        const SizedBox(width: AppSize.s20),
+        SizedBox(width: AppSize.s20.sp),
         Container(
           decoration: BoxDecoration(
             color: ColorManager.whiteGrey.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(AppSize.s10),
+            borderRadius: BorderRadius.circular(AppSize.s10.sp),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppPadding.p6, horizontal: AppPadding.p6),
+            padding:  EdgeInsets.symmetric(vertical: AppPadding.p6.sp, horizontal: AppPadding.p6.sp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -430,15 +431,15 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
                   icon: Icon(
                     Icons.remove,
                     color: ColorManager.black,
-                    size: AppSize.s25,
+                    size: AppSize.s25.sp,
                   ),
                 ),
-                const SizedBox(width: AppSize.s8),
+                SizedBox(width: AppSize.s8.sp),
                 Text(
                   quentity.toString(),
                   style: getMeduimStyle(color: ColorManager.black),
                 ),
-                const SizedBox(width: AppSize.s8),
+                SizedBox(width: AppSize.s8.sp),
                 IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -454,7 +455,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
                   icon: Icon(
                     Icons.add,
                     color: ColorManager.black,
-                    size: AppSize.s25,
+                    size: AppSize.s25.sp,
                   ),
                 ),
               ],
@@ -500,15 +501,15 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
       // width: 50,
       decoration: BoxDecoration(
         color: ColorManager.whiteGrey.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(AppSize.s10),
+        borderRadius: BorderRadius.circular(AppSize.s10.sp),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p8),
+        padding: EdgeInsets.symmetric(vertical: AppPadding.p4.sp, horizontal: AppPadding.p8.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             icon,
-            const SizedBox(width: AppSize.s8),
+            SizedBox(width: AppSize.s8.sp),
             Text(
               title,
               style: getMeduimStyle(color: ColorManager.darkGrey),

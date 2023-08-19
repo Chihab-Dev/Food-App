@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/app/app_pref.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
@@ -23,7 +24,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
-      bodyPadding: const EdgeInsets.symmetric(vertical: AppPadding.p100, horizontal: AppPadding.p2),
+      bodyPadding:  EdgeInsets.symmetric(vertical: AppPadding.p100.sp, horizontal: AppPadding.p2.sp),
       globalBackgroundColor: ColorManager.whiteGrey,
       pages: pagesList,
       done: const Text(
@@ -43,7 +44,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       next: Icon(
         Icons.arrow_forward_ios_rounded,
         color: ColorManager.orange,
-        size: AppSize.s25,
+        size: AppSize.s25.sp,
       ),
       nextFlex: 0,
       skipOrBackFlex: 0,
@@ -56,10 +57,10 @@ class _OnBoardingViewState extends State<OnBoardingView> {
   DotsDecorator getDotsDecoration() {
     return DotsDecorator(
       color: ColorManager.ligthGrey,
-      size: const Size.square(AppSize.s10),
+      size: Size.square(AppSize.s10.sp),
       activeColor: ColorManager.orange,
       activeSize: const Size(20, 10),
-      spacing: const EdgeInsets.symmetric(horizontal: AppSize.s5),
+      spacing:  EdgeInsets.symmetric(horizontal: AppSize.s5.sp),
       activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s20)),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
@@ -20,15 +21,15 @@ class SearchScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = BaseCubit.get(context);
         List<ItemObject> list = cubit.searchedItem;
-        return cubit.isStoreOpen == false ? closedScreen() : searchView(cubit, list);
+        return cubit.isStoreOpen == false ? closedScreen() : searchView(cubit, list, context);
       },
     );
   }
 
-  Container searchView(BaseCubit cubit, List<ItemObject> list) {
+  Container searchView(BaseCubit cubit, List<ItemObject> list, BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: ColorManager.whiteGrey.withOpacity(0.7)),
-      padding: const EdgeInsets.all(AppPadding.p14),
+      padding: EdgeInsets.all(AppPadding.p14.sp),
       child: Column(
         children: [
           const SizedBox(height: kBottomNavigationBarHeight),
@@ -36,21 +37,21 @@ class SearchScreen extends StatelessWidget {
             child: CupertinoSearchTextField(
               autofocus: false,
               controller: cubit.searchController,
-              itemSize: AppSize.s25,
+              itemSize: AppSize.s25.sp,
               itemColor: ColorManager.orange,
               backgroundColor: ColorManager.white,
               borderRadius: BorderRadius.circular(AppMargin.m20),
-              padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10, vertical: AppPadding.p14),
+              padding: EdgeInsets.symmetric(horizontal: AppPadding.p10.sp, vertical: AppPadding.p14.sp),
               prefixIcon: Icon(
                 Icons.search_outlined,
                 color: ColorManager.orange,
               ),
-              prefixInsets: const EdgeInsets.only(left: AppPadding.p10),
+              prefixInsets: EdgeInsets.only(left: AppPadding.p10.sp),
               suffixIcon: Icon(
                 Icons.clear,
                 color: ColorManager.orange,
               ),
-              suffixInsets: const EdgeInsets.only(right: AppPadding.p10),
+              suffixInsets: EdgeInsets.only(right: AppPadding.p10.sp),
               style: getMeduimStyle(color: ColorManager.darkOrange),
               placeholder: AppStrings.searchLable,
               // on tap search
@@ -66,7 +67,7 @@ class SearchScreen extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.zero,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: getGridViewNumOfItem(context)),
               itemCount: list.length,
               itemBuilder: (context, index) {
                 return itemContainer(context, list[index]);

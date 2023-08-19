@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
@@ -77,20 +78,21 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: kBottomNavigationBarHeight),
+            // const SizedBox(height: kBottomNavigationBarHeight / 2),
+            SizedBox(height: MediaQuery.of(context).viewPadding.top * 0.8),
             appBar(context, cubit.placeName!, cubit),
-            const SizedBox(height: AppPadding.p25),
+            SizedBox(height: AppPadding.p12.sp),
             titleWidget(AppStrings.category),
-            const SizedBox(height: AppPadding.p12),
+            SizedBox(height: AppPadding.p12.sp),
             allCategories(context),
-            const SizedBox(height: AppPadding.p12),
+            SizedBox(height: AppPadding.p12.sp),
             titleWidget(AppStrings.popularItems),
-            const SizedBox(height: AppPadding.p12),
+            SizedBox(height: AppPadding.p12.sp),
             populatItemList(popularItems),
-            const SizedBox(height: AppPadding.p12),
+            SizedBox(height: AppPadding.p12.sp),
             titleWidget(AppStrings.more),
-            const SizedBox(height: AppPadding.p12),
-            moreItemsGridView(cubit),
+            SizedBox(height: AppPadding.p12.sp),
+            moreItemsGridView(cubit, context),
           ],
         ),
       ),
@@ -99,7 +101,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget appBar(BuildContext context, String location, BaseCubit cubit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10).copyWith(bottom: 0),
+      padding: EdgeInsets.symmetric(vertical: AppPadding.p16.sp, horizontal: AppPadding.p10.sp).copyWith(bottom: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -112,9 +114,9 @@ class HomeScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.location_on,
-                    size: AppSize.s20,
+                    size: AppSize.s20.sp,
                   ),
                   InkWell(
                     onTap: () => cubit.openMap(),
@@ -155,7 +157,7 @@ class HomeScreen extends StatelessWidget {
 
   SizedBox allCategories(BuildContext context) {
     return SizedBox(
-      height: AppSize.s80,
+      height: AppSize.s80.sp,
       width: double.infinity,
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -179,8 +181,8 @@ class HomeScreen extends StatelessWidget {
           Navigator.pushNamed(context, Routes.mealsByCategory, arguments: getItemCategory(title));
         },
         child: Container(
-          height: AppSize.s80,
-          width: AppSize.s80,
+          height: AppSize.s80.sp,
+          width: AppSize.s80.sp,
           decoration: BoxDecoration(
             color: ColorManager.white,
             boxShadow: [
@@ -191,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                 offset: const Offset(4, 8),
               ),
             ],
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
           child: Padding(
             padding: const EdgeInsets.all(AppPadding.p6),
@@ -228,7 +230,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget populatItemList(List<ItemObject> items) {
     return SizedBox(
-      height: AppSize.s200,
+      height: AppSize.s200.sp,
       width: double.infinity,
       child: ListView.builder(
         itemCount: items.length,
@@ -244,14 +246,14 @@ class HomeScreen extends StatelessWidget {
 
   Padding popularItemContainer(BuildContext context, ItemObject item) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
         },
         child: Container(
-          width: AppSize.s200,
-          padding: const EdgeInsets.all(AppPadding.p10),
+          width: AppSize.s200.sp,
+          padding: EdgeInsets.all(AppPadding.p10.sp),
           decoration: BoxDecoration(
             color: ColorManager.white,
             boxShadow: [
@@ -262,7 +264,7 @@ class HomeScreen extends StatelessWidget {
                 offset: const Offset(4, 8),
               ),
             ],
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,7 +277,7 @@ class HomeScreen extends StatelessWidget {
                   imageBuilder: (context, imageProvider) {
                     return Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s20),
+                        borderRadius: BorderRadius.circular(AppSize.s20.sp),
                         image: DecorationImage(
                           image: imageProvider,
                           fit: BoxFit.cover,
@@ -291,7 +293,7 @@ class HomeScreen extends StatelessWidget {
                       // width: AppSize.s150,
                       decoration: BoxDecoration(
                         color: Colors.black,
-                        borderRadius: BorderRadius.circular(AppSize.s20),
+                        borderRadius: BorderRadius.circular(AppSize.s20.sp),
                       ),
                     ),
                   ),
@@ -303,19 +305,19 @@ class HomeScreen extends StatelessWidget {
                       // width: AppSize.s150,
                       decoration: BoxDecoration(
                         color: Colors.black,
-                        borderRadius: BorderRadius.circular(AppSize.s20),
+                        borderRadius: BorderRadius.circular(AppSize.s20.sp),
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: AppSize.s10),
+              SizedBox(height: AppSize.s10.sp),
               Text(
                 item.title.isEmpty ? 'Meal' : item.title,
                 style: getMeduimStyle(color: ColorManager.black),
               ),
               SizedBox(
-                width: AppSize.s200,
+                width: AppSize.s200.sp,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -325,7 +327,7 @@ class HomeScreen extends StatelessWidget {
                         (index) => Icon(
                           index < item.stars ? Icons.star : Icons.star_border,
                           color: Colors.yellowAccent[700],
-                          size: AppSize.s18,
+                          size: AppSize.s18.sp,
                         ),
                       ),
                     ),
@@ -345,13 +347,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget moreItemsGridView(BaseCubit cubit) {
+  Widget moreItemsGridView(BaseCubit cubit, BuildContext context) {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: cubit.items.length,
       padding: const EdgeInsets.all(0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: getGridViewNumOfItem(context)),
       itemBuilder: (context, index) {
         ItemObject item = cubit.items[index];
         return itemContainer(context, item);
@@ -361,7 +363,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget titleWidget(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p10.sp),
       child: Text(
         text,
         style: getRegularStyle(color: ColorManager.black),

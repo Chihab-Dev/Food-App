@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/admin/admin_cubit/admin_cubit.dart';
@@ -24,14 +25,9 @@ class AdminAllOrdersView extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = AdminCubit.get(context);
-          List<ClientAllOrders> orders = cubit.clientsOrders;
           return Scaffold(
             appBar: AppBar(title: Text(AppStrings.adminOrdersScreen.toUpperCase())),
-            body: state is GetOrdersFromFirebaseLoadingState
-                ? loadingScreen()
-                : orders.isEmpty
-                    ? emptyScreen()
-                    : streamOrders(cubit),
+            body: state is GetOrdersFromFirebaseLoadingState ? loadingScreen() : streamOrders(cubit),
           );
         },
       ),
@@ -49,13 +45,14 @@ class AdminAllOrdersView extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else {
           List<ClientAllOrders> orders = snapshot.data!;
-
-          return Center(
-            child: ListView.builder(
-              itemCount: orders.length,
-              itemBuilder: (context, index) => orderContainer(context, cubit, orders[index]),
-            ),
-          );
+          return orders.isEmpty
+              ? emptyScreen()
+              : Center(
+                  child: ListView.builder(
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) => orderContainer(context, cubit, orders[index]),
+                  ),
+                );
         }
       },
     );
@@ -70,7 +67,7 @@ class AdminAllOrdersView extends StatelessWidget {
 
   Padding orderContainer(BuildContext context, AdminCubit cubit, ClientAllOrders clientAllOrders) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
@@ -83,7 +80,7 @@ class AdminAllOrdersView extends StatelessWidget {
               },
               icon: Icons.delete,
               backgroundColor: ColorManager.red,
-              borderRadius: BorderRadius.circular(AppSize.s20),
+              borderRadius: BorderRadius.circular(AppSize.s20.sp),
             ),
           ],
         ),
@@ -91,8 +88,8 @@ class AdminAllOrdersView extends StatelessWidget {
           onTap: () => Navigator.pushNamed(context, Routes.adminOrders, arguments: clientAllOrders),
           child: Container(
             width: double.infinity,
-            height: AppSize.s200,
-            padding: const EdgeInsets.all(AppPadding.p10),
+            height: AppSize.s200.sp,
+            padding:EdgeInsets.all(AppPadding.p10.sp),
             decoration: BoxDecoration(
               color: ColorManager.white,
               boxShadow: [
@@ -103,7 +100,7 @@ class AdminAllOrdersView extends StatelessWidget {
                   offset: const Offset(4, 8),
                 ),
               ],
-              borderRadius: BorderRadius.circular(AppSize.s20),
+              borderRadius: BorderRadius.circular(AppSize.s20.sp),
             ),
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,7 +108,7 @@ class AdminAllOrdersView extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                       image: const DecorationImage(
                         image: AssetImage(ImageAsset.burgerImage),
                         fit: BoxFit.cover,

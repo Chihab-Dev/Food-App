@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/presentation/resources/color_manager.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
@@ -12,18 +13,27 @@ import 'appsize.dart';
 import 'assets_manager.dart';
 import 'font_manager.dart';
 
+// get gridview num of item
+int getGridViewNumOfItem(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 768) {
+    return 3;
+  } else {
+    return 2;
+  }
+}
+
 // item container
 
 Widget itemContainer(BuildContext context, ItemObject item) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+    padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
     child: InkWell(
       onTap: () {
         Navigator.pushNamed(context, Routes.mealDetail, arguments: item);
       },
       child: Container(
         // width: AppSize.s200,
-        padding: const EdgeInsets.all(AppPadding.p10),
+        padding: EdgeInsets.all(AppPadding.p10.sp),
         decoration: BoxDecoration(
           color: ColorManager.white,
           boxShadow: [
@@ -34,7 +44,7 @@ Widget itemContainer(BuildContext context, ItemObject item) {
               offset: const Offset(4, 8),
             ),
           ],
-          borderRadius: BorderRadius.circular(AppSize.s20),
+          borderRadius: BorderRadius.circular(AppSize.s20.sp),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +68,7 @@ Widget itemContainer(BuildContext context, ItemObject item) {
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                       image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.cover,
@@ -74,7 +84,7 @@ Widget itemContainer(BuildContext context, ItemObject item) {
                     // width: AppSize.s150,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                     ),
                   ),
                 ),
@@ -86,19 +96,19 @@ Widget itemContainer(BuildContext context, ItemObject item) {
                     // width: AppSize.s150,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: AppSize.s10),
+            SizedBox(height: AppSize.s10.sp),
             Text(
               item.image.isEmpty ? 'meal' : item.title,
               style: getMeduimStyle(color: ColorManager.black),
             ),
             SizedBox(
-              width: AppSize.s200,
+              // width: AppSize.s200.sp,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -108,7 +118,7 @@ Widget itemContainer(BuildContext context, ItemObject item) {
                       (index) => Icon(
                         index < item.stars ? Icons.star : Icons.star_border,
                         color: Colors.yellowAccent[700],
-                        size: AppSize.s18,
+                        size: AppSize.s18.sp,
                       ),
                     ),
                   ),
@@ -143,10 +153,10 @@ Widget textFormField(
       ),
       floatingLabelBehavior: FloatingLabelBehavior.never,
       border: InputBorder.none,
-      contentPadding: const EdgeInsets.only(
+      contentPadding: EdgeInsets.only(
         left: AppSize.s10,
         right: AppSize.s5,
-        bottom: AppSize.s20,
+        bottom: AppSize.s20.sp,
       ),
       labelStyle: TextStyle(
         color: ColorManager.black,
@@ -162,7 +172,7 @@ Widget customFormField(BuildContext context, Function(String)? onChanged, IconDa
     {String? label}) {
   return SizedBox(
     // height: AppSize.s60,
-    width: AppSize.s300,
+    width: AppSize.s300.sp,
     child: TextFormField(
       controller: controller,
       style: TextStyle(

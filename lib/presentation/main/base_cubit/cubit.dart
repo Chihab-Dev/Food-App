@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/domain/usecases/add_item_to_favorite_list_usecase.dart';
 import 'package:food_app/domain/usecases/delete_meal_usecase.dart';
@@ -284,12 +285,12 @@ class BaseCubit extends Cubit<BaseStates> {
             AppStrings.deliveringYourOrder,
             style: getlargeStyle(color: ColorManager.orange).copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: AppSize.s40),
+          SizedBox(height: AppSize.s40.sp),
           LottieBuilder.asset(
             LottieAsset.delivery,
             width: MediaQuery.of(context).size.width * 0.7,
           ),
-          const SizedBox(height: AppSize.s80),
+          SizedBox(height: AppSize.s80.sp),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -298,7 +299,7 @@ class BaseCubit extends Cubit<BaseStates> {
                 child: Container(
                   width: MediaQuery.sizeOf(context).width * 0.4,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s25),
+                    borderRadius: BorderRadius.circular(AppSize.s25.sp),
                     color: ColorManager.orange,
                     boxShadow: [
                       BoxShadow(
@@ -309,7 +310,7 @@ class BaseCubit extends Cubit<BaseStates> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(AppPadding.p14),
+                    padding:  EdgeInsets.all(AppPadding.p14.sp),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -318,7 +319,7 @@ class BaseCubit extends Cubit<BaseStates> {
                           Icons.location_on_outlined,
                           color: ColorManager.white,
                         ),
-                        const SizedBox(width: AppSize.s10),
+                        SizedBox(width: AppSize.s10.sp),
                         Expanded(
                           child: Text(
                             "See Location",
@@ -345,7 +346,7 @@ class BaseCubit extends Cubit<BaseStates> {
                 child: Container(
                   width: MediaQuery.sizeOf(context).width * 0.4,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s25),
+                    borderRadius: BorderRadius.circular(AppSize.s25.sp),
                     color: ColorManager.orange,
                     boxShadow: [
                       BoxShadow(
@@ -356,7 +357,7 @@ class BaseCubit extends Cubit<BaseStates> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(AppPadding.p14),
+                    padding: EdgeInsets.all(AppPadding.p14.sp),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -365,7 +366,7 @@ class BaseCubit extends Cubit<BaseStates> {
                           Icons.phone,
                           color: ColorManager.white,
                         ),
-                        const SizedBox(width: AppSize.s10),
+                        SizedBox(width: AppSize.s10.sp),
                         Expanded(
                           child: Text(
                             "Call delivery",

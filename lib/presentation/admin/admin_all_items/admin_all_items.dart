@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/admin/admin_cubit/admin_states.dart';
@@ -40,7 +41,7 @@ class AdminAllItems extends StatelessWidget {
 
   Widget orderContainer(BuildContext context, ItemObject item, BaseCubit cubit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      padding:  EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
       child: Slidable(
         endActionPane: ActionPane(
           motion: const StretchMotion(),
@@ -54,14 +55,14 @@ class AdminAllItems extends StatelessWidget {
               },
               icon: Icons.delete,
               backgroundColor: ColorManager.red,
-              borderRadius: BorderRadius.circular(AppSize.s20),
+              borderRadius: BorderRadius.circular(AppSize.s20.sp),
             ),
           ],
         ),
         child: Container(
           width: double.infinity,
-          height: AppSize.s200,
-          padding: const EdgeInsets.all(AppPadding.p10),
+          height: AppSize.s200.sp,
+          padding: EdgeInsets.all(AppPadding.p10.sp),
           decoration: BoxDecoration(
             color: ColorManager.white,
             boxShadow: [
@@ -72,7 +73,7 @@ class AdminAllItems extends StatelessWidget {
                 offset: const Offset(4, 8),
               ),
             ],
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -80,14 +81,14 @@ class AdminAllItems extends StatelessWidget {
               Container(
                 width: MediaQuery.sizeOf(context).width / 2.5,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s20),
+                  borderRadius: BorderRadius.circular(AppSize.s20.sp),
                   image: DecorationImage(
                     image: NetworkImage(item.image),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              const SizedBox(width: AppSize.s15),
+              SizedBox(width: AppSize.s15.sp),
               Flexible(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

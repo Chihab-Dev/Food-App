@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
 import 'package:food_app/presentation/resources/styles_manager.dart';
@@ -27,13 +28,13 @@ class _AdminSettingState extends State<AdminSetting> {
             title: Text(AppStrings.adminSettings.toUpperCase()),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(AppPadding.p8),
+            padding: EdgeInsets.all(AppPadding.p8.sp),
             child: Column(
               children: [
                 Container(
                   width: double.infinity,
-                  height: AppSize.s50,
-                  padding: const EdgeInsets.symmetric(horizontal: AppPadding.p20),
+                  height: AppSize.s50.sp,
+                  padding: EdgeInsets.symmetric(horizontal: AppPadding.p20.sp),
                   decoration: BoxDecoration(
                     color: ColorManager.white,
                     boxShadow: [
@@ -44,7 +45,7 @@ class _AdminSettingState extends State<AdminSetting> {
                         offset: const Offset(4, 8),
                       ),
                     ],
-                    borderRadius: BorderRadius.circular(AppSize.s20),
+                    borderRadius: BorderRadius.circular(AppSize.s20.sp),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

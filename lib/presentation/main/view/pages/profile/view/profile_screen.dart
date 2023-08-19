@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
@@ -47,19 +48,19 @@ class ProfileScreen extends StatelessWidget {
 
   Widget profileView(CustomerObject customerObject, BuildContext context, BaseCubit cubit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p16, horizontal: AppPadding.p10).copyWith(bottom: 0),
+      padding: EdgeInsets.symmetric(vertical: AppPadding.p16.sp, horizontal: AppPadding.p10.sp).copyWith(bottom: 0),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.sizeOf(context).height / 6.5),
             imageCircule(context),
-            const SizedBox(height: AppSize.s20),
+            SizedBox(height: AppSize.s20.sp),
             nameText(customerObject),
             phoneText(customerObject),
-            const SizedBox(height: AppSize.s50),
+            SizedBox(height: AppSize.s50.sp),
             clientInformationRow(),
-            const SizedBox(height: AppSize.s50),
+            SizedBox(height: AppSize.s50.sp),
             listTile(AppStrings.notification, Icons.notifications_none_sharp, () {}),
             divider(),
             listTile(AppStrings.settings, Icons.settings, () {}),
@@ -101,10 +102,10 @@ class ProfileScreen extends StatelessWidget {
             offset: const Offset(4, 8),
           ),
         ],
-        borderRadius: BorderRadius.circular(AppSize.s20),
+        borderRadius: BorderRadius.circular(AppSize.s20.sp),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p16),
+        padding:  EdgeInsets.all(AppPadding.p16.sp),
         child: IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -146,8 +147,8 @@ class ProfileScreen extends StatelessWidget {
   Divider divider() {
     return Divider(
       color: ColorManager.ligthGrey,
-      indent: AppSize.s25,
-      endIndent: AppSize.s25,
+      indent: AppSize.s25.sp,
+      endIndent: AppSize.s25.sp,
     );
   }
 
@@ -164,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: Icon(
         Icons.arrow_forward_ios_rounded,
-        size: AppSize.s20,
+        size: AppSize.s20.sp,
         color: ColorManager.grey,
       ),
       onTap: fun,
@@ -203,7 +204,7 @@ class ProfileScreen extends StatelessWidget {
           image: AssetImage(ImageAsset.profileImage),
           fit: BoxFit.cover,
         ),
-        borderRadius: BorderRadius.circular(AppSize.s80),
+        borderRadius: BorderRadius.circular(AppSize.s80.sp),
       ),
       // child: const Image(
       //   image: AssetImage(ImageAsset.profileImage),

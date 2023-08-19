@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/presentation/register/cubit/cubit.dart';
 import 'package:food_app/presentation/register/cubit/states.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
@@ -45,14 +46,14 @@ class _RegisterViewState extends State<RegisterView> {
                 color: ColorManager.whiteGrey,
                 height: double.infinity,
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p14),
+                  padding: EdgeInsets.all(AppPadding.p14.sp),
                   child: Center(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.asset(LottieAsset.login),
-                          const SizedBox(height: AppSize.s50),
+                          SizedBox(height: AppSize.s50.sp),
                           customFormField(
                             context,
                             (value) {
@@ -65,12 +66,12 @@ class _RegisterViewState extends State<RegisterView> {
                             cubit.nameError,
                             label: AppStrings.fullName,
                           ),
-                          const SizedBox(height: AppSize.s25),
+                           SizedBox(height: AppSize.s25.sp),
                           state is RegisterUpdateCurrentUserNameLoadingState
                               ? CircularProgressIndicator(color: ColorManager.orange)
                               : SizedBox(
-                                  height: AppSize.s50,
-                                  width: AppSize.s300,
+                                  height: AppSize.s50.sp,
+                                  width: AppSize.s300.sp,
                                   child: ElevatedButton(
                                     onPressed: cubit.isNameValid
                                         ? () {

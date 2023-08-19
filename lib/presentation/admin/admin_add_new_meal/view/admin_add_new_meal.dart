@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/admin/admin_add_new_meal/cubit/cubit.dart';
 import 'package:food_app/presentation/admin/admin_add_new_meal/cubit/states.dart';
@@ -43,11 +44,11 @@ class AdminAddNewMeal extends StatelessWidget {
                     children: [
                       SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.all(AppSize.s12),
+                          padding:  EdgeInsets.all(AppSize.s12.sp),
                           child: Column(
                             children: [
                               pickImageContainer(cubit),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               textFormField(
                                 cubit.titleController,
                                 AppStrings.mealTitle,
@@ -58,7 +59,7 @@ class AdminAddNewMeal extends StatelessWidget {
                                   cubit.isAllParametersValidFun();
                                 },
                               ),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               textFormField(
                                 cubit.descController,
                                 AppStrings.mealDescription,
@@ -69,7 +70,7 @@ class AdminAddNewMeal extends StatelessWidget {
                                   cubit.isAllParametersValidFun();
                                 },
                               ),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               timePicker(
                                 cubit.price,
                                 (value) {
@@ -81,7 +82,7 @@ class AdminAddNewMeal extends StatelessWidget {
                                 100,
                                 5,
                               ),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               timePicker(
                                 cubit.stars,
                                 (value) {
@@ -93,7 +94,7 @@ class AdminAddNewMeal extends StatelessWidget {
                                 5,
                                 1,
                               ),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               timePicker(
                                 cubit.calories,
                                 (value) {
@@ -105,7 +106,7 @@ class AdminAddNewMeal extends StatelessWidget {
                                 1000,
                                 50,
                               ),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               timePicker(
                                 cubit.preparationTime,
                                 (value) {
@@ -117,9 +118,9 @@ class AdminAddNewMeal extends StatelessWidget {
                                 45,
                                 1,
                               ),
-                              const SizedBox(height: AppSize.s25),
+                               SizedBox(height: AppSize.s25.sp),
                               dropDownButton(cubit, context),
-                              const SizedBox(height: AppSize.s100),
+                               SizedBox(height: AppSize.s100.sp),
                             ],
                           ),
                         ),
@@ -147,7 +148,7 @@ class AdminAddNewMeal extends StatelessWidget {
             offset: const Offset(4, 8),
           ),
         ],
-        borderRadius: BorderRadius.circular(AppSize.s50),
+        borderRadius: BorderRadius.circular(AppSize.s50.sp),
       ),
       child: DropdownButton<ItemCategory>(
         value: cubit.category,
@@ -160,11 +161,11 @@ class AdminAddNewMeal extends StatelessWidget {
           Icons.arrow_drop_down,
           color: ColorManager.grey,
         ),
-        iconSize: AppSize.s40,
+        iconSize: AppSize.s40.sp,
         isExpanded: true,
         style: getRegularStyle(color: ColorManager.orange),
-        borderRadius: BorderRadius.circular(AppSize.s20),
-        padding: const EdgeInsets.symmetric(horizontal: AppSize.s20),
+        borderRadius: BorderRadius.circular(AppSize.s20.sp),
+        padding:  EdgeInsets.symmetric(horizontal: AppSize.s20.sp),
         underline: Container(
             // height: 2,
             // color: ColorManager.orange,
@@ -179,7 +180,7 @@ class AdminAddNewMeal extends StatelessWidget {
       onTap: () => cubit.pickImage(),
       child: cubit.image == null
           ? Container(
-              width: AppSize.s200,
+              width: AppSize.s200.sp,
               decoration: BoxDecoration(
                 color: ColorManager.white,
                 boxShadow: [
@@ -190,12 +191,12 @@ class AdminAddNewMeal extends StatelessWidget {
                     offset: const Offset(4, 8),
                   ),
                 ],
-                borderRadius: BorderRadius.circular(AppSize.s50),
+                borderRadius: BorderRadius.circular(AppSize.s50.sp),
               ),
               child: LottieBuilder.asset(LottieAsset.imagePicker),
             )
           : Container(
-              width: AppSize.s200,
+              width: AppSize.s200.sp,
               decoration: BoxDecoration(
                 color: ColorManager.white,
                 boxShadow: [
@@ -206,7 +207,7 @@ class AdminAddNewMeal extends StatelessWidget {
                     offset: const Offset(4, 8),
                   ),
                 ],
-                borderRadius: BorderRadius.circular(AppSize.s50),
+                borderRadius: BorderRadius.circular(AppSize.s50.sp),
               ),
               child: Image.file(cubit.image!),
             ),
@@ -218,7 +219,7 @@ class AdminAddNewMeal extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: Container(
         width: double.infinity,
-        height: 100,
+        height: AppSize.s100.sp,
         decoration: BoxDecoration(
           color: ColorManager.white.withOpacity(0.7),
           boxShadow: [
@@ -229,10 +230,10 @@ class AdminAddNewMeal extends StatelessWidget {
               offset: const Offset(4, 8),
             ),
           ],
-          borderRadius: BorderRadius.circular(AppSize.s20),
+          borderRadius: BorderRadius.circular(AppSize.s20.sp),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
           child: Row(
             children: [
               orderStateContainer(
@@ -277,13 +278,13 @@ class AdminAddNewMeal extends StatelessWidget {
   Widget orderStateContainer(String name, Function()? function) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
         child: InkWell(
           onTap: function,
           child: Container(
             decoration: BoxDecoration(
               color: ColorManager.orange,
-              borderRadius: BorderRadius.circular(AppSize.s20),
+              borderRadius: BorderRadius.circular(AppSize.s20.sp),
             ),
             child: Center(
               child: Text(

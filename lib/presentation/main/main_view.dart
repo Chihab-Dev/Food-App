@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
@@ -36,14 +37,14 @@ class _MainViewState extends State<MainView> {
       // color: ColorManager.whiteGrey.withOpacity(0.7),
       color: ColorManager.whiteGrey,
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p16).copyWith(top: AppPadding.p4),
+        padding: EdgeInsets.all(AppPadding.p16.sp).copyWith(top: AppPadding.p4.sp, bottom: AppPadding.p14.sp),
         child: GNav(
           backgroundColor: ColorManager.whiteGrey,
           color: ColorManager.grey,
           activeColor: ColorManager.whiteGrey,
           tabBackgroundColor: ColorManager.orange,
-          padding: const EdgeInsets.all(AppPadding.p16),
-          gap: AppSize.s10,
+          padding:EdgeInsets.all(AppPadding.p16.sp),
+          gap: AppSize.s10.sp,
           onTabChange: (value) => cubit.onTap(value),
           tabs: const [
             GButton(

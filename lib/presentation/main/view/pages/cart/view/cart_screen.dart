@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/main/base_cubit/cubit.dart';
 import 'package:food_app/presentation/main/base_cubit/states.dart';
@@ -80,7 +81,7 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         Container(
           color: ColorManager.whiteGrey,
-          padding: const EdgeInsets.only(bottom: AppPadding.p200),
+          padding: EdgeInsets.only(bottom: AppPadding.p200.sp),
           child: ListView.builder(
             itemCount: cubit.userOrders.length,
             itemBuilder: (context, index) {
@@ -104,24 +105,24 @@ class _CartScreenState extends State<CartScreen> {
       height: 200,
       decoration: BoxDecoration(
         color: ColorManager.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(AppSize.s20),
-          topRight: Radius.circular(AppSize.s20),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppSize.s20.sp),
+          topRight: Radius.circular(AppSize.s20.sp),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p14).copyWith(bottom: AppPadding.p10),
+        padding: EdgeInsets.all(AppPadding.p14.sp).copyWith(bottom: AppPadding.p10.sp),
         child: Stack(
           children: [
             Container(
-              padding: const EdgeInsets.only(bottom: AppPadding.p50),
+              padding: EdgeInsets.only(bottom: AppPadding.p50.sp),
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: cubit.userOrders.length,
                 itemBuilder: (context, index) {
                   Order order = cubit.userOrders[index];
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: AppPadding.p10),
+                    padding: EdgeInsets.only(bottom: AppPadding.p10.sp),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -153,7 +154,7 @@ class _CartScreenState extends State<CartScreen> {
                           "Total:",
                           style: getRegularStyle(color: ColorManager.black),
                         ),
-                        const SizedBox(width: AppSize.s10),
+                        SizedBox(width: AppSize.s10.sp),
                         Text(
                           "\$${totalPrice.toString()}",
                           style: getRegularStyle(color: ColorManager.black),
@@ -162,7 +163,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s20),
+                        borderRadius: BorderRadius.circular(AppSize.s20.sp),
                         color: ColorManager.orange,
                         boxShadow: [
                           BoxShadow(
@@ -177,7 +178,7 @@ class _CartScreenState extends State<CartScreen> {
                           cubit.sentOrderToFirebase();
                         },
                         child: Padding(
-                          padding: const EdgeInsets.all(AppPadding.p12),
+                          padding: EdgeInsets.all(AppPadding.p12.sp),
                           child: Text(
                             "Order Now",
                             style: getRegularStyle(color: ColorManager.white),
@@ -197,10 +198,10 @@ class _CartScreenState extends State<CartScreen> {
 
   Widget cartOrderContainer(Order order, BuildContext context, BaseCubit cubit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p12).copyWith(bottom: AppPadding.p10),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p12.sp).copyWith(bottom: AppPadding.p10.sp),
       child: Container(
         width: double.infinity,
-        height: AppSize.s100,
+        height: AppSize.s100.sp,
         decoration: BoxDecoration(
           color: ColorManager.white,
           boxShadow: [
@@ -211,10 +212,10 @@ class _CartScreenState extends State<CartScreen> {
               offset: const Offset(4, 8),
             ),
           ],
-          borderRadius: BorderRadius.circular(AppSize.s20),
+          borderRadius: BorderRadius.circular(AppSize.s20.sp),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(AppPadding.p8).copyWith(right: AppPadding.p16),
+          padding: EdgeInsets.all(AppPadding.p8.sp).copyWith(right: AppPadding.p16.sp),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -223,9 +224,9 @@ class _CartScreenState extends State<CartScreen> {
                 fit: BoxFit.cover,
                 imageBuilder: (context, imageProvider) {
                   return Container(
-                    width: AppSize.s100,
+                    width: AppSize.s100.sp,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                       image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.cover,
@@ -238,10 +239,10 @@ class _CartScreenState extends State<CartScreen> {
                   highlightColor: Colors.grey.shade100,
                   child: Container(
                     // height: AppSize.s150,
-                    width: AppSize.s100,
+                    width: AppSize.s100.sp,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                     ),
                   ),
                 ),
@@ -250,15 +251,15 @@ class _CartScreenState extends State<CartScreen> {
                   highlightColor: Colors.grey.shade100,
                   child: Container(
                     // height: AppSize.s150,
-                    width: AppSize.s100,
+                    width: AppSize.s100.sp,
                     decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(AppSize.s20),
+                      borderRadius: BorderRadius.circular(AppSize.s20.sp),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: AppSize.s15),
+              SizedBox(width: AppSize.s15.sp),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,7 +307,7 @@ class _CartScreenState extends State<CartScreen> {
                               child: Icon(
                                 Icons.remove,
                                 color: ColorManager.black,
-                                size: AppSize.s25,
+                                size: AppSize.s25.sp,
                               ),
                             ),
                             // IconButton(
@@ -328,13 +329,13 @@ class _CartScreenState extends State<CartScreen> {
                             //   ),
                             // ),
                             // const SizedBox(width: AppSize.s4),
-                            const SizedBox(width: AppSize.s10),
+                            SizedBox(width: AppSize.s10.sp),
                             Text(
                               order.quentity.toString(),
                               style: getMeduimStyle(color: ColorManager.black),
                             ),
                             // const SizedBox(width: AppSize.s4),
-                            const SizedBox(width: AppSize.s10),
+                            SizedBox(width: AppSize.s10.sp),
 
                             InkWell(
                               onTap: () {
@@ -347,7 +348,7 @@ class _CartScreenState extends State<CartScreen> {
                               child: Icon(
                                 Icons.add,
                                 color: ColorManager.black,
-                                size: AppSize.s25,
+                                size: AppSize.s25.sp,
                               ),
                             ),
                             // IconButton(
@@ -371,7 +372,7 @@ class _CartScreenState extends State<CartScreen> {
                           ],
                         ),
                         // SizedBox(width: MediaQuery.of(context).size.width / 4),
-                        const SizedBox(width: AppSize.s20),
+                        SizedBox(width: AppSize.s20.sp),
                         Text(
                           "\$${order.itemObject.price * order.quentity}",
                           style: getMeduimStyle(color: ColorManager.black),

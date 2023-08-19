@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
 import 'package:food_app/presentation/resources/routes_manager.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
@@ -19,7 +20,7 @@ class AdminScreenView extends StatelessWidget {
           title: Text(AppStrings.adminScreen.toUpperCase()),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(AppPadding.p8),
+          padding: EdgeInsets.all(AppPadding.p8.sp),
           child: ListView(
             children: [
               item(
@@ -61,13 +62,13 @@ class AdminScreenView extends StatelessWidget {
 
   Padding item(BuildContext context, String title, String lottieAsset, Function()? onTap) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
       child: InkWell(
         onTap: onTap,
         child: Container(
           width: double.infinity,
-          height: AppSize.s200,
-          padding: const EdgeInsets.all(AppPadding.p10),
+          height: AppSize.s200.sp,
+          padding:  EdgeInsets.all(AppPadding.p10.sp),
           decoration: BoxDecoration(
             color: ColorManager.white,
             boxShadow: [
@@ -78,7 +79,7 @@ class AdminScreenView extends StatelessWidget {
                 offset: const Offset(4, 8),
               ),
             ],
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +88,7 @@ class AdminScreenView extends StatelessWidget {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s20),
+                    borderRadius: BorderRadius.circular(AppSize.s20.sp),
                     // image: const DecorationImage(
                     //   image: AssetImage(ImageAsset.box),
                     //   fit: BoxFit.cover,

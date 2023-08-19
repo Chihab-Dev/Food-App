@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/presentation/otp/cubit/cubit.dart';
 import 'package:food_app/presentation/otp/cubit/states.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
@@ -43,16 +44,16 @@ class _OtpViewState extends State<OtpView> {
                 color: ColorManager.whiteGrey,
                 height: double.infinity,
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p14).copyWith(top: 0),
+                  padding: EdgeInsets.all(AppPadding.p14.sp).copyWith(top: 0),
                   child: Center(
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.asset(LottieAsset.otpAnimation),
-                          const SizedBox(height: AppSize.s50),
+                          SizedBox(height: AppSize.s50.sp),
                           SizedBox(
-                            width: AppSize.s300,
+                            width: AppSize.s300.sp,
                             child: PinCodeTextField(
                               controller: cubit.codeController,
                               appContext: context,
@@ -79,12 +80,12 @@ class _OtpViewState extends State<OtpView> {
                           //     ),
                           //   ),
                           // ),
-                          const SizedBox(height: AppSize.s50),
+                          SizedBox(height: AppSize.s50.sp),
                           state is OtpCheckLoadingState
                               ? CircularProgressIndicator(color: ColorManager.orange)
                               : SizedBox(
-                                  height: AppSize.s50,
-                                  width: AppSize.s300,
+                                  height: AppSize.s50.sp,
+                                  width: AppSize.s300.sp,
                                   child: ElevatedButton(
                                     onPressed: cubit.isSmsCodeValid == true
                                         ? () {

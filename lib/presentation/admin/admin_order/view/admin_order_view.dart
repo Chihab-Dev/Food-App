@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/admin/admin_cubit/admin_cubit.dart';
 import 'package:food_app/presentation/resources/strings_manager.dart';
@@ -75,10 +76,10 @@ class AdminOrderView extends StatelessWidget {
               offset: const Offset(4, 8),
             ),
           ],
-          borderRadius: BorderRadius.circular(AppSize.s20),
+          borderRadius: BorderRadius.circular(AppSize.s20.sp),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+          padding:  EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
           child: Row(
             children: [
               orderStateContainer(AppStrings.startPreparring, () {
@@ -100,12 +101,12 @@ class AdminOrderView extends StatelessWidget {
   Widget orderStateContainer(String name, Function() function) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+        padding:  EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
         child: InkWell(
           onTap: function,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s25),
+              borderRadius: BorderRadius.circular(AppSize.s25.sp),
               color: ColorManager.orange,
               boxShadow: [
                 BoxShadow(
@@ -130,7 +131,7 @@ class AdminOrderView extends StatelessWidget {
   Widget clientInformation(String phoneNumber, String location, int numOfItems, String totalPrice, String date,
       String orderId, BaseCubit cubit) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      padding:  EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
       child: Container(
         decoration: BoxDecoration(
           color: ColorManager.white,
@@ -142,10 +143,10 @@ class AdminOrderView extends StatelessWidget {
               offset: const Offset(4, 8),
             ),
           ],
-          borderRadius: BorderRadius.circular(AppSize.s20),
+          borderRadius: BorderRadius.circular(AppSize.s20.sp),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+          padding: EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
           child: Column(
             children: [
               clientInformationText(AppStrings.clientNumber, phoneNumber),
@@ -186,7 +187,7 @@ class AdminOrderView extends StatelessWidget {
           itemName,
           style: getRegularStyle(color: ColorManager.black),
         ),
-        const SizedBox(width: AppSize.s10),
+      SizedBox(width: AppSize.s10.sp),
         Flexible(
           child: Text(
             itemInformation,
@@ -223,9 +224,9 @@ class AdminOrderView extends StatelessWidget {
 
   Padding itemContainer(ItemObject item, int quentity) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p6),
+      padding:  EdgeInsets.symmetric(horizontal: AppPadding.p8.sp, vertical: AppPadding.p6.sp),
       child: Container(
-        padding: const EdgeInsets.all(AppPadding.p10),
+        padding:  EdgeInsets.all(AppPadding.p10.sp),
         decoration: BoxDecoration(
           color: ColorManager.white,
           boxShadow: [
@@ -236,7 +237,7 @@ class AdminOrderView extends StatelessWidget {
               offset: const Offset(4, 8),
             ),
           ],
-          borderRadius: BorderRadius.circular(AppSize.s20),
+          borderRadius: BorderRadius.circular(AppSize.s20.sp),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,7 +253,7 @@ class AdminOrderView extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s20),
+                  borderRadius: BorderRadius.circular(AppSize.s20.sp),
                   image: DecorationImage(
                     image: NetworkImage(item.image),
                     fit: BoxFit.cover,
@@ -260,7 +261,7 @@ class AdminOrderView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: AppSize.s10),
+            SizedBox(height: AppSize.s10.sp),
             Text(
               item.image.isEmpty ? 'meal' : item.title,
               style: getMeduimStyle(color: ColorManager.black),
@@ -276,7 +277,7 @@ class AdminOrderView extends StatelessWidget {
                       (index) => Icon(
                         index < item.stars ? Icons.star : Icons.star_border,
                         color: Colors.yellowAccent[700],
-                        size: AppSize.s18,
+                        size: AppSize.s18.sp,
                       ),
                     ),
                   ),

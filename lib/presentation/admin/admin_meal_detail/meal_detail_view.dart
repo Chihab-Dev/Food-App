@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_app/domain/model/models.dart';
 import 'package:food_app/presentation/resources/appsize.dart';
 import 'package:food_app/presentation/resources/assets_manager.dart';
@@ -67,7 +68,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           expandedHeight: 300,
           floating: true,
-          iconTheme: IconThemeData(color: ColorManager.orange, size: AppSize.s30),
+          iconTheme: IconThemeData(color: ColorManager.orange, size: AppSize.s30.sp),
           pinned: false,
           stretch: true,
           flexibleSpace: FlexibleSpaceBar(
@@ -87,10 +88,10 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
   Container addToCartBottomContainer() {
     return Container(
       width: double.infinity,
-      height: AppSize.s100,
+      height: AppSize.s100.sp,
       color: ColorManager.white.withOpacity(0.7),
       child: Padding(
-        padding: const EdgeInsets.all(AppPadding.p20),
+        padding:  EdgeInsets.all(AppPadding.p20.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -110,7 +111,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
               onTap: () {},
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s25),
+                  borderRadius: BorderRadius.circular(AppSize.s25.sp),
                   color: ColorManager.orange,
                   boxShadow: [
                     BoxShadow(
@@ -121,7 +122,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p20),
+                  padding: EdgeInsets.all(AppPadding.p20.sp),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,7 +131,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
                         Icons.shopping_bag_outlined,
                         color: ColorManager.white,
                       ),
-                      const SizedBox(width: AppSize.s15),
+                      SizedBox(width: AppSize.s15.sp),
                       Text(
                         "Add to Cart",
                         style: getRegularStyle(color: ColorManager.white),
@@ -161,21 +162,21 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
 
   Widget showMealDetails(ItemObject item) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p14),
+      padding: EdgeInsets.symmetric(vertical: AppPadding.p4.sp, horizontal: AppPadding.p14.sp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           titleText(widget.item.title),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           itemDetails(item),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           descriptionText(),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           quantityContainer(),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           text("Ingredinats"),
-          const SizedBox(height: AppSize.s20),
+          SizedBox(height: AppSize.s20.sp),
           SizedBox(
             height: 60,
             width: double.infinity,
@@ -199,18 +200,18 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
     String image,
   ) {
     return Padding(
-      padding: const EdgeInsets.all(AppPadding.p6),
+      padding: EdgeInsets.all(AppPadding.p6.sp),
       child: InkWell(
         onTap: () {},
         child: Container(
-          height: AppSize.s60,
-          width: AppSize.s60,
+          height: AppSize.s60.sp,
+          width: AppSize.s60.sp,
           decoration: BoxDecoration(
             color: ColorManager.whiteGrey.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(AppSize.s20),
+            borderRadius: BorderRadius.circular(AppSize.s20.sp),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(AppPadding.p2),
+            padding: EdgeInsets.all(AppPadding.p2.sp),
             child: Column(
               children: [
                 Expanded(
@@ -291,14 +292,14 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
           overflow: TextOverflow.ellipsis,
           style: getRegularStyle(color: ColorManager.black),
         ),
-        const SizedBox(width: AppSize.s20),
+        SizedBox(width: AppSize.s20.sp),
         Container(
           decoration: BoxDecoration(
             color: ColorManager.whiteGrey.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(AppSize.s10),
+            borderRadius: BorderRadius.circular(AppSize.s10.sp),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppPadding.p6, horizontal: AppPadding.p6),
+            padding: EdgeInsets.symmetric(vertical: AppPadding.p6.sp, horizontal: AppPadding.p6.sp),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -317,15 +318,15 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
                   icon: Icon(
                     Icons.remove,
                     color: ColorManager.black,
-                    size: AppSize.s25,
+                    size: AppSize.s25.sp,
                   ),
                 ),
-                const SizedBox(width: AppSize.s8),
+                SizedBox(width: AppSize.s8.sp),
                 Text(
                   quentity.toString(),
                   style: getMeduimStyle(color: ColorManager.black),
                 ),
-                const SizedBox(width: AppSize.s8),
+                SizedBox(width: AppSize.s8.sp),
                 IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -341,7 +342,7 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
                   icon: Icon(
                     Icons.add,
                     color: ColorManager.black,
-                    size: AppSize.s25,
+                    size: AppSize.s25.sp,
                   ),
                 ),
               ],
@@ -388,15 +389,15 @@ class _AdminMealDetailState extends State<AdminMealDetail> {
       // width: 50,
       decoration: BoxDecoration(
         color: ColorManager.whiteGrey.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(AppSize.s10),
+        borderRadius: BorderRadius.circular(AppSize.s10.sp),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppPadding.p4, horizontal: AppPadding.p8),
+        padding:  EdgeInsets.symmetric(vertical: AppPadding.p4.sp, horizontal: AppPadding.p8.sp),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             icon,
-            const SizedBox(width: AppSize.s8),
+            SizedBox(width: AppSize.s8.sp),
             Text(
               title,
               style: getMeduimStyle(color: ColorManager.darkGrey),
