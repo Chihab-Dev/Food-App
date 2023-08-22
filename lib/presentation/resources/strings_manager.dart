@@ -104,8 +104,8 @@ class AppStrings {
   static const String burger = "Burger";
   static const String hotdog = "Hotdog";
   static const String delivery = "delivery";
-  static const String pizzaDescription = "Fresh pizza from our restaurent yahooooooooo yammy";
-  static const String burgerDescription = "Fresh burger from our restaurent yahooooooooo yammy";
+  static const String pizzaDescription = "One tap away: Order your favorite food";
+  static const String burgerDescription = "One tap away: Order your favorite food";
   static const String deliveryDescription = "Fast delivery to your home";
 
   // Login screen ::
