@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<BaseCubit, BaseStates>(
       listener: (context, state) {
+        print('🇩🇿🇩🇿🇩🇿 state is $state');
         if (state is BaseGetUserDataErrorState) {
           errorToast(state.error).show(context);
         }
@@ -33,30 +34,31 @@ class HomeScreen extends StatelessWidget {
       },
       builder: ((context, state) {
         var cubit = BaseCubit.get(context);
-        // CustomerObject? userData = cubit.customerObject;
-        // userData == null ? cubit.getUserData(userUid!, context) : null;
+
         List<ItemObject>? popularItems = cubit.popularItems;
         List<ItemObject>? items = cubit.items;
-        return (state is BaseGetUserDataLoadingState ||
-                state is GetLocationNameLoadingState ||
-                state is GetCurrentLocationLoadingState ||
-                state is BaseGetItemsLoadingState ||
-                state is BaseGetPopularItemsLoadingState ||
-                state is GetIsStoreOpenLoadingState ||
-                items.isEmpty && popularItems.isEmpty ||
-                cubit.customerObject == null ||
-                cubit.placeName == null)
-            ? loadingScreen()
-            : (state is BaseGetUserDataErrorState ||
-                    state is GetCurrentLocationErrorState ||
-                    state is BaseGetItemsErrorState ||
-                    state is BaseGetPopularItemsErrorState ||
-                    state is GetIsStoreOpenErrorState)
-                ? errorScreen(context)
-                : cubit.isStoreOpen == false
-                    ? closedScreen()
-                    : homeScreen(context, popularItems, cubit);
-
+        return getHomeScreen(context, cubit, state, popularItems, items);
+        // return (state is BaseGetUserDataLoadingState ||
+        //         state is GetLocationNameLoadingState ||
+        //         state is GetCurrentLocationLoadingState ||
+        //         state is BaseGetItemsLoadingState ||
+        //         state is BaseGetPopularItemsLoadingState ||
+        //         state is GetIsStoreOpenLoadingState ||
+        //         items.isEmpty && popularItems.isEmpty ||
+        //         cubit.customerObject == null ||
+        //         cubit.placeName == null)
+        //     ? loadingScreen()
+        //     : (state is BaseGetUserDataErrorState ||
+        //             state is GetCurrentLocationErrorState ||
+        //             state is BaseGetItemsErrorState ||
+        //             state is BaseGetPopularItemsErrorState ||
+        //             state is GetIsStoreOpenErrorState)
+        //         ? errorScreen(context)
+        //         : cubit.isStoreOpen == false
+        //             ? closedScreen()
+        //             : homeScreen(context, popularItems, cubit);
+        // CustomerObject? userData = cubit.customerObject;
+        // userData == null ? cubit.getUserData(userUid!, context) : null;
         // state is BaseGetUserDataErrorState || state is BaseGetPopularItemsErrorState || state is BaseGetItemsErrorState
         //     ? errorScreen(context)
         //     : (state is BaseGetPopularItemsLoadingState ||
@@ -67,6 +69,41 @@ class HomeScreen extends StatelessWidget {
         //         : homeScreen(context, popularItems, cubit));
       }),
     );
+  }
+
+  Widget getHomeScreen(
+      BuildContext context, BaseCubit cubit, BaseStates state, List<ItemObject> popularItems, List<ItemObject> items) {
+    // loading state :
+    if (state is BaseGetUserDataLoadingState ||
+        state is GetLocationNameLoadingState ||
+        state is GetCurrentLocationLoadingState ||
+        state is BaseGetItemsLoadingState ||
+        state is BaseGetPopularItemsLoadingState ||
+        state is GetIsStoreOpenLoadingState ||
+        items.isEmpty && popularItems.isEmpty ||
+        cubit.customerObject == null ||
+        cubit.placeName == null) return loadingScreen();
+
+    // error state :
+    if (state is BaseGetUserDataErrorState ||
+        state is GetCurrentLocationErrorState ||
+        state is BaseGetItemsErrorState ||
+        state is BaseGetPopularItemsErrorState ||
+        state is GetIsStoreOpenErrorState) return errorScreen(context);
+    if (!cubit.isStoreOpen) return closedScreen();
+
+    // Success state :
+    if (state is BaseGetUserDataSuccessState ||
+        state is GetLocationNameSuccessState ||
+        state is GetCurrentLocationSuccessState ||
+        state is BaseGetItemsSuccessState ||
+        state is BaseGetPopularItemsSuccessState ||
+        state is GetIsStoreOpenSuccessState ||
+        items.isNotEmpty && popularItems.isNotEmpty ||
+        cubit.customerObject != null ||
+        cubit.placeName != null) return homeScreen(context, popularItems, cubit);
+
+    return loadingScreen();
   }
 
   Container homeScreen(BuildContext context, List<ItemObject> popularItems, BaseCubit cubit) {
@@ -131,7 +168,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Row(
             children: [
-              if (cubit.customerObject!.uid == AppStrings.adminID)
+              if ((cubit.customerObject?.uid ?? 'null') == AppStrings.adminID)
                 IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, Routes.admin);

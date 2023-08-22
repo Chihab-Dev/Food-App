@@ -209,7 +209,7 @@ CherryToast successToast(String msg) {
   );
 }
 
-// Loading Screen ::
+// Closed Screen ::
 
 Container closedScreen() {
   return Container(
