@@ -21,7 +21,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<BaseCubit, BaseStates>(
       listener: (context, state) {
-        print('🇩🇿🇩🇿🇩🇿 state is $state');
         if (state is BaseGetUserDataErrorState) {
           errorToast(state.error).show(context);
         }

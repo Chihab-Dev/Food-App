@@ -26,7 +26,7 @@
         </intent>
    </queries>
    <application
-        android:label="food_app"
+        android:label="Chihab Food"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
