@@ -21,7 +21,7 @@
 
  . Settings screen
 
- . Admin Section : 
+  #. Admin Section : 
                  . View All Orders
                  . Update Order Status
                  . Add New Meal
