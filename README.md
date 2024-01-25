@@ -10,7 +10,7 @@
  · API From : [TMDB](https://www.themoviedb.org)
   
  
-### Screenshots :    <img width="1680" alt="Screenshot 2023-08-24 at 9 53 07 AM" src="">
+### Screenshots :   
 
   
   <div>
