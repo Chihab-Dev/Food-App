@@ -1,5 +1,7 @@
 ### Food Delivery App :
 
+ [Watch the App Demo Video](reel_link)
+
 ## Develooped with :
 
  · Clean Architecture 
@@ -14,9 +16,6 @@
 
 
  ## App Features :
-
- [Watch the App Demo Video](reel_link)
-
 
  . Main Screen for all meals  .......... Search screen ................ Favorite orders screen..........Profile screen
 
