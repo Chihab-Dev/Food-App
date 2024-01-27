@@ -10,6 +10,8 @@
 
  . Backend : Firebase
 
+ . Responsive UI
+
 
  ## App Features :
 
